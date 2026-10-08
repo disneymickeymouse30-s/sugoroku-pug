@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+<defs>
+ <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fe0f5"/><stop offset=".62" stop-color="#2fb6d6"/><stop offset="1" stop-color="#1490b5"/></linearGradient>
+ <radialGradient id="sun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff3a8"/><stop offset=".6" stop-color="#ffd34d"/><stop offset="1" stop-color="#ffd34d" stop-opacity="0"/></radialGradient>
+ <radialGradient id="fur" cx=".5" cy=".38" r=".62"><stop offset="0" stop-color="#f6d3a0"/><stop offset="1" stop-color="#e2ad6e"/></radialGradient>
+</defs>
+<rect width="512" height="512" fill="url(#sky)"/>
+<circle cx="404" cy="104" r="92" fill="url(#sun)"/>
+<path d="M0 392 Q64 372 128 392 T256 392 T384 392 T512 392 V512 H0Z" fill="#0f7fa3" opacity=".55"/>
+<path d="M0 420 Q64 400 128 420 T256 420 T384 420 T512 420 V512 H0Z" fill="#f6e3b0"/>
+<g transform="translate(256 286)">
+ <!-- ears -->
+ <path d="M-150 -92 Q-196 -176 -96 -158 L-62 -104Z" fill="#3b2c22"/>
+ <path d="M150 -92 Q196 -176 96 -158 L62 -104Z" fill="#3b2c22"/>
+ <!-- head -->
+ <ellipse cx="0" cy="0" rx="168" ry="152" fill="url(#fur)" stroke="#b9824a" stroke-width="6"/>
+ <path d="M-46 -112 q46 -22 92 0 M-34 -88 q34 -14 68 0" stroke="#a8743f" stroke-width="9" fill="none" stroke-linecap="round" opacity=".7"/>
+ <!-- mask -->
+ <ellipse cx="0" cy="52" rx="104" ry="82" fill="#3b2c22"/>
+ <!-- eyes -->
+ <circle cx="-62" cy="-18" r="34" fill="#160f0b"/><circle cx="62" cy="-18" r="34" fill="#160f0b"/>
+ <circle cx="-50" cy="-30" r="12" fill="#fff"/><circle cx="74" cy="-30" r="12" fill="#fff"/>
+ <circle cx="-72" cy="-6" r="5" fill="#fff" opacity=".8"/><circle cx="52" cy="-6" r="5" fill="#fff" opacity=".8"/>
+ <!-- cheeks -->
+ <ellipse cx="-112" cy="40" rx="24" ry="14" fill="#ff8fa3" opacity=".7"/><ellipse cx="112" cy="40" rx="24" ry="14" fill="#ff8fa3" opacity=".7"/>
+ <!-- nose -->
+ <ellipse cx="0" cy="30" rx="32" ry="21" fill="#0b0807"/><ellipse cx="-9" cy="24" rx="10" ry="5" fill="#fff" opacity=".45"/>
+ <!-- mouth + tongue -->
+ <path d="M-34 66 q34 34 68 0" stroke="#0b0807" stroke-width="7" fill="none" stroke-linecap="round"/>
+ <path d="M-20 80 q20 46 40 0 z" fill="#ef6f86" stroke="#0b0807" stroke-width="5" stroke-linejoin="round"/>
+ <path d="M0 84 v22" stroke="#c94a63" stroke-width="4" stroke-linecap="round"/>
+ <!-- hibiscus -->
+ <g transform="translate(118 -118) scale(1.25)">
+  <g fill="#e8336d" stroke="#b3124a" stroke-width="2">
+   <ellipse cx="0" cy="-20" rx="15" ry="22"/><ellipse cx="0" cy="-20" rx="15" ry="22" transform="rotate(72)"/><ellipse cx="0" cy="-20" rx="15" ry="22" transform="rotate(144)"/><ellipse cx="0" cy="-20" rx="15" ry="22" transform="rotate(216)"/><ellipse cx="0" cy="-20" rx="15" ry="22" transform="rotate(288)"/>
+  </g>
+  <circle r="8" fill="#ffd34d"/><path d="M0 0 L16 -26" stroke="#ffd34d" stroke-width="3" stroke-linecap="round"/><circle cx="16" cy="-26" r="4" fill="#ffd34d"/>
+ </g>
+</g>
+<!-- dice -->
+<g transform="translate(398 404) rotate(-14)">
+ <rect x="-44" y="-44" width="88" height="88" rx="20" fill="#fff" stroke="#1d2b36" stroke-width="5"/>
+ <circle cx="-20" cy="-20" r="8" fill="#1d2b36"/><circle cx="0" cy="0" r="8" fill="#e8336d"/><circle cx="20" cy="20" r="8" fill="#1d2b36"/>
+</g>
+</svg>

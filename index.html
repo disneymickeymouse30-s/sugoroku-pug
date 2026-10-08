@@ -1,0 +1,1912 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#18a6c9">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="パグ旅すごろく">
+<meta name="application-name" content="パグ旅すごろく">
+<meta name="format-detection" content="telephone=no">
+<meta name="description" content="パグしか住んでいない沖縄本島を一周するすごろくゲーム">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
+<title>パグ旅すごろく ～沖縄本島一周バウ！～</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#dff3f8; --surface:#ffffff; --surface2:#eef8fb; --text:#1d2b36; --muted:#5b707d; --line:#cfe5ec;
+  --sea:#18a6c9; --coral:#ff6b3d; --hibiscus:#e8336d; --sand:#f6e3b0; --gold:#f5b301; --leaf:#2f9e5a;
+  --good:#16a34a; --bad:#e11d48;
+  --shadow:0 8px 22px rgba(10,70,95,.16);
+  background:var(--bg);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --bg:#0b1a24; --surface:#13293a; --surface2:#1a3446; --text:#eaf4f9; --muted:#9db5c3; --line:#28485b; --shadow:0 8px 22px rgba(0,0,0,.5); }
+}
+:root[data-theme="dark"]{ --bg:#0b1a24; --surface:#13293a; --surface2:#1a3446; --text:#eaf4f9; --muted:#9db5c3; --line:#28485b; --shadow:0 8px 22px rgba(0,0,0,.5); }
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{height:100%;margin:0}
+*,*::before,*::after{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic",Meiryo,sans-serif;-webkit-tap-highlight-color:transparent;overflow:hidden;-webkit-text-size-adjust:100%}
+button{font-family:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
+.ico{width:1.15em;height:1.15em;vertical-align:-.22em}
+#app{position:relative;height:100%;max-width:640px;margin:0 auto;overflow:hidden}
+.screen{position:absolute;inset:0;display:none;flex-direction:column}
+.screen.active{display:flex}
+.scroll{overflow-y:auto;-webkit-overflow-scrolling:touch}
+.btn{border:none;border-radius:16px;min-height:50px;padding:10px 16px;font-size:16px;font-weight:800;background:var(--surface2);color:var(--text);box-shadow:0 3px 0 rgba(0,0,0,.12);transition:transform .08s}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.12)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.primary{background:linear-gradient(180deg,#ff8a4c,#ff6233);color:#fff;box-shadow:0 4px 0 #c94618}
+.btn.sea{background:linear-gradient(180deg,#2bbfe0,#1496bd);color:#fff;box-shadow:0 4px 0 #0c6f8e}
+.btn.gold{background:linear-gradient(180deg,#ffd34d,#f2a900);color:#3b2600;box-shadow:0 4px 0 #b97f00}
+.btn.ghost{background:transparent;box-shadow:none;border:2px solid var(--line);color:var(--muted)}
+.btn.sm{min-height:38px;padding:6px 12px;font-size:14px;border-radius:12px}
+.btn small{display:block;font-size:12px;font-weight:700;opacity:.8}
+.wide{width:100%}
+.muted{color:var(--muted)}
+
+/* ===== Title ===== */
+#scrTitle{background:linear-gradient(180deg,#7fd8f0 0%,#bfeefa 45%,#fff3c9 62%,#2bb6d8 63%,#128fbd 100%)}
+#titleArt{position:absolute;inset:0;width:100%;height:100%}
+.titleBody{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:26px 20px 22px;overflow-y:auto}
+.logo{text-align:center;margin-top:4px}
+.logo .tag{display:inline-block;background:#fff;color:#0e6f8f;font-weight:800;font-size:13px;padding:5px 12px;border-radius:999px;box-shadow:0 3px 0 rgba(0,0,0,.08)}
+.logo h1{margin:10px 0 0;line-height:1.05;font-weight:800;color:#fff;letter-spacing:.02em;-webkit-text-stroke:0;text-shadow:0 3px 0 #ff6b3d,0 6px 0 #c2410c,0 10px 18px rgba(0,60,90,.35)}
+.logo h1 .t1{display:block;white-space:nowrap;font-size:clamp(28px,9.4vw,58px)}
+.logo h1 .t2{display:block;font-size:clamp(18px,5.4vw,26px);margin-top:10px;text-shadow:0 2px 0 #0e7fa6,0 4px 10px rgba(0,60,90,.3)}
+.titlePug{width:150px;height:150px;margin:6px auto 0;animation:hop 2.4s ease-in-out infinite}
+.menu{width:100%;max-width:360px;display:grid;gap:10px}
+.menu .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.menu .btn{min-height:54px;font-size:17px}
+@keyframes hop{0%,70%,100%{transform:translateY(0)}78%{transform:translateY(-14px)}86%{transform:translateY(0)}92%{transform:translateY(-6px)}}
+
+/* ===== Generic page ===== */
+.page{background:var(--bg)}
+.pageHead{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--surface);box-shadow:var(--shadow);z-index:2}
+.pageHead h2{margin:0;font-size:19px;flex:1}
+.back{border:none;background:var(--surface2);border-radius:12px;width:44px;height:44px;font-size:20px}
+.pageBody{flex:1;padding:14px 14px 24px}
+.card{background:var(--surface);border-radius:20px;padding:14px;box-shadow:var(--shadow);margin-bottom:12px}
+.card h3{margin:0 0 10px;font-size:16px}
+.seg{display:flex;background:var(--surface2);border-radius:14px;padding:4px;gap:4px}
+.seg button{flex:1;border:none;background:transparent;border-radius:11px;min-height:42px;font-weight:800;font-size:15px;color:var(--muted)}
+.seg button.on{background:var(--surface);color:var(--text);box-shadow:0 2px 6px rgba(0,0,0,.12)}
+.seg button:disabled{opacity:.35}
+.setRow{margin-bottom:14px}
+.setRow label{display:block;font-weight:800;font-size:14px;margin-bottom:6px}
+.setRow .hint{font-size:12px;color:var(--muted);margin-top:4px}
+.pCard{border-left:6px solid var(--pc);}
+.pCard input{width:100%;font:inherit;font-size:16px;font-weight:700;padding:10px 12px;border-radius:12px;border:2px solid var(--line);background:var(--surface2);color:var(--text)}
+.breeds{display:flex;gap:6px;overflow-x:auto;padding:8px 2px 2px}
+.breeds button{flex:0 0 auto;width:64px;border:2px solid transparent;background:var(--surface2);border-radius:14px;padding:4px 2px;font-size:10px;font-weight:700;color:var(--muted)}
+.breeds button.on{border-color:var(--pc);color:var(--text);background:var(--surface)}
+.breeds svg{display:block;margin:0 auto}
+.howList{margin:0;padding-left:1.3em;line-height:1.9}
+.legend{display:grid;gap:8px}
+.legend div{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5}
+.legend i{flex:0 0 26px;height:26px;border-radius:50%;display:grid;place-items:center;color:#fff;font-style:normal;font-weight:800;font-size:13px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.rankTable{width:100%;border-collapse:collapse;font-size:14px}
+.rankTable td{padding:8px 4px;border-bottom:1px solid var(--line)}
+.rankTable td:last-child{text-align:right;font-weight:800}
+
+/* ===== Game ===== */
+#scrGame{background:var(--bg)}
+#hud{background:var(--surface);box-shadow:var(--shadow);z-index:3;padding:8px 10px 6px}
+.hudTop{display:flex;gap:10px;align-items:flex-start}
+.curPug{flex:0 0 58px;height:58px;border-radius:50%;background:var(--surface2);border:3px solid var(--pc);display:grid;place-items:center;overflow:hidden}
+.curInfo{flex:1;min-width:0}
+.curName{display:flex;align-items:center;gap:6px;font-weight:800;font-size:16px;white-space:nowrap;overflow:hidden}
+.curName .rk{margin-left:auto;background:var(--gold);color:#3b2600;border-radius:999px;padding:1px 9px;font-size:13px}
+.dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
+.cpuTag{font-size:10px;background:#64748b;color:#fff;border-radius:6px;padding:1px 5px}
+.curLoc{font-size:12.5px;color:var(--muted);display:flex;gap:6px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.curLoc .prog{margin-left:auto;font-weight:800}
+.curStats{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:14px;font-weight:800;margin-top:3px}
+.mods{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.mods span{font-size:11px;font-weight:800;background:#fff1c2;color:#7a4b00;border-radius:999px;padding:2px 8px}
+.hudBtns{display:flex;flex-direction:column;gap:4px}
+.iconBtn{border:none;background:var(--surface2);width:38px;height:34px;border-radius:10px;font-size:17px}
+#hudChips{display:flex;gap:6px;overflow-x:auto;margin-top:6px;padding-bottom:2px}
+.chip{flex:0 0 auto;display:flex;align-items:center;gap:4px;border:2px solid transparent;background:var(--surface2);border-radius:999px;padding:2px 9px 2px 3px;font-size:12px;font-weight:700}
+.chip.on{border-color:var(--pc);background:var(--surface)}
+.chip svg{border-radius:50%}
+.chip span{max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#boardWrap{flex:1;overflow:auto;position:relative;background:#22acd0;-webkit-overflow-scrolling:touch}
+#board{display:block;width:100%;height:auto}
+#board.zoom{width:175%}
+#board .sq{cursor:pointer}
+.piece.active .bob{animation:bob .9s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+#walkTag{position:absolute;left:50%;top:10px;transform:translateX(-50%);background:rgba(255,255,255,.95);color:#1d2b36;font-weight:800;padding:6px 16px;border-radius:999px;box-shadow:0 4px 12px rgba(0,0,0,.2);font-size:15px;pointer-events:none;opacity:0;transition:opacity .2s;position:sticky;display:inline-block;margin-bottom:-36px;z-index:2}
+#walkTag.show{opacity:1}
+.walkHolder{position:sticky;top:0;height:0;z-index:2;display:flex;justify-content:center}
+.walkHolder #walkTag{position:relative;left:auto;transform:none;margin:10px 0 0}
+#ctrl{display:flex;gap:8px;padding:10px;background:var(--surface);box-shadow:0 -6px 18px rgba(10,70,95,.12);z-index:3}
+#btnRoll{flex:1;min-height:64px;font-size:20px;border-radius:20px}
+.sb{width:58px;min-height:64px;border:none;border-radius:16px;background:var(--surface2);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:22px;gap:2px;box-shadow:0 3px 0 rgba(0,0,0,.1)}
+.sb span{font-size:10px;font-weight:800;color:var(--muted)}
+.sb:disabled{opacity:.5}
+#toast{position:fixed;left:50%;bottom:calc(100px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);background:rgba(20,40,55,.94);color:#fff;font-weight:700;font-size:14px;padding:10px 16px;border-radius:14px;max-width:min(92vw,420px);text-align:center;opacity:0;pointer-events:none;transition:all .25s;z-index:80;line-height:1.5}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ===== Modal ===== */
+.modal{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:calc(14px + env(safe-area-inset-top,0px)) 14px calc(14px + env(safe-area-inset-bottom,0px));background:rgba(6,32,48,.55)}
+.modal.hidden{display:none}
+#modalCard{width:100%;max-width:420px;max-height:100%;overflow-y:auto;background:var(--surface);border-radius:26px;box-shadow:0 20px 50px rgba(0,0,0,.35);animation:pop .3s cubic-bezier(.2,1.45,.4,1)}
+@keyframes pop{from{transform:scale(.82);opacity:0}to{transform:scale(1);opacity:1}}
+.ev{padding:18px 18px 16px;text-align:center;border-radius:26px}
+.ev-good{background:linear-gradient(180deg,rgba(255,211,77,.28),transparent 150px)}
+.ev-jackpot{background:linear-gradient(180deg,rgba(255,107,61,.3),rgba(255,211,77,.18) 120px,transparent 220px)}
+.ev-bad{background:linear-gradient(180deg,rgba(100,116,139,.28),transparent 150px)}
+.ev-neutral{background:linear-gradient(180deg,rgba(24,166,201,.2),transparent 150px)}
+.kicker{display:inline-block;font-size:13px;font-weight:800;padding:4px 12px;border-radius:999px;background:var(--surface);color:var(--text);box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.evPug{position:relative;width:112px;height:112px;margin:8px auto 0}
+.evPug>svg{animation:wiggle 1.6s ease-in-out infinite}
+@keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-4deg)}75%{transform:rotate(4deg)}}
+.evEmoji{position:absolute;right:-18px;top:-6px;font-size:40px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.2))}
+.evBig{font-size:64px;margin:8px 0 0}
+.evWho{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:var(--muted);margin-top:2px}
+.evWho::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--pc)}
+.ev h3{font-size:21px;margin:6px 0 4px;line-height:1.35}
+.ev-bad h3{color:var(--bad)}
+.ev-jackpot h3{color:#e2560f}
+.ev p{margin:6px 0 8px;color:var(--muted);font-size:15px;line-height:1.65}
+.evBtns{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.evBtns.list{max-height:46vh;overflow-y:auto;padding:2px}
+.autoNote{font-size:11px;color:var(--muted);margin-top:8px}
+.luckyBox{background:#e7f8e9;color:#14532d;border-radius:14px;padding:10px;font-size:14px;margin-top:6px}
+.sheet{padding:18px}
+.sheet h3{margin:0 0 4px;font-size:19px}
+.itRow{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.itIco{font-size:26px;width:34px;text-align:center}
+.itTx{flex:1;min-width:0}
+.itTx b{display:block;font-size:15px}
+.itTx small{display:block;color:var(--muted);font-size:12px;line-height:1.5}
+.pInfo{border-left:6px solid var(--pc);padding:10px 12px;border-radius:14px;background:var(--surface2);margin-bottom:10px;text-align:left}
+.pInfo .hd{display:flex;align-items:center;gap:8px;font-weight:800}
+.pInfo .hd .rk{margin-left:auto}
+.bar{height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin:6px 0}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--sea),var(--coral))}
+.pInfo .ln{font-size:13px;line-height:1.7}
+.roul{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:12px 0 6px}
+.rc{background:var(--surface2);border-radius:14px;padding:6px 2px;border:3px solid transparent;transition:transform .08s}
+.rc b{display:block;font-size:13px;color:var(--muted)}
+.rc span{display:block;font-size:22px}
+.rc small{display:block;font-size:10px;font-weight:700;line-height:1.3}
+.rc.hi{border-color:var(--coral);background:#fff1c2;transform:scale(1.08);color:#1d2b36}
+.roulMsg{font-weight:800;font-size:17px;min-height:26px}
+.goalWrap{text-align:center;padding:22px 16px 18px;border-radius:26px;background:linear-gradient(180deg,#7fd8f0,#c8f2fb 55%,#2bb6d8 56%,#138fbd);color:#fff;overflow:hidden;position:relative}
+.goalWrap h3{font-size:clamp(24px,7vw,30px);margin:6px 0;text-shadow:0 3px 0 #ff6b3d,0 6px 12px rgba(0,0,0,.25)}
+.goalWrap p{font-weight:800;font-size:17px;text-shadow:0 2px 4px rgba(0,0,0,.3)}
+.jumpPug{animation:jump .7s ease-in-out infinite;display:inline-block}
+@keyframes jump{0%,100%{transform:translateY(0)}50%{transform:translateY(-22px)}}
+
+/* ===== Dice ===== */
+#diceLayer{position:fixed;inset:0;z-index:70;display:flex;align-items:center;justify-content:center;background:rgba(6,32,48,.35);pointer-events:none}
+#diceLayer.hidden{display:none}
+.diceBox{background:var(--surface);border-radius:28px;padding:22px 26px;box-shadow:0 20px 50px rgba(0,0,0,.35);text-align:center;min-width:220px;animation:pop .25s cubic-bezier(.2,1.45,.4,1)}
+#diceRow{display:flex;gap:12px;justify-content:center}
+#diceRow.spin .die{animation:tumble .18s linear infinite}
+@keyframes tumble{0%{transform:rotate(0) scale(1)}50%{transform:rotate(14deg) scale(.92)}100%{transform:rotate(0) scale(1)}}
+.die{width:84px;height:84px;background:#fff;border-radius:18px;box-shadow:inset 0 -5px 0 #dbe4ea,0 4px 10px rgba(0,0,0,.2);display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);padding:11px;gap:2px;border:2px solid #e7eef2}
+.die i{border-radius:50%;margin:3px}
+.die i.on{background:#1d2b36}
+.die i.on.red{background:#e8336d;margin:0}
+#diceRes{font-size:44px;font-weight:800;margin-top:10px;color:var(--coral);line-height:1}
+#diceMod{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:8px;font-size:13px;font-weight:800}
+#diceMod span{background:#fff1c2;color:#7a4b00;border-radius:999px;padding:2px 9px}
+#diceMod b{width:100%;font-size:18px;margin-top:4px}
+
+/* ===== Result ===== */
+#scrResult{background:linear-gradient(180deg,#7fd8f0 0%,#c8f2fb 32%,#fff3c9 40%,#2bb6d8 41%,#0f86b3 100%)}
+.resTop{text-align:center;padding:24px 16px 10px;color:#fff}
+.resTop h2{margin:0;font-size:clamp(28px,8.6vw,40px);text-shadow:0 3px 0 #ff6b3d,0 6px 0 #c2410c,0 10px 16px rgba(0,60,90,.3)}
+.resTop .win{font-size:clamp(19px,5.6vw,24px);font-weight:800;margin-top:6px;text-shadow:0 2px 0 #0e7fa6}
+.resBody{padding:0 14px 20px}
+.statWrap{overflow-x:auto;background:var(--surface);border-radius:20px;box-shadow:var(--shadow);margin-bottom:12px}
+.statTable{border-collapse:collapse;font-size:13px;min-width:560px;width:100%}
+.statTable th,.statTable td{padding:9px 8px;text-align:center;border-bottom:1px solid var(--line);white-space:nowrap}
+.statTable th{font-size:11px;color:var(--muted);font-weight:800}
+.statTable td.nm{text-align:left;font-weight:800}
+.resBtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important}}
+
+/* ===== v3 additions ===== */
+.cutin{position:fixed;top:calc(env(safe-area-inset-top,0px) + 118px);left:0;right:0;z-index:80;display:flex;justify-content:center;pointer-events:none;opacity:0;transform:translateX(70%);transition:transform .35s cubic-bezier(.2,1.3,.4,1),opacity .25s}
+.cutin.show{opacity:1;transform:translateX(0)}
+.ciBox{display:flex;align-items:center;gap:8px;max-width:min(92%,460px);background:linear-gradient(90deg,#1d2b36,#2b4152);color:#fff;border-radius:16px;padding:6px 14px 6px 6px;box-shadow:0 8px 22px rgba(0,0,0,.35);border:2px solid var(--gold)}
+.ciPug{flex:0 0 44px;height:44px;border-radius:50%;background:#3a5367;display:grid;place-items:center}
+.ciTx{font-size:13.5px;font-weight:800;line-height:1.45}
+.ciTx b{display:block;font-size:11px;color:var(--gold)}
+.album{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.ph{background:var(--surface);border-radius:18px;padding:12px;text-align:center;box-shadow:var(--shadow);border:3px solid #fff}
+.ph .phPic{font-size:42px;height:64px;display:grid;place-items:center;background:linear-gradient(180deg,#bfeefa,#fff3c9);border-radius:12px;margin-bottom:6px}
+.ph b{display:block;font-size:13px;line-height:1.35}
+.ph small{display:block;font-size:11px;color:var(--muted);margin-top:3px;line-height:1.4}
+.ph.lock{border:3px dashed var(--line);box-shadow:none}
+.ph.lock .phPic{background:var(--surface2);color:var(--muted)}
+.albBar{height:10px;background:var(--surface2);border-radius:9px;overflow:hidden;margin-top:6px}.albBar i{display:block;height:100%;background:linear-gradient(90deg,var(--coral),var(--gold))}
+.hlList{margin:0;padding-left:1.3em;line-height:1.75;font-size:14px}
+.mBox{background:#fff1c2;color:#5a3a00;border-radius:12px;padding:8px 10px;font-size:13px;line-height:1.5;margin:6px 0}
+.newSys div>span:first-child{font-size:20px;flex:0 0 26px;text-align:center}
+@media (prefers-reduced-motion:reduce){.cutin{transition:none}}
+#toast.show{pointer-events:auto;cursor:pointer}
+.cutin.show .ciBox{pointer-events:auto;cursor:pointer}
+.autoBar{height:5px;background:var(--surface2);border-radius:5px;overflow:hidden;margin:6px auto 0;max-width:220px}
+.autoBar i{display:block;height:100%;background:var(--sea);transform-origin:left center;animation:autobar linear forwards}
+@keyframes autobar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+
+.btn.cpuOpt:disabled{opacity:.5;cursor:default}
+.btn.cpuChosen:disabled{opacity:1;outline:3px solid var(--gold);outline-offset:1px}
+.cpuNext{margin-top:4px}
+.ttl{flex:0 0 auto;font-size:10px;font-weight:800;background:linear-gradient(90deg,#ffd34d,#ff9f43);color:#3b2600;border-radius:6px;padding:1px 6px;white-space:nowrap}
+.selT{width:100%;font:inherit;font-size:15px;font-weight:700;padding:10px 12px;border-radius:12px;border:2px solid var(--line);background:var(--surface2);color:var(--text)}
+.medal{display:inline-flex;align-items:center;gap:4px;background:linear-gradient(180deg,#ffe27a,#f5b301);color:#3b2600;font-weight:800;border-radius:999px;padding:4px 12px;font-size:15px}
+.shopGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.cos{background:var(--surface2);border-radius:16px;padding:10px;text-align:center}
+.cos svg{display:block;margin:0 auto 4px}
+.cos b{display:block;font-size:13px;line-height:1.35;min-height:2.7em}
+.achRow{display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+.achRow:last-child{border-bottom:0}
+.achRow .ai{flex:0 0 38px;height:38px;border-radius:12px;background:var(--surface2);display:grid;place-items:center;font-size:20px}
+.achRow.lock{opacity:.5}.achRow.lock .ai{filter:grayscale(1)}
+.achRow .at{flex:1;min-width:0;font-size:13px;line-height:1.45}
+.achRow .at b{font-size:14px}
+.dRow{display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-bottom:1px dashed var(--line)}
+
+.mini{text-align:center}
+.miniHead{font-weight:800;font-size:18px;margin-bottom:10px}.miniHead small{display:block;font-size:13px;color:var(--muted)}
+.miniBig{font-size:56px;font-weight:800;line-height:1.1;color:var(--coral)}
+.awardPugs{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:8px 0}
+.awardBig{font-size:46px;line-height:1.1}
+.mRank{text-align:left;margin:6px 0 10px}.mRank div{display:flex;justify-content:space-between;padding:6px 4px;border-bottom:1px dashed var(--line);font-size:15px}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <section id="scrTitle" class="screen active">
+    <svg id="titleArt" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+    <div class="titleBody">
+      <div class="logo">
+        <span class="tag">パグしか住んでいない沖縄本島へようこそ</span>
+        <h1><span class="t1">🐶 パグ旅すごろく</span><span class="t2">～沖縄本島一周バウ！～</span></h1>
+        <div class="titlePug" id="titlePug"></div>
+      </div>
+      <div class="menu">
+        <button class="btn primary" id="tStart">ゲームスタート</button>
+        <button class="btn sea" id="tContinue">続きから</button>
+        <div class="row2">
+          <button class="btn" id="tHow">遊び方</button>
+          <button class="btn" id="tRank">ランキング</button>
+        </div>
+        <button class="btn gold" id="tYari">🏅 やり込み<small>デイリー・実績・着せ替え</small></button>
+        <div class="row2"><button class="btn" id="tSet">設定</button><button class="btn" id="tAlbum">📸 アルバム</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="scrSetup" class="screen page">
+    <div class="pageHead"><button class="back" data-go="scrTitle" aria-label="もどる">←</button><h2>旅のメンバーを決める</h2></div>
+    <div class="pageBody scroll" id="setupBody"></div>
+  </section>
+
+  <section id="scrHow" class="screen page">
+    <div class="pageHead"><button class="back" data-go="back" aria-label="もどる">←</button><h2>遊び方</h2></div>
+    <div class="pageBody scroll" id="howBody"></div>
+  </section>
+
+  <section id="scrSet" class="screen page">
+    <div class="pageHead"><button class="back" data-go="back" aria-label="もどる">←</button><h2>設定</h2></div>
+    <div class="pageBody scroll" id="setBody"></div>
+  </section>
+
+  <section id="scrRank" class="screen page">
+    <div class="pageHead"><button class="back" data-go="scrTitle" aria-label="もどる">←</button><h2>パグランキング</h2></div>
+    <div class="pageBody scroll" id="rankBody"></div>
+  </section>
+
+  <section id="scrYari" class="screen page">
+    <div class="pageHead"><button class="back" data-go="scrTitle" aria-label="もどる">←</button><h2>やり込み</h2></div>
+    <div class="pageBody scroll" id="yariBody"></div>
+  </section>
+
+  <section id="scrAlbum" class="screen page">
+    <div class="pageHead"><button class="back" data-go="scrTitle" aria-label="もどる">←</button><h2>思い出アルバム</h2></div>
+    <div class="pageBody scroll" id="albumBody"></div>
+  </section>
+
+  <section id="scrGame" class="screen">
+    <div id="hud">
+      <div class="hudTop">
+        <div id="hudMain" style="display:flex;gap:10px;flex:1;min-width:0"></div>
+        <div class="hudBtns">
+          <button class="iconBtn" id="btnSound" aria-label="効果音">🔊</button>
+          <button class="iconBtn" id="btnMenu" aria-label="メニュー">⚙️</button>
+        </div>
+      </div>
+      <div id="hudChips"></div>
+    </div>
+    <div id="boardWrap">
+      <div class="walkHolder"><div id="walkTag">てくてく……</div></div>
+      <svg id="board" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+    <div id="ctrl">
+      <button class="btn primary" id="btnRoll">🎲 サイコロを振る</button>
+      <button class="sb" id="btnItem">🎒<span>アイテム</span></button>
+      <button class="sb" id="btnMap">🗺️<span id="mapLbl">ズーム</span></button>
+      <button class="sb" id="btnInfo">🐶<span>プレイヤー</span></button>
+    </div>
+  </section>
+
+  <section id="scrResult" class="screen scroll">
+    <div class="resTop">
+      <h2>沖縄本島一周達成！！</h2>
+      <div class="win" id="resWin"></div>
+      <div class="jumpPug" id="resPug"></div>
+    </div>
+    <div class="resBody" id="resBody"></div>
+  </section>
+</div>
+
+<div id="modal" class="modal hidden" role="dialog" aria-modal="true"><div id="modalCard"></div></div>
+<div id="diceLayer" class="hidden"><div class="diceBox"><div id="diceRow"></div><div id="diceRes"></div><div id="diceMod"></div></div></div>
+<div id="toast"></div>
+<div id="cutin" class="cutin" aria-live="polite"><div class="ciBox"><div class="ciPug" id="ciPug"></div><div class="ciTx"><b>🎙️ 実況パグ</b><span id="ciText"></span></div></div></div>
+
+<script>
+(()=>{
+'use strict';
+/* ---------- utils ---------- */
+const $=s=>document.querySelector(s);
+let RNGS=null;
+function rand(){if(RNGS==null)return Math.random();RNGS=(RNGS+0x6D2B79F5)|0;let t=RNGS;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296}
+const rint=n=>Math.floor(rand()*n);
+const rr=(a,b)=>a+rint(b-a+1);
+const pick=a=>a[rint(a.length)];
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const store={
+  get(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null}catch(e){return null}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},
+  del(k){try{localStorage.removeItem(k)}catch(e){}}
+};
+const KEY_SAVE='pugSugoroku.save.v1',KEY_SET='pugSugoroku.settings.v1',KEY_RANK='pugSugoroku.rank.v1';
+const DEFAULT_SET={laps:1,bgm:true,bgmVol:'mid',msgMode:'normal',speed:'normal',sound:true,randomEvents:true,underdog:true,ticketMode:'choose',exactGoal:false,cpuLevel:'normal',humans:1,cpus:2};
+let S=Object.assign({},DEFAULT_SET,store.get(KEY_SET)||{});
+const saveSet=()=>{store.set(KEY_SET,S);bgmUpdate()};
+const SPEED={slow:1.45,normal:1,fast:.55};
+const D=ms=>Math.round(ms*(SPEED[S.speed]||1));
+const RULE=k=>(state&&state.rules&&k in state.rules)?state.rules[k]:S[k];
+const READF={normal:1,slow:1.6,tap:1.6};
+function readMs(t){const n=String(t||'').replace(/<[^>]*>/g,'').replace(/\s+/g,'').length;return Math.min(9000,Math.max(2200,1400+n*85))}
+const RD=ms=>Math.round(ms*(READF[S.msgMode]||1)*Math.max(.85,SPEED[S.speed]||1));
+
+/* ---------- sound ---------- */
+let actx=null;
+function ac(){
+  if(!actx){try{actx=new (window.AudioContext||window.webkitAudioContext)()}catch(e){actx=null}}
+  if(actx&&actx.state==='suspended'){actx.resume().catch(()=>{})}
+  return actx;
+}
+function tone(f,d,type='sine',v=.14,when=0,slide){
+  if(!S.sound)return;const a=ac();if(!a)return;
+  try{
+    const t=a.currentTime+when,o=a.createOscillator(),g=a.createGain();
+    o.type=type;o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(slide,t+d);
+    g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v,t+.012);g.gain.exponentialRampToValueAtTime(.0001,t+d);
+    o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+d+.03);
+  }catch(e){}
+}
+const SFX={
+  click(){tone(880,.04,'square',.03)},
+  dice(){for(let i=0;i<9;i++)tone(260+Math.random()*520,.045,'square',.045,i*.08)},
+  pop(){tone(620,.07,'triangle',.12);tone(940,.06,'triangle',.06,.04)},
+  step(){tone(520+Math.random()*80,.05,'triangle',.07)},
+  good(){tone(660,.1,'triangle',.12);tone(990,.16,'triangle',.12,.1)},
+  jackpot(){bgmDuck(1.4);[523,659,784,1047].forEach((f,i)=>tone(f,.16,'square',.07,i*.09));tone(1319,.5,'triangle',.11,.38)},
+  bad(){tone(392,.2,'sawtooth',.06,0,220);tone(294,.3,'sawtooth',.06,.2,150)},
+  onsen(){tone(440,1.2,'sine',.13,0,170);tone(660,1.0,'sine',.05,.1,260)},
+  warp(){tone(280,.55,'sine',.11,0,1300)},
+  goal(){bgmDuck(2.6);[523,523,523,698,880,784,1047].forEach((f,i)=>tone(f,i===6?.7:.14,'square',.07,[0,.12,.24,.36,.6,.78,.96][i]))}
+};
+
+/* ---------- BGM（WebAudioで自動演奏・音声ファイルなし） ---------- */
+const NOTEN={C:0,D:2,E:4,F:5,G:7,A:9,B:11};
+function midiOf(n){const m=/^([A-G])(#?)(\d)$/.exec(n);return m?12*(+m[3]+1)+NOTEN[m[1]]+(m[2]?1:0):60}
+const hzOf=m=>440*Math.pow(2,(m-69)/12);
+function seqOf(str){const t=str.replace(/\|/g,' ').trim().split(/\s+/),map=[];for(let i=0;i<t.length;i++){const x=t[i];if(x==='-'||x==='.')continue;let d=1;while(t[i+d]==='-')d++;(map[i]=map[i]||[]).push({m:x.split('+').map(midiOf),d})}return {len:t.length,map}}
+const padBar=c=>`${c} - - - - - - -`;
+const RAW_TRACKS={
+ title:{bpm:100,voices:{lead:'pluck',bass:'bass',pad:'pad'},
+  lead:'E5 F5 G5 - B5 - G5 - | F5 E5 C5 - E5 - . . | G5 B5 C6 - B5 G5 F5 - | E5 - F5 E5 C5 - - . | C5 E5 F5 - G5 - F5 E5 | F5 G5 B5 - G5 - . . | C6 - B5 G5 F5 - G5 F5 | E5 - C5 - - - . .',
+  bass:['C','C','F','C','F','G','C','C'].map(r=>({C:'C3 . . G2 C3 . G2 .',F:'F2 . . C3 F2 . C3 .',G:'G2 . . D3 G2 . D3 .'}[r])).join(' | '),
+  pad:['C4+E4+G4','C4+E4+G4','F3+A3+C4','C4+E4+G4','F3+A3+C4','G3+B3+D4','C4+E4+G4','C4+E4+G4'].map(padBar).join(' | '),
+  drum:{k:'x...x...',h:'..x...x.',sh:'.x.x.x.x'}},
+ field:{bpm:116,voices:{lead:'pluck',bass:'bass',pad:'pad'},
+  lead:'C5 . E5 F5 G5 . E5 . | F5 . E5 C5 E5 - - . | G5 . B5 G5 F5 . E5 F5 | G5 - - . . . . . | E5 F5 G5 . B5 . C6 . | B5 G5 F5 . G5 - . . | F5 E5 C5 . E5 . F5 E5 | C5 - - . . . . .',
+  bass:['C','F','C','G','C','G','F','C'].map(r=>({C:'C3 . C3 G2 C3 . G2 .',F:'F2 . F2 C3 F2 . C3 .',G:'G2 . G2 D3 G2 . D3 .'}[r])).join(' | '),
+  pad:['C4+E4+G4','F3+A3+C4','C4+E4+G4','G3+B3+D4','C4+E4+G4','G3+B3+D4','F3+A3+C4','C4+E4+G4'].map(padBar).join(' | '),
+  drum:{t:'x...x.x.',h:'..x...x.',s:'....x...',sh:'.x.x.x.x'}},
+ rain:{bpm:84,voices:{lead:'soft',bass:'bass',pad:'pad'},
+  lead:'E5 - - . G5 - F5 - | E5 - C5 - - - . . | F5 - G5 - B4 - C5 - | E5 - - - . . . . | G5 - F5 - E5 - F5 - | G5 - - - . . . . | B5 - G5 - F5 - E5 - | C5 - - - - - . .',
+  bass:['C','C','F','C','G','G','F','C'].map(r=>({C:'C3 - - - G2 - - -',F:'F2 - - - C3 - - -',G:'G2 - - - D3 - - -'}[r])).join(' | '),
+  pad:['C4+E4+G4','C4+E4+G4','F3+A3+C4','C4+E4+G4','G3+B3+D4','G3+B3+D4','F3+A3+C4','C4+E4+G4'].map(padBar).join(' | '),
+  drum:{h:'..x...x.',sh:'x.x.x.x.'}},
+ storm:{bpm:132,voices:{lead:'square',bass:'bass',pad:'pad'},
+  lead:'E5 . . E5 . . D5 C5 | D5 - - . C5 . A4 . | E5 . . E5 . . G5 E5 | D5 - C5 - A4 - . . | A5 . G5 . E5 . D5 . | E5 - - . D5 C5 D5 . | C5 . D5 . E5 . G5 . | A5 - G#5 - E5 - . .',
+  bass:'A2 A2 C3 A2 D3 A2 C3 G2 | A2 A2 C3 A2 D3 A2 C3 G2 | A2 A2 C3 A2 D3 A2 C3 G2 | E2 E2 G2 E2 G#2 G#2 B2 G#2 | F2 F2 A2 F2 C3 F2 A2 F2 | A2 A2 C3 A2 D3 A2 C3 G2 | D3 D3 F3 D3 A2 D3 F3 D3 | E2 E2 G2 E2 G#2 G#2 B2 G#2',
+  pad:['A3+C4+E4','D3+F3+A3','A3+C4+E4','E3+G#3+B3','F3+A3+C4','A3+C4+E4','D3+F3+A3','E3+G#3+B3'].map(padBar).join(' | '),
+  drum:{k:'x..x..x.',m:'......xx',h:'.x.x.x.x',s:'....x...'}},
+ spurt:{bpm:144,voices:{lead:'pluck',bass:'bass',pad:'pad'},
+  lead:'G5 G5 B5 G5 C6 . B5 G5 | F5 G5 E5 . C5 . E5 . | F5 F5 G5 F5 E5 . C5 E5 | G5 - - . G5 B5 C6 . | C6 . B5 G5 F5 . G5 . | E5 F5 G5 . B5 . G5 . | F5 E5 F5 G5 B5 . C6 B5 | C6 - - . . . . .',
+  bass:['C','C','F','G','F','C','G','C'].map(r=>({C:'C3 C3 C4 C3 C3 C3 C4 C3',F:'F2 F2 F3 F2 F2 F2 F3 F2',G:'G2 G2 G3 G2 G2 G2 G3 G2'}[r])).join(' | '),
+  pad:['C4+E4+G4','C4+E4+G4','F3+A3+C4','G3+B3+D4','F3+A3+C4','C4+E4+G4','G3+B3+D4','C4+E4+G4'].map(padBar).join(' | '),
+  drum:{k:'x...x...',s:'..x...x.',h:'xxxxxxxx',t:'x.......'}},
+ result:{bpm:104,voices:{lead:'bell',bass:'bass',pad:'pad'},
+  lead:'C5 E5 G5 . C6 - B5 - | G5 - F5 - E5 - . . | F5 G5 B5 . C6 - G5 - | E5 - F5 - G5 - . . | C6 - B5 G5 F5 - E5 - | F5 - G5 - B5 - . . | C6 - - B5 G5 - F5 - | E5 - - - C5 - - .',
+  bass:['C','G','F','C','C','F','G','C'].map(r=>({C:'C3 . G2 . C3 . G2 .',F:'F2 . C3 . F2 . C3 .',G:'G2 . D3 . G2 . D3 .'}[r])).join(' | '),
+  pad:['C4+E4+G4','G3+B3+D4','F3+A3+C4','C4+E4+G4','C4+E4+G4','F3+A3+C4','G3+B3+D4','C4+E4+G4'].map(padBar).join(' | '),
+  drum:{k:'x...x...',s:'....x...',sh:'.x.x.x.x'}},
+ menu:{bpm:80,voices:{lead:'bell',bass:'bass',pad:'pad'},
+  lead:'C6 . G5 . E5 . G5 . | F5 . E5 . C5 - - . | E5 . F5 . G5 . B5 . | C6 - - . . . . .',
+  bass:'C3 - - - - - - - | F2 - - - - - - - | C3 - - - - - - - | C3 - - - - - - -',
+  pad:['C4+E4+G4','F3+A3+C4','C4+E4+G4','C4+E4+G4'].map(padBar).join(' | '),
+  drum:{}}
+};
+const TRACKS={};
+for(const [k,t] of Object.entries(RAW_TRACKS)){const L={lead:seqOf(t.lead),bass:seqOf(t.bass),pad:seqOf(t.pad)};TRACKS[k]={bpm:t.bpm,voices:t.voices,L,drum:t.drum,len:L.lead.len}}
+let NOISEB=null;
+function noiseBuf(a){if(!NOISEB){const b=a.createBuffer(1,Math.floor(a.sampleRate*.5),a.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;NOISEB=b}return NOISEB}
+function envG(g,t,v,att,dec){g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v,t+att);g.gain.exponentialRampToValueAtTime(.0001,t+att+dec)}
+function oscV(a,out,type,f,t,stop,g){const o=a.createOscillator();o.type=type;o.frequency.setValueAtTime(f,t);o.connect(g);g.connect(out);o.start(t);o.stop(stop);return o}
+const VOICE={
+ pluck(a,out,f,t,dur){const g=a.createGain(),fl=a.createBiquadFilter(),d=Math.min(.9,.2+dur*.5);fl.type='lowpass';fl.Q.value=3;fl.frequency.setValueAtTime(3400,t);fl.frequency.exponentialRampToValueAtTime(650,t+.28);envG(g,t,.15,.004,d);fl.connect(g);g.connect(out);
+  const o=a.createOscillator();o.type='sawtooth';o.frequency.setValueAtTime(f*.982,t);o.frequency.exponentialRampToValueAtTime(f,t+.035);o.connect(fl);o.start(t);o.stop(t+d+.05);
+  const o2=a.createOscillator(),g2=a.createGain();g2.gain.value=.3;o2.type='square';o2.frequency.setValueAtTime(f*2,t);o2.connect(g2);g2.connect(fl);o2.start(t);o2.stop(t+d+.05)},
+ bell(a,out,f,t){[[1,.12,1.2],[2,.045,.6],[3.01,.02,.35]].forEach(([h,v,d])=>{const g=a.createGain();envG(g,t,v,.003,d);oscV(a,out,'sine',f*h,t,t+d+.05,g)})},
+ soft(a,out,f,t,dur){const g=a.createGain(),L=Math.max(.3,dur);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.12,t+.07);g.gain.setValueAtTime(.12,t+L*.7);g.gain.exponentialRampToValueAtTime(.0001,t+L+.3);oscV(a,out,'triangle',f,t,t+L+.35,g)},
+ square(a,out,f,t,dur){const g=a.createGain(),fl=a.createBiquadFilter(),L=Math.max(.12,dur*.85);fl.type='lowpass';fl.frequency.value=2200;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.06,t+.01);g.gain.setValueAtTime(.06,t+L*.6);g.gain.exponentialRampToValueAtTime(.0001,t+L);fl.connect(g);g.connect(out);const o=a.createOscillator();o.type='square';o.frequency.setValueAtTime(f,t);o.connect(fl);o.start(t);o.stop(t+L+.05)},
+ bass(a,out,f,t,dur){const g=a.createGain(),L=Math.min(.7,Math.max(.16,dur*.9));envG(g,t,.2,.008,L);oscV(a,out,'triangle',f,t,t+L+.05,g)},
+ pad(a,out,f,t,dur){[-7,7].forEach(dt=>{const g=a.createGain(),fl=a.createBiquadFilter();fl.type='lowpass';fl.frequency.value=850;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.016,t+.35);g.gain.setValueAtTime(.016,t+Math.max(.4,dur-.2));g.gain.exponentialRampToValueAtTime(.0001,t+dur+.45);fl.connect(g);g.connect(out);const o=a.createOscillator();o.type='sawtooth';o.frequency.setValueAtTime(f,t);o.detune.value=dt;o.connect(fl);o.start(t);o.stop(t+dur+.5)})}
+};
+function noiseHit(a,out,t,type,f,v,d){const s=a.createBufferSource(),fl=a.createBiquadFilter(),g=a.createGain();s.buffer=noiseBuf(a);fl.type=type;fl.frequency.value=f;envG(g,t,v,.002,d);s.connect(fl);fl.connect(g);g.connect(out);s.start(t);s.stop(t+d+.05)}
+const DRUM={
+ k(a,out,t){const g=a.createGain();envG(g,t,.45,.003,.22);const o=oscV(a,out,'sine',130,t,t+.3,g);o.frequency.exponentialRampToValueAtTime(42,t+.16)},
+ t(a,out,t){const g=a.createGain();envG(g,t,.5,.004,.42);const o=oscV(a,out,'sine',96,t,t+.5,g);o.frequency.exponentialRampToValueAtTime(46,t+.3);noiseHit(a,out,t,'lowpass',420,.14,.08)},
+ m(a,out,t){const g=a.createGain();envG(g,t,.28,.003,.2);const o=oscV(a,out,'sine',220,t,t+.3,g);o.frequency.exponentialRampToValueAtTime(105,t+.18)},
+ h(a,out,t){noiseHit(a,out,t,'highpass',7200,.045,.035)},
+ s(a,out,t){noiseHit(a,out,t,'bandpass',1800,.13,.12)},
+ sh(a,out,t){noiseHit(a,out,t,'bandpass',5600,.03,.06)}
+};
+const BGMVOL={low:.35,mid:.6,high:.9};
+const BGM={cur:null,timer:null,master:null,want:null};
+let userGest=false;
+function bgmScene(){
+  const el=document.querySelector('.screen.active'),id=el?el.id:'scrTitle';
+  if(id==='scrGame'&&state){if(state.spurt)return 'spurt';if(state.weather==='typhoon')return 'storm';if(state.weather==='rain')return 'rain';return 'field'}
+  if(id==='scrResult')return 'result';
+  if(id==='scrTitle')return 'title';
+  return 'menu';
+}
+function bgmUpdate(){bgmPlay(bgmScene())}
+function bgmPlay(name){
+  BGM.want=name;
+  if(!S.bgm){bgmStop();return}
+  if(!userGest)return;
+  const a=ac();if(!a)return;
+  if(!BGM.master){BGM.master=a.createGain();BGM.master.connect(a.destination)}
+  BGM.master.gain.setValueAtTime(BGMVOL[S.bgmVol]||.6,a.currentTime);
+  if(BGM.cur&&BGM.cur.name===name)return;
+  bgmFadeOut();
+  const T=TRACKS[name];if(!T)return;
+  const g=a.createGain();g.gain.setValueAtTime(.0001,a.currentTime);g.gain.exponentialRampToValueAtTime(1,a.currentTime+1.2);g.connect(BGM.master);
+  BGM.cur={name,T,g,step:0,nextT:a.currentTime+.2};
+  if(!BGM.timer)BGM.timer=setInterval(bgmTick,40);
+}
+function bgmFadeOut(){
+  const c=BGM.cur;if(!c||!actx)return;const t=actx.currentTime,g=c.g;
+  try{g.gain.cancelScheduledValues(t);g.gain.setValueAtTime(Math.max(.0001,g.gain.value),t);g.gain.exponentialRampToValueAtTime(.0001,t+.8)}catch(e){}
+  setTimeout(()=>{try{g.disconnect()}catch(e){}},1400);BGM.cur=null;
+}
+function bgmStop(){bgmFadeOut();if(BGM.timer){clearInterval(BGM.timer);BGM.timer=null}}
+function bgmDuck(sec){
+  if(!BGM.master||!actx||!S.bgm)return;const t=actx.currentTime,v=BGMVOL[S.bgmVol]||.6,m=BGM.master.gain;
+  try{m.cancelScheduledValues(t);m.setValueAtTime(m.value,t);m.linearRampToValueAtTime(v*.25,t+.08);m.setValueAtTime(v*.25,t+sec);m.linearRampToValueAtTime(v,t+sec+.8)}catch(e){}
+}
+function bgmTick(){
+  const c=BGM.cur,a=actx;if(!c||!a||a.state!=='running')return;
+  const sp=60/c.T.bpm/2;
+  if(c.nextT<a.currentTime-.25)c.nextT=a.currentTime+.05;
+  while(c.nextT<a.currentTime+.2){
+    const T=c.T,st=c.step,t=c.nextT;
+    try{
+      for(const ly of ['lead','bass','pad']){const sq=T.L[ly],evs=sq.map[st%sq.len];if(!evs)continue;evs.forEach(e=>e.m.forEach(m=>VOICE[T.voices[ly]](a,c.g,hzOf(m),t,e.d*sp)))}
+      const pos=st%8;for(const k in T.drum)if(T.drum[k][pos]==='x')DRUM[k](a,c.g,t);
+    }catch(e){}
+    c.step=(st+1)%T.len;c.nextT+=sp;
+  }
+}
+document.addEventListener('pointerdown',()=>{if(!userGest){userGest=true;bgmUpdate()}const a=actx;if(a&&a.state==='suspended'&&!document.hidden)a.resume().catch(()=>{})},{passive:true});
+document.addEventListener('visibilitychange',()=>{if(!actx)return;if(document.hidden)actx.suspend().catch(()=>{});else if(userGest)actx.resume().catch(()=>{})});
+
+/* ---------- data ---------- */
+const VB={w:480,h:1080};
+const SPOTS=[
+ {key:'airport',name:'那覇空港',emoji:'✈️',x:80,y:862,side:'R',desc:'沖縄本島の玄関の飛行場。ぱぐーきの発着場所。スタート＆ゴール。'},
+ {key:'pmm',name:'PMM水族館',emoji:'🐠',x:128,y:942,side:'R',desc:'空港から近い楽しい水族館。次の出目+1。たまに見とれて1回休み。'},
+ {key:'akamine',name:'赤嶺パグオン',emoji:'🛒',x:156,y:890,side:'R',desc:'台風が来ても営業する心強いスーパー。ここにいれば台風でも休まない。'},
+ {key:'kokusai',name:'国際通り',emoji:'🛍️',x:124,y:828,side:'L',desc:'沖縄といえばこの通り。お土産でバウを使うか、のり専門店でのり+2。'},
+ {key:'shimapan',name:'パグしまパン',emoji:'🥐',x:152,y:776,side:'L',desc:'沖縄で1番美味しい手作りパン屋。焼きたてパンでパワーアップ。'},
+ {key:'castle',name:'パグ城',emoji:'🏯',x:184,y:806,side:'B',desc:'パグ王から1000バウ。まれに好きな場所へワープ。'},
+ {key:'village',name:'PUGビレッジ',emoji:'🎡',x:164,y:690,side:'L',desc:'アメリカンな街にパグのお店がいっぱい。ランダムなごほうび。'},
+ {key:'kabo',name:'かぼ天仲宗根',emoji:'🎃',x:222,y:700,side:'R',desc:'揚げたてのかぼちゃのサーターアンダギー屋。次の出目+2。'},
+ {key:'raipug',name:'ライパグ',emoji:'🏬',x:224,y:640,side:'R',desc:'巨大ショッピングモール。バウでアイテムが買える。'},
+ {key:'cafe',name:'ぱぐかふぇ',emoji:'☕',x:178,y:598,side:'L',desc:'1時間2000バウでパグと触れ合える癒しのお店。癒されると3ターン出目+1＆お守り。'},
+ {key:'misaki',name:'パグ岬',emoji:'🗼',x:122,y:490,side:'L',desc:'一度は登ってみたい灯台がある岬。300バウで登ると何かが見えるかも。'},
+ {key:'ryupug',name:'琉パグ村',emoji:'🏮',x:170,y:462,side:'L',desc:'古き良き琉球の時代にタイムスリップ。宝物・近道・迷子のどれか。'},
+ {key:'nason',name:'パグ納村',emoji:'🏖️',x:196,y:408,side:'L',desc:'西海岸の綺麗な海のエリア。1～3マス進む。まれにタダ旅行券。'},
+ {key:'pago',name:'パ護',emoji:'⚾',x:262,y:330,side:'R',desc:'北海道のプロ野球チームのキャンプ地。ホームランで3マス進む。延長戦なら1回休み。'},
+ {key:'japagria',name:'ジャパグリア沖縄',emoji:'🦖',x:262,y:272,side:'R',desc:'最古のパグがモチーフの巨大テーマパーク。大型ルーレット！'},
+ {key:'chura',name:'ちゅらパグ水族館',emoji:'🦈',x:212,y:222,side:'L',desc:'巨大水槽にジンベイパグ！バウ・のり・サイコロの大当たり。'},
+ {key:'sekirin',name:'パグ石林山',emoji:'⛰️',x:404,y:74,side:'L',desc:'沖縄の神秘的なエネルギーが集まる石の山々。3ターン出目+1。まれにワープ。'},
+ {key:'kuina',name:'ヤンパグクイナ',emoji:'🐦',x:418,y:142,side:'L',desc:'世界にここにしかいないヤンパグクイナ。サービス精神旺盛でプロ意識が高い。必ずいいことがある。'},
+ {key:'nuchimasu',name:'パグマースの工場',emoji:'🧂',x:336,y:566,side:'T',desc:'ミネラルたっぷりの天然塩を作る工場。天然塩GET。'},
+ {key:'kingpugs',name:'キングパグス',emoji:'🌮',x:296,y:594,side:'R',desc:'アメリカからやってきたタコスを真似した食べ物。パグタコスでスタミナ満点。'},
+ {key:'kudaka',name:'久パグ島',emoji:'⛩️',x:396,y:932,side:'R',desc:'パグの神様が住むと言われる神聖な島。超レアなごほうび。'},
+ {key:'utaki',name:'パーグーうたき',emoji:'🌿',x:304,y:958,side:'T',desc:'パワースポット。3ターン出目+2。'},
+ {key:'ou',name:'おー島',emoji:'🍤',x:248,y:994,side:'B',desc:'天ぷらが美味しい島。おかわりボーナスで5マス進む。'},
+ {key:'senaga',name:'瀬パグ島',emoji:'🛩️',x:62,y:906,side:'B',desc:'迫力あるぱぐーきを間近で見られるオシャレな島。5～10マスワープ！'}
+];
+const SPOT_IDX=Object.fromEntries(SPOTS.map((s,i)=>[s.key,i]));
+const VIAS={
+ village:[[194,716]],
+ cafe:[[146,540]],
+ nason:[[226,372]],
+ chura:[[258,240],[300,206],[338,170],[372,120]],
+ kuina:[[412,200],[384,258],[356,320],[322,384],[292,436],[262,484],[244,526],[278,560]],
+ nuchimasu:[[300,606]],
+ kingpugs:[[262,650],[244,716],[236,782],[284,826],[340,872]],
+ kudaka:[[360,962]],
+ ou:[[184,1014],[120,1000],[84,958]]
+};
+const ISLAND_PATH='M68.5 849.8C74.1 823.6 82.8 827.8 92.6 808.3C102.4 788.8 98.4 797.1 105.2 776.6C112.0 756.1 110.1 757.4 118.1 731.3C126.1 705.2 125.9 705.3 135.2 678.7C144.5 652.1 150.5 656.8 153.1 631.5C155.7 606.2 152.8 606.6 144.9 583.7C137.0 560.8 132.7 564.6 123.6 545.8C114.5 527.0 115.4 530.6 110.9 513.3C106.4 496.0 103.4 491.5 106.7 480.8C110.0 470.1 112.2 475.0 123.2 473.3C134.2 471.6 137.6 480.9 148.0 474.3C158.4 467.7 154.3 464.8 162.1 448.4C169.9 432.0 168.1 427.8 177.4 412.8C186.7 397.8 186.2 404.3 197.1 392.2C208.0 380.1 207.5 379.7 218.1 367.4C228.7 355.1 228.2 357.6 236.7 346.0C245.2 334.4 250.0 334.7 249.8 324.0C249.6 313.3 246.4 315.1 236.0 306.0C225.6 296.9 222.7 299.6 210.8 290.0C198.9 280.4 197.8 282.8 191.5 270.0C185.2 257.2 186.9 257.5 187.3 242.0C187.7 226.5 186.6 222.0 193.0 212.0C199.4 202.0 199.4 204.9 211.3 204.4C223.2 203.9 224.9 203.5 237.5 210.1C250.1 216.7 247.6 226.4 258.5 229.0C269.4 231.6 267.2 227.6 278.5 220.0C289.8 212.4 289.1 213.3 300.8 200.5C312.5 187.7 310.9 187.2 322.4 171.9C333.9 156.6 332.5 159.5 343.8 143.2C355.1 126.9 354.3 127.0 364.7 110.7C375.1 94.4 373.3 98.8 382.7 82.0C392.1 65.2 389.8 55.2 400.1 47.6C410.4 40.0 409.8 44.2 421.3 53.4C432.8 62.6 435.0 65.2 443.1 82.0C451.2 98.8 451.5 97.0 451.5 116.4C451.5 135.8 449.1 134.3 443.0 154.7C436.9 175.1 437.8 172.3 428.5 192.9C419.2 213.5 419.3 210.9 408.0 232.0C396.7 253.1 399.1 250.7 386.0 272.0C372.9 293.3 371.8 291.2 358.9 312.0C346.0 332.8 348.2 331.5 337.6 350.0C327.0 368.5 328.8 361.5 319.1 381.4C309.4 401.3 311.7 404.4 301.4 424.6C291.1 444.8 291.6 442.6 280.5 457.0C269.4 471.4 271.2 469.4 259.8 478.7C248.4 488.0 245.8 482.5 237.9 491.7C230.0 500.9 224.0 499.4 230.3 513.3C236.6 527.2 243.2 529.8 261.7 543.7C280.2 557.6 278.9 552.0 299.8 565.3C320.7 578.6 334.8 579.6 340.2 593.5C345.6 607.4 334.1 606.4 320.1 617.5C306.1 628.6 301.9 621.0 287.8 635.0C273.7 649.0 275.0 649.5 267.3 670.0C259.6 690.5 264.6 684.2 258.9 712.0C253.2 739.8 253.7 738.1 246.0 774.2C238.3 810.3 226.3 815.1 230.2 847.4C234.1 879.7 239.0 874.8 260.6 895.5C282.2 916.2 289.0 909.3 311.2 925.2C333.4 941.1 346.6 940.2 343.7 955.0C340.8 969.8 326.4 969.9 300.2 980.8C274.0 991.7 274.8 986.7 245.5 995.7C216.2 1004.7 214.9 1002.4 190.2 1014.7C165.5 1027.0 174.2 1038.3 152.8 1041.9C131.4 1045.5 127.8 1040.6 110.1 1028.3C92.4 1016.0 94.7 1015.2 86.4 995.7C78.1 976.2 82.7 978.8 78.8 955.0C74.9 931.2 74.3 934.7 71.6 906.6C68.9 878.5 62.9 876.0 68.5 849.8Z';
+const ISLETS={"senaga": "M58.0 899.2C60.7 893.0 64.3 892.4 68.8 895.5C73.3 898.6 74.3 902.3 71.6 908.5C68.9 914.7 65.2 917.2 60.7 914.1C56.2 911.0 55.3 905.4 58.0 899.2Z", "ou": "M238.7 984.9C243.5 981.3 249.1 980.8 255.5 983.5C261.9 986.2 262.8 989.4 258.0 993.0C253.2 996.6 247.5 997.1 241.1 994.4C234.7 991.7 233.9 988.5 238.7 984.9Z", "kudaka": "M393.6 955.0C387.4 973.3 392.2 971.3 405.2 957.7C418.2 944.1 426.3 932.4 432.5 914.1C438.7 895.8 436.8 889.3 423.8 902.9C410.8 916.5 399.8 936.7 393.6 955.0Z", "miyagi": "M339.8 576.2C346.5 576.2 348.1 574.7 351.5 567.5C354.9 560.3 354.5 558.1 349.9 554.5C345.3 550.9 343.9 552.4 337.7 556.7C331.5 561.0 330.7 561.0 331.4 567.5C332.1 574.0 333.1 576.2 339.8 576.2Z", "ie": "M133.1 197.7C136.1 205.0 138.1 206.3 150.6 207.2C163.1 208.1 167.0 207.8 170.7 200.5C174.4 193.2 171.4 190.3 161.7 185.2C152.0 180.1 151.1 181.0 141.6 185.2C132.1 189.4 130.1 190.4 133.1 197.7Z", "kouri": "M257.9 212.0C260.4 217.5 263.6 219.5 267.9 217.0C272.2 214.5 273.4 209.9 270.9 204.4C268.4 198.9 264.6 198.0 260.3 200.5C256.0 203.0 255.4 206.5 257.9 212.0Z", "sesoko": "M183.9 272.0C185.6 278.7 187.7 282.7 190.6 280.0C193.5 277.3 194.2 270.7 192.5 264.0C190.8 257.3 188.3 257.3 185.4 260.0C182.5 262.7 182.2 265.3 183.9 272.0Z"};
+const SPACING=28;
+const SQ_TYPES={
+ blue:{name:'青マス',color:'#2f7fe8',icon:'+',desc:'ボーナス！100～500バウもらえる'},
+ red:{name:'赤マス',color:'#e11d48',icon:'!',desc:'トラブル…バウ減少・1回休み・後退のどれか'},
+ green:{name:'緑マス',color:'#16a34a',icon:'🎁',desc:'アイテムがもらえる'},
+ onsen:{name:'温泉マス',color:'#f97316',icon:'♨',desc:'温泉でほっこり。次のターン出目+2'},
+ walk:{name:'セルフ散歩マス',color:'#8b5cf6',icon:'🐾',desc:'飼い主に黙って散歩！どこまで行くかは運しだい'},
+ pagki:{name:'ぱぐーきマス',color:'#0ea5e9',icon:'✈',desc:'ぱぐーきに乗ってランダムワープ'},
+ typhoon:{name:'台風マス',color:'#64748b',icon:'🌀',desc:'台風発生！次のプレイヤーが1回休み'},
+ nori:{name:'味付けのりマス',color:'#1d3a2a',icon:'の',desc:'味付けのりを1～3枚GET'},
+ tada:{name:'タダ旅行マス',color:'#e8336d',icon:'🎫',desc:'運がよければタダ旅行券GET'},
+ god:{name:'パグ神マス',color:'#e0a800',icon:'✨',desc:'超レア！パグ神のごほうび'}
+};
+const TYPE_WEIGHTS=[['blue',28],['red',17],['green',13],['onsen',9],['walk',10],['pagki',5],['typhoon',4],['nori',9],['tada',4],['god',1]];
+const NORI='<svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="2.5" width="14" height="15" rx="2.5" fill="#1d3a2a"/><path d="M5.5 6.5h9M5.5 10h9M5.5 13.5h9" stroke="#4f7d5e" stroke-width="1.1"/><rect x="3" y="2.5" width="14" height="15" rx="2.5" fill="none" stroke="#9fd3a8" stroke-opacity=".5"/></svg>';
+const ITEMS={
+ nori:{name:'味付けのり',icon:NORI,desc:'3枚で出目+1／5枚で次のターン2回振り／10枚で「のり神パグ」！',use:false},
+ ticket:{name:'タダ旅行券',icon:'🎫',desc:'好きなマスへワープ（このターンはサイコロの代わり）',use:true},
+ salt:{name:'天然塩',icon:'🧂',desc:'悪いイベントを1回、自動で無効化',use:false},
+ omamori:{name:'パグのお守り',icon:'🧿',desc:'使うと次の出目が必ず4～6',use:true},
+ dice:{name:'サイコロ+1',icon:'🎲',desc:'使うとこのターンはサイコロが1個増える',use:true},
+ pagki:{name:'ぱぐーきチケット',icon:'✈️',desc:'3～8マス先へひとっ飛び（サイコロの代わり）',use:true},
+ onsenken:{name:'温泉券',icon:'♨️',desc:'前方の温泉マスへ行って入浴（サイコロの代わり）',use:true},
+ rail:{name:'パグレール',icon:'🚝',desc:'パグ専用のモノレール。次の観光スポットまで乗りかえなしで直行（サイコロの代わり）',use:true}
+};
+const ITEM_KEYS=Object.keys(ITEMS);
+const STORES={shimapan:{price:1500,fee:300},kabo:{price:1500,fee:300},raipug:{price:2500,fee:500},cafe:{price:2000,fee:400},kingpugs:{price:1800,fee:350},ou:{price:1600,fee:300}};
+const STAMP_SETS=[
+ {id:'aqua',name:'水族館めぐり',keys:['pmm','chura'],need:2,bau:800},
+ {id:'gourmet',name:'沖縄グルメ',keys:['shimapan','kabo','kingpugs','ou'],need:3,bau:1000},
+ {id:'shopping',name:'ショッピング三昧',keys:['kokusai','village','raipug'],need:3,bau:800},
+ {id:'west',name:'西海岸さんぽ',keys:['cafe','misaki','ryupug','nason'],need:3,bau:900},
+ {id:'north',name:'ヤンバル探検',keys:['japagria','sekirin','kuina'],need:3,bau:1000},
+ {id:'power',name:'パワースポット巡り',keys:['sekirin','utaki','kudaka'],need:3,bau:1200}
+];
+const MISSIONS=[{t:'land'},{t:'onsen',n:2,txt:'温泉に2回入る'},{t:'nori',n:5,txt:'味付けのりを5枚集める'},{t:'walk',n:2,txt:'セルフ散歩を2回する'},{t:'bau',n:4000,txt:'バウを4000以上持つ'},{t:'meet',n:1,txt:'他のパグとすれ違う'},{t:'shop',n:1,txt:'お店を1軒買う'},{t:'stamp',n:4,txt:'スタンプを新しく4個集める'}];
+const MSTAT={onsen:p=>p.stats.onsen,nori:p=>p.stats.noriTotal,walk:p=>p.stats.walks,meet:p=>p.stats.meets||0,shop:p=>p.stats.shops||0,stamp:p=>Object.keys(p.stamps||{}).length};
+const WEATHER={sun:{i:'☀️',n:'晴れ',d:'青マスのバウ1.5倍・パグ納村で+2マス'},cloud:{i:'⛅',n:'くもり',d:'いつもどおりの旅日和'},rain:{i:'☔',n:'雨',d:'温泉の効果が2倍'},typhoon:{i:'🌀',n:'台風接近',d:'ターンの始めに強風で2マス戻されることも（赤嶺パグオンと黒パグは平気）'},rainbow:{i:'🌈',n:'虹',d:'全員の出目+1'}};
+const W_WEIGHTS=[['sun',3],['cloud',3],['rain',2],['typhoon',1.2],['rainbow',.7]];
+const KEY_ALBUM='pugSugoroku.album.v1',KEY_META='pugSugoroku.meta.v1',KEY_LIFE='pugSugoroku.life.v1',KEY_ACH='pugSugoroku.ach.v1',KEY_DAILY='pugSugoroku.daily.v1';
+const COSTUMES={
+ flower:{n:'ハイビスカスの髪かざり',p:20,svg:'<g transform="translate(80 25) scale(.62)"><ellipse cx="0" cy="-9" rx="7" ry="10" fill="#e8336d"/><ellipse cx="0" cy="-9" rx="7" ry="10" fill="#e8336d" transform="rotate(72)"/><ellipse cx="0" cy="-9" rx="7" ry="10" fill="#e8336d" transform="rotate(144)"/><ellipse cx="0" cy="-9" rx="7" ry="10" fill="#e8336d" transform="rotate(216)"/><ellipse cx="0" cy="-9" rx="7" ry="10" fill="#e8336d" transform="rotate(288)"/><circle r="4" fill="#ffd34d"/></g>'},
+ bowtie:{n:'ちょうネクタイ',p:25,svg:'<path d="M50 92 L36 85 L36 99Z M50 92 L64 85 L64 99Z" fill="#e8336d" stroke="#9c1240" stroke-width="1.2"/><circle cx="50" cy="92" r="3.6" fill="#b3124a"/>'},
+ shades:{n:'サングラス',p:30,svg:'<rect x="21" y="41" width="24" height="15" rx="6" fill="#1d2b36"/><rect x="55" y="41" width="24" height="15" rx="6" fill="#1d2b36"/><path d="M45 46 H55" stroke="#1d2b36" stroke-width="3"/><path d="M25 45 h7" stroke="#fff" stroke-opacity=".6" stroke-width="2" stroke-linecap="round"/><path d="M59 45 h7" stroke="#fff" stroke-opacity=".6" stroke-width="2" stroke-linecap="round"/>'},
+ hachimaki:{n:'エイサーのはちまき',p:30,svg:'<rect x="15" y="26" width="70" height="8" rx="3" fill="#fff" stroke="#e8336d" stroke-width="1.6"/><circle cx="50" cy="30" r="3" fill="#e8336d"/><path d="M85 29 l11 -7 M85 31 l12 4" stroke="#e8336d" stroke-width="3.2" stroke-linecap="round"/>'},
+ lei:{n:'花のレイ',p:35,svg:[0,1,2,3,4,5,6,7,8].map(i=>{const a=Math.PI*(.12+.76*i/8);return `<circle cx="${(50-Math.cos(a)*35).toFixed(1)}" cy="${(82+Math.sin(a)*12).toFixed(1)}" r="5.6" fill="${['#ff6b9a','#ffd34d','#ff8a4c'][i%3]}" stroke="#fff" stroke-width="1"/>`}).join('')},
+ straw:{n:'麦わら帽子',p:40,svg:'<ellipse cx="50" cy="22" rx="42" ry="9" fill="#f2d27a" stroke="#c9a24a" stroke-width="1.5"/><path d="M29 22 Q31 3 50 3 Q69 3 71 22Z" fill="#f5dc8c" stroke="#c9a24a" stroke-width="1.5"/><rect x="30" y="15" width="40" height="5.5" fill="#e8336d"/>'},
+ snorkel:{n:'シュノーケル',p:50,svg:'<rect x="19" y="39" width="62" height="21" rx="10" fill="#7cd4f0" fill-opacity=".5" stroke="#1496bd" stroke-width="3"/><path d="M83 50 V17 Q83 10 90 10" stroke="#ff6b3d" stroke-width="5" fill="none" stroke-linecap="round"/>'},
+ crown:{n:'パグ王の王冠',p:120,svg:'<path d="M29 24 L33 6 L42 16 L50 2 L58 16 L67 6 L71 24Z" fill="#ffc531" stroke="#b97f00" stroke-width="1.6" stroke-linejoin="round"/><circle cx="50" cy="13" r="2.8" fill="#e8336d"/><circle cx="36" cy="18" r="2" fill="#18a6c9"/><circle cx="64" cy="18" r="2" fill="#18a6c9"/>'}
+};
+const COSTUME_KEYS=Object.keys(COSTUMES);
+const meta=()=>Object.assign({medals:0,owned:{}},store.get(KEY_META)||{});
+const life=()=>Object.assign({games:0,wins:0,mvp:0,onsen:0,walks:0,nori:0,stamps:0,owners:0,missions:0,first:0,daily:0,dailyDays:[]},store.get(KEY_LIFE)||{});
+const ownedBy=p=>Object.values((state&&state.owners)||{}).filter(id=>id===p.id).length;
+const ACH=[
+ {id:'g1',i:'🧳',n:'はじめての旅',d:'ゲームを1回遊ぶ',t:'旅の新米パグ',c:L=>L.games>=1},
+ {id:'g10',i:'🗺️',n:'旅好き',d:'ゲームを10回遊ぶ',t:'旅慣れパグ',c:L=>L.games>=10},
+ {id:'g30',i:'🏝️',n:'島の常連',d:'ゲームを30回遊ぶ',t:'島んちゅパグ',c:L=>L.games>=30},
+ {id:'w1',i:'🏁',n:'初優勝',d:'一番乗りでゴールする',t:'一番乗りパグ',c:L=>L.wins>=1},
+ {id:'w5',i:'🥇',n:'5回優勝',d:'一番乗りを5回',t:'俊足パグ',c:L=>L.wins>=5},
+ {id:'w20',i:'🏆',n:'20回優勝',d:'一番乗りを20回',t:'沖縄最速パグ',c:L=>L.wins>=20},
+ {id:'mvp1',i:'👑',n:'思い出名人',d:'総合優勝（思い出ポイント1位）になる',t:'思い出名人',c:L=>L.mvp>=1},
+ {id:'mvp10',i:'💎',n:'思い出マスター',d:'総合優勝を10回',t:'伝説の旅パグ',c:L=>L.mvp>=10},
+ {id:'on10',i:'♨️',n:'温泉好き',d:'温泉に累計10回入る',t:'温泉マイスター',c:L=>L.onsen>=10},
+ {id:'on50',i:'🌫️',n:'湯けむり仙人',d:'温泉に累計50回入る',t:'湯けむり仙人',c:L=>L.onsen>=50},
+ {id:'wk20',i:'🐾',n:'散歩の達人',d:'セルフ散歩を累計20回',t:'散歩の達人',c:L=>L.walks>=20},
+ {id:'nr100',i:'🍙',n:'のりソムリエ',d:'味付けのりを累計100枚集める',t:'のりソムリエ',c:L=>L.nori>=100},
+ {id:'st100',i:'📮',n:'スタンプ収集家',d:'スタンプを累計100個集める',t:'スタンプ収集家',c:L=>L.stamps>=100},
+ {id:'ow10',i:'🏪',n:'パグ実業家',d:'お店を累計10軒買う',t:'パグ実業家',c:L=>L.owners>=10},
+ {id:'ms10',i:'🃏',n:'エージェント',d:'ミッションを累計10回達成',t:'エージェントパグ',c:L=>L.missions>=10},
+ {id:'fc5',i:'🛫',n:'VIP',d:'ファーストクラスでゴールを累計5回',t:'VIPパグ',c:L=>L.first>=5},
+ {id:'tour',i:'🗾',n:'観光マスター',d:'1ゲームでスタンプ20個以上',t:'観光マスター',c:(L,G)=>G.hum.some(p=>Object.keys(p.stamps||{}).length>=20)},
+ {id:'sets4',i:'📚',n:'セットコレクター',d:'1ゲームでスタンプセット4つ以上',t:'スタンプコンプ',c:(L,G)=>G.hum.some(p=>Object.keys(p.sets||{}).length>=4)},
+ {id:'rich',i:'💰',n:'大富豪',d:'1ゲームの終わりにバウを15000以上持つ',t:'大富豪パグ',c:(L,G)=>G.hum.some(p=>p.bau>=15000)},
+ {id:'shop3',i:'🏬',n:'商店街の顔',d:'1ゲームでお店を3軒以上持つ',t:'商店街の顔',c:(L,G)=>G.hum.some(p=>ownedBy(p)>=3)},
+ {id:'yama',i:'⛰️',n:'山の王者',d:'山道の近道を通って優勝',t:'山の王者',c:(L,G)=>!G.w.isCPU&&!!G.w.yama},
+ {id:'comeback',i:'🔥',n:'大逆転',d:'3日目以降に最下位から優勝（3匹以上）',t:'大逆転パグ',c:(L,G)=>!G.w.isCPU&&G.players.length>=3&&(G.w.worstRank||0)>=G.players.length},
+ {id:'fast',i:'⚡',n:'電光石火',d:'自分のターン「15回×周回数」以内で優勝',t:'電光石火',c:(L,G)=>!G.w.isCPU&&(G.w.myTurns||99)<=15*((state&&state.laps)||1)},
+ {id:'noitem',i:'✊',n:'素手の旅人',d:'アイテムを使わずに優勝',t:'素手の旅人',c:(L,G)=>!G.w.isCPU&&!(G.w.usedItems>0)},
+ {id:'hard',i:'🤖',n:'CPUキラー',d:'「むずかしい」CPUと対戦して優勝',t:'CPUキラー',c:(L,G)=>!G.w.isCPU&&G.level==='hard'&&G.cpus>=1},
+ {id:'hard3',i:'😈',n:'最強パグ',d:'「むずかしい」CPU3匹と対戦して優勝',t:'最強パグ',c:(L,G)=>!G.w.isCPU&&G.level==='hard'&&G.cpus>=3},
+ {id:'storm',i:'🌀',n:'嵐を呼ぶパグ',d:'台風接近の日にゴールする',t:'嵐を呼ぶパグ',c:(L,G)=>G.hum.some(p=>p.finished&&p.goalWeather==='typhoon')},
+ {id:'d1',i:'📅',n:'朝活パグ',d:'デイリーチャレンジに参加',t:'朝活パグ',c:L=>L.daily>=1},
+ {id:'d7',i:'🗓️',n:'毎日パグ',d:'デイリーチャレンジに7日参加',t:'毎日パグ',c:L=>(L.dailyDays||[]).length>=7},
+ {id:'dress3',i:'👕',n:'おしゃれパグ',d:'着せ替えを3つ持つ',t:'おしゃれパグ',c:()=>Object.keys(meta().owned).length>=3},
+ {id:'album',i:'📸',n:'アルバム完成',d:'思い出アルバムを全部うめる',t:'思い出写真家',c:()=>{const A=store.get(KEY_ALBUM)||{};return PHOTOS.every(x=>A[x.id])}}
+];
+const achGot=()=>store.get(KEY_ACH)||{};
+function grantAch(a){const A=achGot();if(A[a.id])return false;A[a.id]=Date.now();store.set(KEY_ACH,A);const M=meta();M.medals+=5;store.set(KEY_META,M);return true}
+function unlockedTitles(){const A=achGot();return ACH.filter(a=>A[a.id]).map(a=>a.t)}
+function todayKey(d=new Date()){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function seedOf(str){let h=2166136261;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)}return h|0}
+const PHOTOS=[
+ {id:'jinbei',e:'🦈',name:'ジンベイパグと記念撮影',hint:'北の大きな水族館で'},
+ {id:'kuina',e:'🐦',name:'ヤンパグクイナの決めポーズ',hint:'ヤンバルの森の奥で'},
+ {id:'god',e:'✨',name:'パグ神降臨',hint:'神聖な島か、金色のマス'},
+ {id:'onsen',e:'♨️',name:'ふぅ～～～の顔',hint:'温泉に入ろう'},
+ {id:'walk6',e:'🐾',name:'6マスの大冒険散歩',hint:'セルフ散歩で遠くまで'},
+ {id:'norigod',e:'👑',name:'のり神パグ誕生',hint:'味付けのりを10枚'},
+ {id:'roulette8',e:'🦖',name:'ジャパグリア大当たり',hint:'ルーレットの8番'},
+ {id:'cafe',e:'💞',name:'もふもふ癒しタイム',hint:'癒しのお店に入ろう'},
+ {id:'misaki',e:'🗼',name:'灯台からの絶景',hint:'岬の灯台に登ろう'},
+ {id:'treasure',e:'🏮',name:'琉球のお宝',hint:'タイムスリップ先で'},
+ {id:'owner',e:'🏪',name:'はじめてのオーナー',hint:'お店を買おう'},
+ {id:'mission',e:'🃏',name:'ミッションコンプリート',hint:'ひみつのミッション'},
+ {id:'rainbow',e:'🌈',name:'虹の下のパグ',hint:'虹の日に旅しよう'},
+ {id:'yama',e:'⛰️',name:'山道の近道',hint:'分かれ道で冒険'},
+ {id:'meet',e:'👃',name:'くんくんごあいさつ',hint:'他のパグとすれ違おう'},
+ {id:'first',e:'🛫',name:'ファーストクラスでゴール',hint:'最終便の搭乗手続き'},
+ {id:'win',e:'🏆',name:'一番乗りパグ',hint:'最初にゴールしよう'},
+ {id:'stampall',e:'📮',name:'スタンプマスター',hint:'スタンプを15個'}
+];
+const BREEDS={
+ white:{name:'白パグ',skill:'温泉マスター：温泉の効果がさらに+1',body:'#f7f2ea',ear:'#4a3f39',muzzle:'#3a312c'},
+ black:{name:'黒パグ',skill:'台風に強い：台風や強風でお休み・後退しない',body:'#2c2826',ear:'#141110',muzzle:'#423b37',dark:true},
+ fawn:{name:'フォーンパグ',skill:'のり運：味付けのりを手に入れるたび+1枚',body:'#e6bf86',ear:'#3a2a20',muzzle:'#33251c'},
+ apricot:{name:'アプリコットパグ',skill:'道しるべ：セルフ散歩で後ろに戻らない',body:'#eda066',ear:'#4a2b1a',muzzle:'#3d2416'},
+ gray:{name:'グレーパグ',skill:'空の達人：ぱぐーきで逆方向に飛ばされない',body:'#a9a6a3',ear:'#3a3837',muzzle:'#34312f'},
+ silver:{name:'シルバーパグ',skill:'買い物上手：お買い物・お店・入場料が2割引',body:'#d8dbe0',ear:'#2e3035',muzzle:'#2b2d31'}
+};
+const BREED_KEYS=Object.keys(BREEDS);
+const P_COLORS=['#e11d48','#2563eb','#16a34a','#f59e0b'];
+
+/* ---------- art ---------- */
+function pugSVG(breed,face='normal',size=80,opt={}){
+  const b=BREEDS[breed]||BREEDS.fawn;
+  const ink=b.dark?'#f2efe9':'#1b1714';
+  const mouthC=b.dark?'#9a8c84':'#7d6a5f';
+  let s=`<svg viewBox="0 0 100 100" width="${size}" height="${size}" class="pug" aria-hidden="true"${opt.x!=null?` x="${opt.x}" y="${opt.y}"`:''}>`;
+  if(opt.mane){for(let i=0;i<16;i++){const a=i/16*Math.PI*2;s+=`<circle cx="${(50+Math.cos(a)*40).toFixed(1)}" cy="${(56+Math.sin(a)*37).toFixed(1)}" r="11" fill="#e2672b"/>`}s+=`<ellipse cx="50" cy="56" rx="42" ry="39" fill="#f28c3e"/>`}
+  s+=`<path d="M17 36 Q6 16 27 15 Q36 21 33 33Z" fill="${b.ear}"/><path d="M83 36 Q94 16 73 15 Q64 21 67 33Z" fill="${b.ear}"/>`;
+  s+=`<ellipse cx="50" cy="56" rx="37" ry="33" fill="${b.body}"/>`;
+  s+=`<path d="M38 33 Q50 28 62 33 M41 39 Q50 35.5 59 39" stroke="${b.dark?'#55504c':b.ear}" stroke-opacity=".4" stroke-width="2.2" fill="none" stroke-linecap="round"/>`;
+  s+=`<ellipse cx="50" cy="67" rx="21" ry="16" fill="${b.muzzle}"/>`;
+  s+=`<path d="M38 57 Q50 51 62 57" stroke="${b.dark?'#5a524d':'#1a1411'}" stroke-opacity=".6" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+  s+=`<ellipse cx="50" cy="61.5" rx="7" ry="4.6" fill="#0d0b0a"/><ellipse cx="47.8" cy="60" rx="2.2" ry="1.1" fill="#fff" opacity=".55"/>`;
+  const E=[[33,49],[67,49]];
+  const roundEye=(x,y,r=8,dy=0)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#fff"/><circle cx="${x}" cy="${y+dy}" r="${r-1.7}" fill="#17120f"/><circle cx="${x+2.2}" cy="${y+dy-2.4}" r="2" fill="#fff"/>`;
+  const happyEye=(x,y)=>`<path d="M${x-7} ${y+2} Q${x} ${y-7} ${x+7} ${y+2}" stroke="${ink}" stroke-width="3.6" fill="none" stroke-linecap="round"/>`;
+  const closedEye=(x,y)=>`<path d="M${x-7} ${y-1} Q${x} ${y+5} ${x+7} ${y-1}" stroke="${ink}" stroke-width="3.4" fill="none" stroke-linecap="round"/>`;
+  const blush='<ellipse cx="22" cy="63" rx="6" ry="3.6" fill="#ff7b9c" opacity=".55"/><ellipse cx="78" cy="63" rx="6" ry="3.6" fill="#ff7b9c" opacity=".55"/>';
+  const tongue=(w,h,y)=>`<path d="M${50-w} ${y} Q50 ${y-2} ${50+w} ${y} L${50+w} ${y+h-w} Q50 ${y+h+3} ${50-w} ${y+h-w}Z" fill="#ff6f8e"/><path d="M50 ${y+1} V${y+h-2}" stroke="#d94f70" stroke-width="1.2"/>`;
+  const wMouth=`<path d="M42 71 Q46 75 50 70.5 Q54 75 58 71" stroke="${mouthC}" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+  switch(face){
+    case 'smile':s+=E.map(e=>happyEye(e[0],e[1])).join('')+wMouth+tongue(4.5,7,73)+blush;break;
+    case 'joy':s+=E.map(e=>happyEye(e[0],e[1])).join('')+'<path d="M40 70 Q50 84 60 70Z" fill="#2a0f12"/>'+tongue(6,9,74)+blush+'<path d="M10 22 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z M88 14 l1.6 4 4 1.6 -4 1.6 -1.6 4 -1.6 -4 -4 -1.6 4 -1.6z" fill="#ffc531"/>';break;
+    case 'trouble':s+=E.map(e=>roundEye(e[0],e[1]+1,7.4,1.6)).join('')+`<path d="M25 38 L39 35 M75 38 L61 35" stroke="${ink}" stroke-width="2.6" stroke-linecap="round"/><path d="M42 74 Q46 71 50 74 Q54 77 58 74" stroke="${mouthC}" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M85 29 Q80 38 85 42 Q90 38 85 29Z" fill="#7cc8f2"/>`;break;
+    case 'onsen':s+=E.map(e=>closedEye(e[0],e[1])).join('')+wMouth+blush+'<rect x="30" y="16" width="40" height="11" rx="4" fill="#fff" stroke="#9ec9e6" stroke-width="1.5"/><path d="M32 21.5 H68" stroke="#5aa6d6" stroke-width="2"/><path d="M14 18 q-4 -5 0 -9 M20 12 q-4 -5 0 -9 M86 16 q4 -5 0 -9" stroke="#c4dde9" stroke-width="2.2" fill="none" stroke-linecap="round"/>';break;
+    case 'proud':s+=E.map(e=>roundEye(e[0],e[1],8,1.6)+`<path d="M${e[0]-8.6} ${e[1]+.5} A8.6 8.6 0 0 1 ${e[0]+8.6} ${e[1]+.5} Z" fill="${b.body}"/><path d="M${e[0]-8.6} ${e[1]+.5} H${e[0]+8.6}" stroke="${ink}" stroke-width="2.4" stroke-linecap="round"/>`).join('')+`<path d="M43 72 Q51 76 58 69" stroke="${mouthC}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`+'<ellipse cx="55" cy="74" rx="3" ry="3.4" fill="#ff6f8e"/>';break;
+    case 'sleep':s+=E.map(e=>closedEye(e[0],e[1])).join('')+wMouth+'<text x="78" y="24" font-size="16" font-weight="800" fill="#6aa9c9">z</text><text x="88" y="12" font-size="11" font-weight="800" fill="#6aa9c9">z</text>';break;
+    default:s+=E.map(e=>roundEye(e[0],e[1])).join('')+wMouth;
+  }
+  if(opt.costume&&COSTUMES[opt.costume])s+=COSTUMES[opt.costume].svg;
+  return s+'</svg>';
+}
+function pugP(p,face,size,opt={}){return pugSVG(p.breed,face,size,Object.assign({costume:p.costume},opt))}
+function palm(x,y,s=1){return `<g transform="translate(${x} ${y}) scale(${s})"><path d="M0 0 Q4 -22 -2 -44" stroke="#8a5a2b" stroke-width="5" fill="none" stroke-linecap="round"/><g fill="#2f9e5a"><path d="M-2 -44 Q-22 -52 -32 -38 Q-18 -46 -2 -44Z"/><path d="M-2 -44 Q18 -56 30 -42 Q14 -48 -2 -44Z"/><path d="M-2 -44 Q-10 -64 -24 -62 Q-12 -58 -2 -44Z"/><path d="M-2 -44 Q8 -66 22 -60 Q8 -58 -2 -44Z"/></g><circle cx="-4" cy="-40" r="3" fill="#7a4a1f"/><circle cx="1" cy="-39" r="3" fill="#7a4a1f"/></g>`}
+function hibiscus(x,y,s=1,c='#e8336d'){let p='';for(let i=0;i<5;i++)p+=`<ellipse cx="0" cy="-9" rx="7" ry="10" fill="${c}" transform="rotate(${i*72})"/>`;return `<g transform="translate(${x} ${y}) scale(${s})">${p}<circle r="4" fill="#ffd34d"/><path d="M0 0 L6 -12" stroke="#ffd34d" stroke-width="1.6"/></g>`}
+function cloud(x,y,s=1){return `<g transform="translate(${x} ${y}) scale(${s})" fill="#fff" opacity=".92"><circle cx="0" cy="0" r="14"/><circle cx="16" cy="-6" r="18"/><circle cx="34" cy="0" r="13"/><rect x="0" y="0" width="34" height="13" /></g>`}
+function pagkiG(x,y,sc=1){return `<g transform="translate(${x} ${y}) scale(${sc})"><path d="M-5 2 L-22 26 L-10 26 L14 4Z" fill="#ff8a5b"/><path d="M-40 0 Q-38 -12 0 -12 L30 -10 Q46 -6 46 2 Q44 10 28 10 L-30 8 Q-42 6 -40 0Z" fill="#fff" stroke="#9cc6dc" stroke-width="1.5"/><path d="M-30 -6 L-44 -26 L-34 -26 L-18 -8Z" fill="#ff8a5b"/><circle cx="-16" cy="-3" r="3" fill="#7cc4e6"/><circle cx="-6" cy="-3" r="3" fill="#7cc4e6"/><circle cx="4" cy="-3" r="3" fill="#7cc4e6"/>${pugSVG('fawn','smile',26,{x:22,y:-16})}</g>`}
+function jinbei(x,y,s=1){let d='';for(let i=0;i<9;i++)d+=`<circle cx="${-18+i*5}" cy="${-4+(i%3)*4}" r="1.4" fill="#fff" opacity=".8"/>`;return `<g transform="translate(${x} ${y}) scale(${s})"><path d="M-30 0 Q-28 -12 0 -12 Q22 -12 26 0 Q22 10 0 10 Q-28 10 -30 0Z" fill="#2e6f9e"/><path d="M24 0 L40 -12 L36 0 L40 12Z" fill="#2e6f9e"/><path d="M-6 -11 L2 -22 L6 -11Z" fill="#2e6f9e"/>${d}<circle cx="-22" cy="-3" r="2" fill="#111"/><path d="M-30 2 Q-26 5 -21 3" stroke="#111" stroke-width="1.4" fill="none"/></g>`}
+function pieceInner(p){const b=BREEDS[p.breed]||BREEDS.fawn;return `<circle r="14" fill="${p.color}" stroke="#fff" stroke-width="2.5"/><ellipse cx="-8" cy="-7" rx="4" ry="5" fill="${b.ear}"/><ellipse cx="8" cy="-7" rx="4" ry="5" fill="${b.ear}"/><circle r="10" cy="1" fill="${b.body}"/><ellipse cy="5" rx="6.5" ry="4.8" fill="${b.muzzle}"/><circle cx="-4.2" cy="-1" r="2.5" fill="#fff"/><circle cx="4.2" cy="-1" r="2.5" fill="#fff"/><circle cx="-4.2" cy="-.6" r="1.7" fill="#111"/><circle cx="4.2" cy="-.6" r="1.7" fill="#111"/><ellipse cy="3.3" rx="2" ry="1.3" fill="#000"/>`}
+function dieHtml(v){const P={1:[5],2:[1,9],3:[1,5,9],4:[1,3,7,9],5:[1,3,5,7,9],6:[1,3,4,6,7,9]};return `<div class="die">${[1,2,3,4,5,6,7,8,9].map(i=>`<i class="${P[v].includes(i)?'on':''}${v===1&&i===5?' red':''}"></i>`).join('')}</div>`}
+
+/* ---------- board ---------- */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+let BOARD=[],N=0;
+function buildBoard(){
+  const rng=mulberry32(20261005);BOARD=[];
+  for(let i=0;i<SPOTS.length;i++){
+    const a=SPOTS[i],b=SPOTS[(i+1)%SPOTS.length];
+    BOARD.push({major:i,type:'major',x:a.x,y:a.y});
+    const pts=[[a.x,a.y],...(VIAS[a.key]||[]),[b.x,b.y]];
+    const seg=[];let L=0;
+    for(let k=0;k<pts.length-1;k++){const d=Math.hypot(pts[k+1][0]-pts[k][0],pts[k+1][1]-pts[k][1]);seg.push(d);L+=d}
+    const n=Math.max(1,Math.round(L/SPACING)-1);
+    for(let j=1;j<=n;j++){
+      let t=L*j/(n+1),k=0;
+      while(k<seg.length-1&&t>seg[k]){t-=seg[k];k++}
+      const r=seg[k]?t/seg[k]:0;
+      BOARD.push({major:-1,type:null,x:pts[k][0]+(pts[k+1][0]-pts[k][0])*r,y:pts[k][1]+(pts[k+1][1]-pts[k][1])*r});
+    }
+  }
+  N=BOARD.length;
+  const tot=TYPE_WEIGHTS.reduce((s,w)=>s+w[1],0);
+  BOARD.forEach(s=>{if(s.type)return;let r=rng()*tot;for(const [t,w] of TYPE_WEIGHTS){if((r-=w)<0){s.type=t;break}}if(!s.type)s.type='blue'});
+  if(BOARD[1].type==='red'||BOARD[1].type==='typhoon')BOARD[1].type='blue';
+  const godCount=BOARD.filter(s=>s.type==='god').length;
+  if(godCount===0){for(let k=Math.floor(N*.62);k<N;k++)if(BOARD[k].major<0){BOARD[k].type='god';break}}
+  let onsens=BOARD.filter(s=>s.type==='onsen').length;
+  for(let k=5;k<N&&onsens<6;k+=13){if(BOARD[k].major<0&&BOARD[k].type==='blue'){BOARD[k].type='onsen';onsens++}}
+}
+let BRANCH=null,SPOT_POS=[];
+function buildBranch(){
+  SPOT_POS=SPOTS.map((_,i)=>BOARD.findIndex(b=>b.major===i));
+  const F=SPOT_POS[SPOT_IDX.raipug],J=SPOT_POS[SPOT_IDX.nason],a=SPOTS[SPOT_IDX.raipug],b=SPOTS[SPOT_IDX.nason];
+  const pts=[[a.x,a.y],[234,584],[214,522],[220,466],[b.x,b.y]];
+  const seg=[];let L=0;for(let k=0;k<pts.length-1;k++){const d=Math.hypot(pts[k+1][0]-pts[k][0],pts[k+1][1]-pts[k][1]);seg.push(d);L+=d}
+  const n=Math.max(3,Math.round(L/SPACING)-1),sq=[];
+  for(let j=1;j<=n;j++){let t=L*j/(n+1),k=0;while(k<seg.length-1&&t>seg[k]){t-=seg[k];k++}const r=t/seg[k];sq.push({x:pts[k][0]+(pts[k+1][0]-pts[k][0])*r,y:pts[k][1]+(pts[k+1][1]-pts[k][1])*r})}
+  const T=['onsen','red','god','walk','red','tada','onsen','red','nori'];
+  BRANCH={from:F,to:J,pts,sq,types:sq.map((_,i)=>T[i%T.length]),posAt:k=>F+Math.max(1,Math.min(J-F-1,Math.round((k+1)*(J-F)/(sq.length+1))))};
+}
+function branchSvg(){
+  if(!BRANCH)return '';const pl=BRANCH.pts.map(q=>q.join(',')).join(' ');
+  let h=`<polyline points="${pl}" fill="none" stroke="#8a5a2b" stroke-width="6" stroke-opacity=".5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="${pl}" fill="none" stroke="#f6e3b0" stroke-width="1.8" stroke-dasharray="3 5"/>`;
+  BRANCH.sq.forEach((c,i)=>{const t=SQ_TYPES[BRANCH.types[i]];h+=`<g class="sq" data-b="${i}"><circle cx="${c.x.toFixed(1)}" cy="${c.y.toFixed(1)}" r="8.5" fill="${t.color}" stroke="#8a5a2b" stroke-width="2.2"/><text x="${c.x.toFixed(1)}" y="${(c.y+3.4).toFixed(1)}" font-size="9" font-weight="800" text-anchor="middle" fill="#fff">${t.icon}</text></g>`});
+  const m=BRANCH.sq[Math.floor(BRANCH.sq.length/2)];
+  h+=`<g><rect x="${(m.x-59).toFixed(1)}" y="${(m.y-9).toFixed(1)}" width="46" height="18" rx="9" fill="#8a5a2b"/><text x="${(m.x-36).toFixed(1)}" y="${(m.y+4).toFixed(1)}" font-size="10.5" font-weight="800" fill="#fff" text-anchor="middle">⛰️山道</text></g>`;
+  return h;
+}
+const fromPos=p=>p.br!=null&&BRANCH?BRANCH.to-1:p.pos;
+const remainOf=p=>p.finished?0:(p.br!=null&&BRANCH?(BRANCH.sq.length-p.br)+(N-BRANCH.to):Math.max(0,N-p.pos))+(LAPS()-1-(p.lap||0))*N;
+const LAPS=()=>(state&&state.laps)||1;
+const isFinalLap=p=>(p.lap||0)>=LAPS()-1;
+const prog=p=>(p.lap||0)*N+p.pos;
+const pieceXY=p=>p.br!=null&&BRANCH?BRANCH.sq[p.br]:coordOf(Math.min(p.pos,N));
+const locKey=p=>p.br!=null?'b'+p.br:String(Math.min(p.pos,N));
+function locNameP(p){return p.br!=null?`⛰️ 山道の近道・${SQ_TYPES[BRANCH.types[p.br]].name}`:locName(p['pos'])}
+function priceFor(p,v){return p.breed==='silver'?Math.round(v*.8/10)*10:v}
+function rollWeather(){const t=W_WEIGHTS.reduce((a,w)=>a+w[1],0);let r=rand()*t;for(const [k,w] of W_WEIGHTS){if((r-=w)<0)return k}return 'cloud'}
+function advanceWeather(){state.weather=state.forecast||'cloud';state.forecast=rollWeather();state.wNews=true}
+function leaderOf(ex){const a=state.players.filter(x=>!x.finished&&x!==ex);if(!a.length)return null;return a.reduce((m,x)=>prog(x)>prog(m)?x:m,a[0])}
+
+function commentate(text,score){
+  if(!$('#cutin'))return;
+  if(!CUTS)CUTS=makeTicker($('#cutin'),x=>{$('#ciText').textContent=x},3000,3);
+  CUTS.push(text);
+  if(score&&state){state.hl=state.hl||[];state.hl.push({s:score,t:text,r:state.round})}
+}
+function photo(p,id){
+  if(!p||p.isCPU)return;const A=store.get(KEY_ALBUM)||{};if(A[id])return;
+  A[id]=Date.now();store.set(KEY_ALBUM,A);const ph=PHOTOS.find(x=>x.id===id);
+  if(ph)setTimeout(()=>toast(`📸 アルバムに追加！<br><b>${ph.e} ${ph.name}</b>`),D(500));
+}
+function addStamp(p,key){
+  if(!key||key==='airport'||!p.stamps||p.stamps[key])return;
+  p.stamps[key]=1;const c=Object.keys(p.stamps).length;
+  if(!p.isCPU)toast(`📮 スタンプGET！ ${SPOTS[SPOT_IDX[key]].emoji} ${SPOTS[SPOT_IDX[key]].name}（${c}個目）`);
+  if(c>=15)photo(p,'stampall');
+}
+function renderOwners(){
+  const g=$('#owners');if(!g||!state)return;
+  g.innerHTML=Object.entries(state.owners||{}).map(([k,id])=>{const sp=SPOTS[SPOT_IDX[k]],o=state.players.find(x=>x.id===id);if(!sp||!o)return '';
+    return `<g transform="translate(${sp.x+10} ${sp.y-26})"><path d="M0 0V18" stroke="#5b3a1a" stroke-width="2.2"/><path d="M1 0L15 4.5L1 9Z" fill="${o.color}" stroke="#fff" stroke-width="1.2"/></g>`}).join('');
+}
+const coordOf=i=>{const s=BOARD[((i%N)+N)%N];return {x:s.x,y:s.y}};
+function labelW(t,fs){let w=0;for(const ch of t)w+=/[ -~]/.test(ch)?fs*.62:fs;return w+16}
+function renderBoard(){
+  const svg=$('#board');svg.setAttribute('viewBox',`0 0 ${VB.w} ${VB.h}`);
+  const pts=BOARD.map(s=>`${s.x.toFixed(1)},${s.y.toFixed(1)}`).join(' ');
+  let h=`<defs><linearGradient id="seaG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3cc6e4"/><stop offset="1" stop-color="#138fc2"/></linearGradient>
+  <pattern id="waves" width="64" height="34" patternUnits="userSpaceOnUse"><path d="M0 17 q8 -6 16 0 t16 0 t16 0 t16 0" stroke="#fff" stroke-opacity=".2" stroke-width="2" fill="none"/></pattern>
+  <radialGradient id="sunG"><stop offset="0" stop-color="#fffbd0"/><stop offset="1" stop-color="#ffcf3a"/></radialGradient></defs>
+  <rect width="${VB.w}" height="${VB.h}" fill="url(#seaG)"/><rect width="${VB.w}" height="${VB.h}" fill="url(#waves)"/>
+  <circle cx="44" cy="48" r="28" fill="url(#sunG)"/>${cloud(60,150,1)}${cloud(18,388,.75)}${cloud(392,720,.9)}${cloud(400,1040,.7)}
+  ${jinbei(92,262,1)}${pagkiG(52,724,.8)}${hibiscus(452,470,1.1)}${hibiscus(42,560,.9,'#ff6b3d')}${hibiscus(450,300,.9,'#ff8fb1')}
+  <text x="120" y="56" font-size="12" font-weight="800" fill="#fff" opacity=".85">東シナ海</text><text x="452" y="600" font-size="12" font-weight="800" fill="#fff" opacity=".85" text-anchor="end" writing-mode="tb">太平洋</text>
+  <g fill="#a7e6f2" stroke="#a7e6f2" stroke-width="26" stroke-linejoin="round" opacity=".55"><path d="${ISLAND_PATH}"/>${Object.values(ISLETS).map(d=>`<path d="${d}"/>`).join('')}</g>
+  <g fill="#f6e3b0" stroke="#f6e3b0" stroke-width="9" stroke-linejoin="round"><path d="${ISLAND_PATH}"/>${Object.values(ISLETS).map(d=>`<path d="${d}"/>`).join('')}</g>
+  <g fill="#88d07c"><path d="${ISLAND_PATH}"/>${Object.values(ISLETS).map(d=>`<path d="${d}"/>`).join('')}</g>
+  <g fill="#5fb86a" opacity=".85"><ellipse cx="372" cy="176" rx="22" ry="34"/><ellipse cx="336" cy="236" rx="24" ry="34"/><ellipse cx="404" cy="108" rx="12" ry="18"/></g>
+  
+  <g><ellipse cx="46" cy="1046" rx="30" ry="12" fill="#c9b48a"/>${pugSVG('fawn','proud',44,{x:24,y:996,mane:true})}<text x="96" y="1052" font-size="10" font-weight="800" fill="#fff">シーサーパグ</text></g>
+  <text x="408" y="790" font-size="11" font-weight="800" fill="#fff" opacity=".9" text-anchor="middle">パグしか住んでいない島</text>
+  <polygon points="${pts}" fill="none" stroke="#fff" stroke-width="6" stroke-opacity=".9" stroke-linejoin="round"/>
+  <polygon points="${pts}" fill="none" stroke="#e8a25a" stroke-width="2" stroke-dasharray="4 6" stroke-linejoin="round"/>`;
+  let labels='';
+  BOARD.forEach((s,i)=>{
+    if(s.type==='major'){
+      const sp=SPOTS[s.major],r=i===0?18:15;
+      h+=`<g class="sq" data-i="${i}"><circle cx="${s.x}" cy="${s.y}" r="${r}" fill="#fff" stroke="${i===0?'#f5b301':'#ff6b3d'}" stroke-width="3.5"/><text x="${s.x}" y="${s.y+5.5}" font-size="${i===0?17:15}" text-anchor="middle">${sp.emoji}</text></g>`;
+      const name=i===0?'🏁 那覇空港':sp.name,fs=12,w=labelW(name,fs);let lx,ly;
+      if(sp.side==='L'){lx=s.x-r-5-w;ly=s.y-16}else if(sp.side==='R'){lx=s.x+r+5;ly=s.y-12}else if(sp.side==='T'){lx=s.x-w/2;ly=s.y-r-24}else{lx=s.x-w/2;ly=s.y+r+5}
+      labels+=`<g class="sq" data-i="${i}"><rect x="${lx.toFixed(1)}" y="${ly}" width="${w.toFixed(1)}" height="19" rx="9.5" fill="#fff" fill-opacity=".95" stroke="${i===0?'#f5b301':'#ff6b3d'}" stroke-width="1.4"/><text x="${(lx+w/2).toFixed(1)}" y="${ly+14}" font-size="${fs}" font-weight="800" text-anchor="middle" fill="#24343f">${name}</text></g>`;
+    }else{
+      const t=SQ_TYPES[s.type];
+      h+=`<g class="sq" data-i="${i}"><circle cx="${s.x.toFixed(1)}" cy="${s.y.toFixed(1)}" r="8.5" fill="${t.color}" stroke="#fff" stroke-width="2"/><text x="${s.x.toFixed(1)}" y="${(s.y+3.4).toFixed(1)}" font-size="9" font-weight="800" text-anchor="middle" fill="#fff">${t.icon}</text></g>`;
+    }
+  });
+  h+=branchSvg()+labels+'<g id="owners"></g><g id="pieces"></g>';
+  svg.innerHTML=h;renderOwners();
+}
+function renderPieces(){
+  const g=$('#pieces');if(!g||!state)return;
+  const groups={};state.players.forEach(p=>{const k=locKey(p);(groups[k]=groups[k]||[]).push(p)});
+  const OFF={1:[[0,0]],2:[[-9,0],[9,0]],3:[[-9,5],[9,5],[0,-10]],4:[[-9,-8],[9,-8],[-9,8],[9,8]]};
+  const cp=cur();let h='';
+  [...state.players].sort((a,b)=>(a===cp)-(b===cp)).forEach(p=>{
+    const k=locKey(p),arr=groups[k],off=OFF[arr.length][arr.indexOf(p)],c=pieceXY(p);
+    h+=`<g class="piece${p===cp?' active':''}" id="pc${p.id}" transform="translate(${(c.x+off[0]).toFixed(1)} ${(c.y+off[1]).toFixed(1)})"><g class="bob">${pieceInner(p)}</g></g>`;
+  });
+  g.innerHTML=h;
+}
+function tween(el,from,to,dur,hop=8){return new Promise(res=>{const t0=performance.now();const f=now=>{const t=Math.min(1,(now-t0)/dur);const e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;const x=from.x+(to.x-from.x)*e,y=from.y+(to.y-from.y)*e-Math.sin(t*Math.PI)*hop;el.setAttribute('transform',`translate(${x.toFixed(1)} ${y.toFixed(1)})`);if(t<1)requestAnimationFrame(f);else res()};requestAnimationFrame(f)})}
+function boardScale(){const svg=$('#board');return (svg.clientWidth||VB.w)/VB.w}
+function focusPos(pos,smooth=true,lazy=false){return focusXY(typeof pos==='object'?pos:coordOf(Math.min(pos,N)),smooth,lazy)}
+function focusXY(c,smooth=true,lazy=false){
+  const wrap=$('#boardWrap');if(!wrap||!$('#scrGame').classList.contains('active'))return;
+  const sc=boardScale(),x=c.x*sc,y=c.y*sc;
+  if(lazy){const top=wrap.scrollTop,hh=wrap.clientHeight,left=wrap.scrollLeft,ww=wrap.clientWidth;if(y>top+hh*.22&&y<top+hh*.78&&x>left+ww*.15&&x<left+ww*.85)return}
+  wrap.scrollTo({left:Math.max(0,x-wrap.clientWidth/2),top:Math.max(0,y-wrap.clientHeight/2),behavior:smooth?'smooth':'auto'});
+}
+function showWalk(t){const w=$('#walkTag');w.textContent=t;w.classList.add('show')}
+function hideWalk(){$('#walkTag').classList.remove('show')}
+
+/* ---------- state ---------- */
+let state=null,phase='idle';
+const cur=()=>state.players[state.turn];
+function newPlayer(i,name,breed,isCPU){return {id:i,name,breed,isCPU,color:P_COLORS[i],pos:0,bau:0,items:{nori:0,ticket:0,salt:0,omamori:0,dice:0,pagki:0,onsenken:0,rail:0},skip:0,nextBonus:0,buffs:[],doubleRoll:false,omamoriActive:false,extraDie:0,finished:false,finishOrder:0,face:'normal',lucky:false,milestones:{},br:null,takeBranch:false,stamps:{},sets:{},mission:null,missionsDone:0,firstClass:false,prevRank:0,stats:{meets:0,shops:0,dist:0,bauEarned:0,items:0,events:0,onsen:0,walks:0,longestWalk:0,freeTrips:0,noriTotal:0,spots:0,turns:0}}}
+function saveGame(){if(state&&!state.over){state.rs=RNGS;store.set(KEY_SAVE,state)}}
+function ranks(){
+  const arr=[...state.players].sort((a,b)=>(a.finished&&b.finished)?a.finishOrder-b.finishOrder:a.finished?-1:b.finished?1:prog(b)-prog(a));
+  const r={};arr.forEach((p,i)=>{const prev=arr[i-1];r[p.id]=(prev&&!p.finished&&!prev.finished&&prev.pos===p.pos)?r[prev.id]:i+1});return r;
+}
+function locName(pos){
+  if(pos>=N)return '那覇空港（ゴール）';
+  const s=BOARD[pos];if(s.major>=0)return SPOTS[s.major].name;
+  let m=pos;while(m>0&&BOARD[m].major<0)m--;
+  return `${SPOTS[BOARD[m].major].name}の先・${SQ_TYPES[s.type].name}`;
+}
+function addBau(p,v){p.bau=Math.max(0,p.bau+v);if(v>0)p.stats.bauEarned+=v}
+function addNori(p,n){if(p.breed==='fawn'&&n>0)n+=1;p.items.nori+=n;p.stats.noriTotal+=n;p.stats.items+=n}
+function giveItem(p,k,n=1){if(k==='nori')return addNori(p,n);p.items[k]+=n;p.stats.items+=n}
+function nextOfType(pos,type,range=99){for(let i=pos+1;i<N&&i<=pos+range;i++)if(BOARD[i].type===type)return i;return -1}
+function nextUnfinished(src){const n=state.players.length,i0=state.players.indexOf(src);for(let k=1;k<n;k++){const p=state.players[(i0+k)%n];if(!p.finished)return p}return null}
+
+/* ---------- HUD ---------- */
+function renderHud(){
+  if(!state)return;
+  const p=cur(),R=ranks(),mods=[];
+  {const W=WEATHER[state.weather]||WEATHER.cloud,FW=WEATHER[state.forecast]||WEATHER.cloud;mods.push(`${W.i}${W.n}・明日${FW.i}`)}
+  if(state.spurt)mods.push('🔥ラストスパート');
+  if(!p.isCPU&&p.mission)mods.push('🃏ミッションあり');
+  if(p.lucky)mods.push('🍀 ラッキーパグ');
+  if(p.nextBonus)mods.push(`次の出目+${p.nextBonus}`);
+  p.buffs.forEach(b=>mods.push(`${b.label}+${b.add}（あと${b.turns}回）`));
+  if(p.extraDie)mods.push(`サイコロ+${p.extraDie}個`);
+  if(p.doubleRoll)mods.push('次は2回振り');
+  if(p.omamoriActive)mods.push('お守り発動中');
+  if(p.skip)mods.push(`休み×${p.skip}`);
+  $('#hudMain').innerHTML=`<div class="curPug" style="--pc:${p.color}">${pugP(p,p.face||'normal',52)}</div>
+  <div class="curInfo"><div class="curName"><span class="dot" style="background:${p.color}"></span><span style="overflow:hidden;text-overflow:ellipsis">${esc(p.name)}</span>${p.title?`<span class="ttl">${esc(p.title)}</span>`:''}${p.isCPU?'<span class="cpuTag">CPU</span>':''}<span class="rk">${p.finished?'🏁':R[p.id]+'位'}</span></div>
+  <div class="curLoc"><span style="overflow:hidden;text-overflow:ellipsis">📍 ${locNameP(p)}</span><span class="prog">${state.daily?'📅':''}${LAPS()>1?`${Math.min(LAPS(),(p.lap||0)+1)}/${LAPS()}周・`:''}${state.round}日目・あと${remainOf(p)}マス</span></div>
+  <div class="curStats"><span>💰${p.bau.toLocaleString()}バウ</span><span>${NORI}${p.items.nori}</span><span>🎫${p.items.ticket}</span><span>🧂${p.items.salt}</span><span>🎲${p.items.dice}</span></div>
+  ${mods.length?`<div class="mods">${mods.map(m=>`<span>${m}</span>`).join('')}</div>`:''}</div>`;
+  $('#hudChips').innerHTML=state.players.map(x=>`<button class="chip${x===p?' on':''}" data-pid="${x.id}" style="--pc:${x.color}">${pugP(x,x.finished?'joy':(x.face||'normal'),24)}<span>${esc(x.name)}</span><b>${x.finished?'🏁':R[x.id]+'位'}</b></button>`).join('');
+  $('#btnSound').textContent=S.sound&&S.bgm?'🔊':S.sound?'🔉':S.bgm?'🎵':'🔇';$('#btnSound').setAttribute('aria-label',S.sound&&S.bgm?'BGMと効果音：ON':S.sound?'効果音だけON':S.bgm?'BGMだけON':'音：OFF');
+}
+function setControls(){
+  const r=$('#btnRoll');if(!state)return;
+  const p=cur(),mine=phase==='await'&&!p.isCPU;
+  r.disabled=!mine;
+  r.textContent=mine?'🎲 サイコロを振る':(p.isCPU&&phase!=='idle'?`🤖 ${p.name}のばん…`:'⏳ イベント中…');
+  $('#btnItem').disabled=false;
+}
+
+const modalOpen=()=>!$('#modal').classList.contains('hidden');
+function makeTicker(el,render,minMs,maxQ){
+  const T={q:[],cur:null,tm:null};
+  T.push=t=>{if(T.q.length>=maxQ)T.q.shift();T.q.push({t,tries:0});T.next()};
+  T.next=()=>{if(T.cur||!T.q.length||modalOpen())return;const it=T.q.shift();T.cur=it;render(it.t);el.classList.remove('show');void el.offsetWidth;el.classList.add('show');clearTimeout(T.tm);T.tm=setTimeout(T.done,RD(Math.max(minMs,readMs(it.t))))};
+  T.done=()=>{clearTimeout(T.tm);el.classList.remove('show');T.cur=null;setTimeout(T.next,300)};
+  T.pause=()=>{if(!T.cur)return;clearTimeout(T.tm);el.classList.remove('show');const it=T.cur;T.cur=null;if(++it.tries<3)T.q.unshift(it)};
+  el.addEventListener('click',()=>{if(T.cur)T.done()});
+  return T;
+}
+let TOASTS=null,CUTS=null;
+function toast(t){if(!TOASTS)TOASTS=makeTicker($('#toast'),x=>{$('#toast').innerHTML=x},2400,4);TOASTS.push(t)}
+
+/* ---------- modal ---------- */
+function showModalHtml(html){const m=$('#modal');$('#modalCard').innerHTML=html;m.classList.remove('hidden');$('#modalCard').scrollTop=0;if(TOASTS)TOASTS.pause();if(CUTS)CUTS.pause()}
+function closeModal(){$('#modal').classList.add('hidden');$('#modalCard').innerHTML='';setTimeout(()=>{if(TOASTS)TOASTS.next();if(CUTS)CUTS.next()},350)}
+function say(p,o){
+  return new Promise(res=>{
+    if(p&&o.face){p.face=o.face;renderHud()}
+    const btns=o.buttons||[{label:'OK',value:'ok'}];
+    const auto=('auto' in o)?o.auto:!!(p&&p.isCPU);
+    const cpuV=('cpuPick' in o)?o.cpuPick:btns[0].value;
+    const tone=o.tone||'good';
+    const tapOnly=S.msgMode==='tap',cpuChoice=auto&&!!o.buttons;
+    const autoMs=auto&&!tapOnly?Math.max(D(o.delay||1500),RD(readMs((o.title||'')+(o.text||''))+(o.buttons?1500:0))):0;
+    const pugHtml=p?`<div class="evPug">${pugP(p,o.face||p.face||'normal',112)}${o.emoji?`<span class="evEmoji">${o.emoji}</span>`:''}</div>`:(o.emoji?`<div class="evBig">${o.emoji}</div>`:'');
+    const who=p?`<div><span class="evWho" style="--pc:${p.color}">${esc(p.name)}${p.isCPU?' <span class="cpuTag">CPU</span>':''}</span></div>`:'';
+    showModalHtml(`<div class="ev ev-${tone}">${o.kicker?`<div class="kicker">${o.kicker}</div>`:''}${pugHtml}${who}<h3>${o.title}</h3>${o.text?`<p>${o.text}</p>`:''}${o.html||''}<div class="evBtns${o.list?' list':''}">${btns.map((b,i)=>{const ch=cpuChoice&&b.value===cpuV;return `<button class="btn ${b.cls!=null?b.cls:(i===0?'primary':'')}${cpuChoice?' cpuOpt'+(ch?' cpuChosen':''):''}" data-v="${i}"${cpuChoice||(b.disabled&&!auto)?' disabled':''}>${ch?'🤖 ':''}${auto&&!o.buttons?'▶ 次へ':b.label}${b.sub?`<small>${b.sub}</small>`:''}</button>`}).join('')}${cpuChoice?'<button class="btn sea wide cpuNext" data-next="1">▶ 次へ</button>':''}</div>${auto?`<div class="autoNote">${cpuChoice?'🤖 CPUが選びました（「次へ」で進む）':tapOnly?'CPUのばん（「次へ」で進む）':'CPUが進行中…（「次へ」で早送り）'}</div>${autoMs?`<div class="autoBar"><i style="animation-duration:${autoMs}ms"></i></div>`:''}`:''}</div>`);
+    let done=false,tm=null;
+    const fin=v=>{if(done)return;done=true;clearTimeout(tm);closeModal();res(v)};
+    $('#modalCard').querySelectorAll('[data-v]').forEach(b=>b.addEventListener('click',()=>{if(b.disabled)return;SFX.click();fin(auto?cpuV:btns[+b.dataset.v].value)}));
+    $('#modalCard').querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>{SFX.click();fin(cpuV)}));
+    if(autoMs)tm=setTimeout(()=>fin(cpuV),autoMs);
+  });
+}
+
+/* ---------- dice ---------- */
+async function showDice(vals,mods,total){
+  const L=$('#diceLayer'),row=$('#diceRow');$('#diceRes').textContent='';$('#diceMod').innerHTML='';
+  L.classList.remove('hidden');SFX.dice();row.classList.add('spin');
+  const t0=performance.now(),dur=D(850);
+  while(performance.now()-t0<dur){row.innerHTML=vals.map(()=>dieHtml(1+Math.floor(Math.random()*6))).join('');await wait(75)}
+  row.classList.remove('spin');row.innerHTML=vals.map(v=>dieHtml(v)).join('');
+  const base=vals.reduce((a,b)=>a+b,0);
+  $('#diceRes').textContent=`${vals.length>1?vals.join('+')+'=':''}${base}！`;SFX.pop();
+  $('#diceMod').innerHTML=(mods.length?mods.map(m=>`<span>${m[0]} +${m[1]}</span>`).join(''):'')+`<b>${total}マス進む！</b>`;
+  await wait(Math.max(D(mods.length?1900:1200),RD(mods.length?1700:1000)));
+  L.classList.add('hidden');
+}
+
+/* ---------- movement ---------- */
+async function moveSteps(p,n,label,opt={}){
+  if(!n||p.finished)return;
+  const el=$(`#pc${p.id}`);
+  let d=Math.sign(n),left=Math.abs(n),lapUp=false;p.lapLand=false;
+  showWalk(label||(d>0?'てくてく……':'とぼとぼ……'));
+  while(left>0){
+    if(d>0&&p.br==null&&BRANCH&&p.pos===BRANCH.from&&!opt.noFork){hideWalk();await chooseRoute(p);showWalk(label||'てくてく……')}
+    let nx;
+    if(d>0){
+      if(p.br!=null)nx=p.br+1<BRANCH.sq.length?{pos:BRANCH.posAt(p.br+1),br:p.br+1}:{pos:BRANCH.to,br:null};
+      else if(p.takeBranch&&BRANCH&&p.pos===BRANCH.from){p.takeBranch=false;nx={pos:BRANCH.posAt(0),br:0}}
+      else nx={pos:p.pos+1,br:null};
+      if(nx.pos>N){d=-1;continue}
+    }else{
+      if(p.br!=null)nx=p.br>0?{pos:BRANCH.posAt(p.br-1),br:p.br-1}:{pos:BRANCH.from,br:null};
+      else nx={pos:p.pos-1,br:null};
+      if(nx.pos<0)break;
+    }
+    const to=nx.br!=null?BRANCH.sq[nx.br]:coordOf(nx.pos);
+    if(el)await tween(el,pieceXY(p),to,D(190));
+    if(d>0){p.stats.dist++;if(nx.br==null&&nx.pos<N&&BOARD[nx.pos].major>0){p.stats.spots++;addStamp(p,SPOTS[BOARD[nx.pos].major].key)}}
+    p.pos=nx.pos;p.br=nx.br;left--;SFX.step();focusXY(to,true,true);
+    if(p.pos===N&&!isFinalLap(p)){p.pos=0;p.lap=(p.lap||0)+1;lapUp=true;p.lapLand=left===0}
+    if(p.pos===N&&!RULE('exactGoal'))break;
+  }
+  hideWalk();renderPieces();renderHud();
+  if(lapUp)await lapBonus(p);
+  if(p.pos===N)await reachGoal(p);
+}
+async function lapBonus(p){
+  const L=LAPS(),k=p.lap;addBau(p,1000);SFX.jackpot();
+  commentate(`${p.name}が${k}周目を走り切った！ ${k+1}周目へ突入！`,4);
+  await say(p,{kicker:'✈️ 那覇空港',emoji:'🔁',title:`${k}周目クリアバウ！`,text:`那覇空港を通過してボーナス1000バウ！ のこり${L-k}周、${k+1}周目へ出発バウ！`,face:'joy',tone:'jackpot'});
+}
+async function chooseRoute(p){
+  const cpuPick=p.isCPU?(RULE('cpuLevel')==='easy'?rand()<.5:(ranks()[p.id]>1||rand()<.35)):undefined;
+  const v=await say(p,{kicker:'🛤️ 分かれ道',emoji:'🛤️',title:'どっちの道で行く？',text:'海沿いは観光地が3か所。山道は近道だけど、赤マス・温泉・パグ神マスだらけのワイルドな道バウ。',face:'normal',tone:'neutral',list:true,
+    buttons:[{label:'🏖️ 海沿いルート',sub:`観光地3か所・${BRANCH.to-BRANCH.from}マス`,value:false},{label:'⛰️ 山道の近道',sub:`${BRANCH.sq.length+1}マス・観光地なし`,value:true,cls:'gold'}],cpuPick,delay:1300});
+  p.takeBranch=!!v;
+  if(v){p.yama=true;photo(p,'yama');commentate(`${p.name}、山道の近道を選んだー！吉と出るか凶と出るか！`,3)}
+}
+async function warpTo(p,target){
+  const wrapping=target>=N&&!isFinalLap(p);
+  if(!wrapping&&target>N)target=RULE('exactGoal')?Math.max(0,N-(target-N)):N;
+  target=Math.max(0,target);
+  if(p.br!=null&&BRANCH&&target<BRANCH.to&&target!==p.pos){
+    const k=p.br+(target-p.pos),el0=$(`#pc${p.id}`);
+    if(k>=0&&k<BRANCH.sq.length){
+      SFX.warp();showWalk('ひゅ～ん！');focusXY(BRANCH.sq[k],true);
+      if(el0)await tween(el0,pieceXY(p),BRANCH.sq[k],D(750),46);
+      if(k>p.br)p.stats.dist+=k-p.br;p.br=k;p.pos=BRANCH.posAt(k);hideWalk();renderPieces();renderHud();return;
+    }
+    target=k<0?Math.max(0,BRANCH.from+1+k):BRANCH.to+(k-BRANCH.sq.length);
+  }
+  if(target===p.pos&&p.br==null)return;
+  if(target-p.pos>=10)commentate(`ビューン！${p.name}が${target-p.pos}マスの大ジャンプ！`,Math.min(9,Math.floor((target-p.pos)/2)));
+  const el=$(`#pc${p.id}`);SFX.warp();showWalk('ひゅ～ん！');
+  focusPos(target,true);
+  if(el)await tween(el,pieceXY(p),coordOf(wrapping?N:target),D(750),46);
+  if(target>p.pos){p.stats.dist+=target-p.pos;for(let i=p.pos+1;i<=target&&i<N;i++)if(BOARD[i].major>0)p.stats.spots++}
+  p.br=null;p.takeBranch=false;
+  if(wrapping){p.lap=(p.lap||0)+1;p.pos=Math.min(N-1,target-N);p.lapLand=p.pos===0;hideWalk();renderPieces();renderHud();await lapBonus(p);return}
+  p.pos=target;hideWalk();renderPieces();renderHud();
+  if(p.pos>=N)await reachGoal(p);
+}
+function warpTargets(p){const RANGE=20,b=fromPos(p),list=[];for(let i=b+1;i<N&&i<=b+RANGE;i++)if(BOARD[i].major>=0)list.push(i);if(N-b<=RANGE&&isFinalLap(p))list.push(N);return list}
+async function warpChoose(p,title,depth,fromTicket){
+  let list=warpTargets(p);if(!list.length)list=[Math.min(N,p.pos+6)];
+  let target;
+  if(p.isCPU){
+    if(RULE('cpuLevel')==='hard')target=list[list.length-1];
+    else if(RULE('cpuLevel')==='normal')target=pick(list.slice(Math.floor(list.length/2)));
+    else target=pick(list);
+    const nm=target>=N?'那覇空港（ゴール）':locName(target);
+    await say(p,{emoji:'🎫',title:`${esc(p.name)}は「${nm}」を選んだ！`,face:'joy',delay:1200});
+  }else{
+    for(;;){
+      const btns=list.map(i=>i>=N?{label:'🏁 那覇空港（ゴール！）',sub:`${N-p.pos}マス先`,value:N,cls:'gold'}:{label:`${SPOTS[BOARD[i].major].emoji} ${SPOTS[BOARD[i].major].name}`,sub:`${i-p.pos}マス先`,value:i,cls:''});
+      const v=await say(p,{emoji:'🎫',title,text:'行き先を選ぶバウ！（20マス先まで）',face:'joy',buttons:btns,list:true});
+      if(v===N){
+        const ok=await say(p,{emoji:'🏁',title:fromTicket?'タダ旅行券を使ってゴールへ行きますか？':'ゴールへ行きますか？',text:'このワープで那覇空港にゴールできるバウ！',face:'joy',buttons:[{label:'ゴールへ行く！',value:true,cls:'gold'},{label:'選び直す',value:false,cls:'ghost'}]});
+        if(!ok)continue;
+      }
+      target=v;break;
+    }
+  }
+  await warpTo(p,target);
+  if(!p.finished&&depth<1)await landing(p,depth+1);
+}
+async function badGuard(p,what){
+  if(p.items.salt>0){p.items.salt--;SFX.good();await say(p,{emoji:'🧂',title:'天然塩パワー！',text:`「${what}」を天然塩が無効化したバウ！`,face:'proud',delay:1200});return false}
+  SFX.bad();return true;
+}
+async function applyTyphoon(src){
+  let t=nextUnfinished(src);
+  if(state.spurt){const ld=leaderOf(src);if(ld)t=ld}
+  if(!t)return;
+  if(state.spurt)commentate(`ラストスパートの台風が先頭の${t.name}を直撃！`,3);
+  if(t.br==null&&t.pos<N&&BOARD[t.pos].major===SPOT_IDX.akamine){await say(t,{emoji:'🛒',title:`${esc(t.name)}は赤嶺パグオンにいる！`,text:'台風でも営業中バウ！いつも通り進めるバウ。',face:'proud',tone:'neutral'});return}
+  if(t.breed==='black'){await say(t,{emoji:'🖤',title:`${esc(t.name)}は台風に強い黒パグ！`,text:'どっしり構えてへっちゃらバウ。',face:'proud',tone:'neutral'});return}
+  await say(t,{emoji:'🌀',title:`台風が${esc(t.name)}を直撃！`,text:'次のターンは1回休みバウ…',face:'trouble',tone:'bad'});
+  if(await badGuard(t,'台風の1回休み'))t.skip++;
+}
+async function typhoonGust(p){
+  const atA=p.br==null&&p.pos<N&&BOARD[p.pos].major===SPOT_IDX.akamine;
+  if(p.breed==='black'||atA){await say(p,{kicker:'🌀 台風接近中',emoji:'🌀',title:'強風が吹いた！',text:atA?'赤嶺パグオンで雨宿り中なので平気バウ！':'黒パグは台風に強い！びくともしないバウ。',face:'proud',tone:'neutral',delay:1100});return}
+  await say(p,{kicker:'🌀 台風接近中',emoji:'🌀',title:'強風にあおられた！',text:'2マス押し戻されちゃうバウ…',face:'trouble',tone:'bad'});
+  if(await badGuard(p,'強風で後退'))await moveSteps(p,-2,'ぴゅ～～',{noFork:true});
+}
+async function storeOwner(p,key){
+  const st=STORES[key],sp=SPOTS[SPOT_IDX[key]],K=`🏪 ${sp.name}の経営権`,ow=state.owners[key];
+  if(ow==null){
+    const price=priceFor(p,st.price);if(p.bau<price)return;
+    const cp=p.isCPU?(RULE('cpuLevel')==='hard'?p.bau>=price+800:RULE('cpuLevel')==='normal'?(p.bau>=price+500&&rand()<.6):rand()<.3):undefined;
+    const v=await say(p,{kicker:K,emoji:'🏪',title:`${sp.name}のオーナーになる？`,text:`経営権は${price}バウ。オーナーになると、他のパグが止まるたびに${st.fee}バウの売上が入るバウ！（所持 ${p.bau.toLocaleString()}バウ）`,face:'smile',buttons:[{label:'オーナーになる！',sub:`${price}バウ`,value:true,cls:'gold'},{label:'やめておく',value:false,cls:'ghost'}],cpuPick:cp});
+    if(v){p.bau-=price;state.owners[key]=p.id;p.stats.shops=(p.stats.shops||0)+1;renderOwners();SFX.jackpot();photo(p,'owner');commentate(`${p.name}が「${sp.name}」のオーナーに就任！`,4);await say(p,{kicker:K,emoji:'🚩',title:'オーナー就任バウ！',text:'お店に旗を立てたバウ。',face:'proud',delay:1100})}
+  }else if(ow===p.id){addBau(p,st.fee);SFX.good();await say(p,{kicker:K,emoji:'🏪',title:'オーナーの見回り',text:`お店は大繁盛！ ${st.fee}バウの売上を回収したバウ。`,face:'proud',delay:1100})}
+  else{const o=state.players.find(x=>x.id===ow);if(!o)return;const fee=Math.min(p.bau,st.fee);p.bau-=fee;o.bau+=fee;o.stats.bauEarned+=fee;SFX.bad();await say(p,{kicker:K,emoji:'💸',title:`${esc(o.name)}のお店だった！`,text:fee>0?`お店で${fee}バウ使ったバウ。売上は${esc(o.name)}へ。`:'お財布が空っぽで、何も買えなかったバウ…',face:'trouble',tone:'neutral',delay:1300})}
+}
+async function encounter(p){
+  if(p.finished||state.over)return;
+  const others=state.players.filter(o=>o!==p&&!o.finished&&locKey(o)===locKey(p));
+  if(!others.length)return;
+  const o=pick(others),K='👃 すれ違いイベント';p.stats.meets=(p.stats.meets||0)+1;o.stats.meets=(o.stats.meets||0)+1;
+  photo(p,'meet');photo(o,'meet');
+  await say(p,{kicker:K,emoji:'👃',title:`${esc(o.name)}とすれ違った！`,text:'おしりをくんくん…パグ流のごあいさつバウ。',face:'smile',delay:1100});
+  const r=rint(4);
+  if(r===0){addNori(p,1);addNori(o,1);SFX.good();await say(p,{kicker:K,emoji:NORI,title:'のりを分けあった！',text:`${esc(p.name)}も${esc(o.name)}も味付けのりGETバウ！`,face:'joy'})}
+  else if(r===1){
+    if(o.items.nori>0){o.items.nori--;addNori(p,1);await say(p,{kicker:K,emoji:NORI,title:'のりを1枚もらっちゃった！',text:`${esc(o.name)}のおやつをちゃっかりGETバウ。`,face:'proud'});commentate(`${p.name}、${o.name}からのりをちゃっかりゲット！`,3)}
+    else{const v=Math.min(o.bau,200);o.bau-=v;addBau(p,v);await say(p,{kicker:K,emoji:'💰',title:'おこづかいをもらった！',text:`${esc(o.name)}から${v}バウもらったバウ。`,face:'proud'})}
+  }else if(r===2){
+    const a=ITEM_KEYS.filter(k=>k!=='nori'&&p.items[k]>0),b=ITEM_KEYS.filter(k=>k!=='nori'&&o.items[k]>0);
+    if(a.length&&b.length){const x=pick(a),y=pick(b);p.items[x]--;o.items[x]++;o.items[y]--;p.items[y]++;SFX.good();await say(p,{kicker:K,emoji:'🔁',title:'アイテム交換！',text:`${ITEMS[x].name}と${ITEMS[y].name}を取りかえっこしたバウ。`,face:'smile'})}
+    else{addBau(p,300);addBau(o,300);SFX.good();await say(p,{kicker:K,emoji:'📸',title:'いっしょに記念撮影！',text:'写真が売れて2匹とも300バウGET！',face:'joy'})}
+  }else{
+    const n=rr(1,3);await say(p,{kicker:K,emoji:'🐾',title:'いっしょにセルフ散歩へ！',text:`2匹そろって${n}マスお出かけバウ。`,face:'proud'});
+    await moveSteps(p,n,'ふたりでとことこ……',{noFork:true});if(!o.finished&&!state.over)await moveSteps(o,n,'ふたりでとことこ……',{noFork:true});
+  }
+}
+async function checkSets(p){
+  for(const st of STAMP_SETS){
+    if(p.sets[st.id])continue;
+    if(st.keys.filter(k=>p.stamps[k]).length>=st.need){p.sets[st.id]=1;addBau(p,st.bau);SFX.jackpot();commentate(`${p.name}、スタンプラリー「${st.name}」セット達成！`,5);
+      await say(p,{kicker:'📮 スタンプラリー',emoji:'📮',title:`「${st.name}」セット達成！`,text:`${st.bau}バウGET！ 思い出ポイントも+6`,face:'joy',tone:'jackpot'})}
+  }
+}
+function dealMission(p){
+  const opts=MISSIONS.filter(m=>!(p.mission&&p.mission.t===m.t)&&!(m.t==='shop'&&state&&Object.keys(state.owners||{}).length>=Object.keys(STORES).length));
+  const m=pick(opts);
+  if(m.t==='land'){
+    const cand=SPOTS.map((_,i)=>i).filter(i=>i>0&&SPOT_POS[i]>p.pos+3&&SPOT_POS[i]<=p.pos+30);
+    if(cand.length){const i=pick(cand);p.mission={t:'land',target:SPOTS[i].key,txt:`「${SPOTS[i].name}」にぴったり止まる`,exp:(p.myTurns||0)+12};return}
+    const f=MISSIONS[1];p.mission={t:f.t,n:f.n,base:MSTAT[f.t](p),txt:f.txt,exp:(p.myTurns||0)+10};return;
+  }
+  p.mission={t:m.t,n:m.n,base:m.t==='bau'?0:MSTAT[m.t](p),txt:m.txt};
+  p.mission.exp=(p.myTurns||0)+10;
+}
+async function checkMission(p){
+  const m=p.mission;if(!m||p.finished)return;
+  const allOwned=Object.keys(state.owners||{}).length>=Object.keys(STORES).length;
+  if((m.exp!=null&&(p.myTurns||0)>=m.exp)||(m.t==='shop'&&allOwned&&(p.stats.shops||0)-m.base<1)){if(!p.isCPU)toast('🃏 ミッション時間切れ…新しいカードを引いたバウ');dealMission(p);return}
+  if(m.t==='land'){const tp=SPOT_POS[SPOT_IDX[m.target]];if(p.pos>tp){if(!p.isCPU)toast('🃏 ミッション失敗…新しいカードを引いたバウ');dealMission(p)}return}
+  if(m.t==='bau'?p.bau>=m.n:(MSTAT[m.t](p)-m.base>=m.n))await completeMission(p);
+}
+async function completeMission(p){
+  const m=p.mission;p.missionsDone=(p.missionsDone||0)+1;addBau(p,1000);const it=pick(['ticket','dice','omamori','rail','onsenken']);giveItem(p,it,1);SFX.jackpot();photo(p,'mission');
+  commentate(`${p.name}がひみつミッション「${m.txt}」を達成！`,5);
+  await say(p,{kicker:'🃏 ひみつミッション',emoji:'🃏',title:'ミッション達成！',text:`「${m.txt}」をクリア！ 1000バウと${ITEMS[it].name}をGET。思い出ポイント+10`,face:'joy',tone:'jackpot'});
+  dealMission(p);
+  if(!p.isCPU)await say(p,{kicker:'🃏 ひみつミッション',emoji:'🃏',title:'次のミッションカード',text:p.mission.txt,face:'proud',delay:1300});
+}
+async function checkSpurt(){
+  if(state.spurt)return;
+  if(!state.players.some(x=>!x.finished&&remainOf(x)<=15))return;
+  state.spurt=true;bgmUpdate();SFX.jackpot();commentate('ぱぐーき最終便のアナウンス！ここからラストスパートだー！',3);
+  await say(cur(),{kicker:'📢 那覇空港より',emoji:'📢',title:'ぱぐーき最終便のご案内バウ！',text:'ゴールまであと少しのパグが現れた！ここからは「追い上げ風」で先頭以外の出目+1、ランダムイベント増量、台風マスは先頭パグを直撃！ゴールでは搭乗手続きでファーストクラスも狙えるバウ。',face:'joy',tone:'jackpot',delay:2600});
+}
+function afterTurnCommentary(){
+  const p=cur(),R=ranks();
+  if(p.prevRank&&!p.finished&&p.prevRank-R[p.id]>=2)commentate(`${p.name}、${p.prevRank}位から${R[p.id]}位へ一気にジャンプアップ！`,5);
+  if(state.round>=3)state.players.forEach(x=>{if(!x.finished)x.worstRank=Math.max(x.worstRank||0,R[x.id])});
+  const act=state.players.filter(x=>!x.finished);if(!act.length)return;
+  const mx=Math.max(...act.map(prog)),tops=act.filter(x=>prog(x)===mx);
+  if(tops.length===1&&tops[0].id!==state.lastLeader){if(state.lastLeader!=null)commentate(`おーっと！${tops[0].name}がトップに躍り出たー！`,6);state.lastLeader=tops[0].id}
+}
+function modalWait(html,id){return new Promise(r=>{showModalHtml(html);$('#'+id).onclick=()=>{SFX.click();closeModal();r()}})}
+const AWARDS=[
+ {n:'温泉王',i:'♨️',u:'回',f:p=>p.stats.onsen||0},
+ {n:'散歩王',i:'🐾',u:'回',f:p=>p.stats.walks||0},
+ {n:'のり王',i:'🍙',u:'枚',f:p=>p.stats.noriTotal||0},
+ {n:'かせぎ王',i:'💰',u:'バウ',f:p=>p.stats.bauEarned||0},
+ {n:'イベント王',i:'🎲',u:'回',f:p=>p.stats.events||0},
+ {n:'ごあいさつ王',i:'👃',u:'回',f:p=>p.stats.meets||0},
+ {n:'アイテム名人',i:'🎒',u:'個',f:p=>p.stats.items||0},
+ {n:'スタンプ王',i:'📮',u:'個',f:p=>Object.keys(p.stamps||{}).length},
+ {n:'ミッション王',i:'🃏',u:'回',f:p=>p.missionsDone||0},
+ {n:'長旅パグ',i:'👣',u:'マス',f:p=>p.stats.dist||0}
+];
+async function bonusReveal(){
+  const ps=state.players,before=memRows();
+  const pool=AWARDS.filter(a=>Math.max(...ps.map(a.f))>0),picks=[];
+  while(picks.length<3&&pool.length)picks.push(pool.splice(rint(pool.length),1)[0]);
+  if(!picks.length)return;
+  state.awards=[];
+  await modalWait(`<div class="mini"><div class="awardBig">🎁</div><h3 style="margin:6px 0">ボーナス発表！</h3><p style="line-height:1.7;margin:0 0 6px">旅のあいだの活躍に、ボーナスの思い出ポイント（+10）を贈ります。</p><div class="mRank">${before.map((o,i)=>`<div><span>${i+1}位 ${esc(o.p.name)}</span><b>${o.t}pt</b></div>`).join('')}</div><p class="muted" style="font-size:13px;margin:0 0 12px">いまの思い出ポイント。ここから逆転はあるか…！？</p><button class="btn gold wide" id="bnGo">発表スタート！</button></div>`,'bnGo');
+  for(let k=0;k<picks.length;k++){
+    const a=picks[k],mx=Math.max(...ps.map(a.f)),win=ps.filter(p=>a.f(p)===mx);
+    win.forEach(p=>{p.awardPts=(p.awardPts||0)+10});state.awards.push({n:a.n,i:a.i,w:win.map(x=>x.name)});
+    showModalHtml(`<div class="mini"><div class="miniHead">🎁 ボーナス ${k+1}/${picks.length}</div><div class="awardBig">${a.i}</div><h3 style="margin:6px 0">${a.n}は…</h3><div class="miniBig" style="font-size:40px">🥁</div></div>`);SFX.dice();
+    await wait(Math.max(D(1400),1100));
+    await modalWait(`<div class="mini"><div class="miniHead">🎁 ボーナス ${k+1}/${picks.length}</div><div class="awardBig">${a.i}</div><h3 style="margin:6px 0">${a.n}</h3><div class="awardPugs">${win.map(p=>`<div style="width:${win.length>1?72:110}px">${pugP(p,'joy',win.length>1?72:110)}</div>`).join('')}</div><p style="font-size:17px;font-weight:800;margin:4px 0">${win.map(p=>esc(p.name)).join('・')}！</p><p class="muted" style="margin:0 0 12px">${mx.toLocaleString()}${a.u}　思い出ポイント +10</p><button class="btn primary wide" id="bnGo">${k+1<picks.length?'次の発表へ':'結果を見る'}</button></div>`,'bnGo');
+    SFX.jackpot();
+  }
+  const after=memRows();
+  if(after[0].p!==before[0].p){SFX.goal();await modalWait(`<div class="mini"><div class="awardBig">🔄</div><h3 style="margin:6px 0">大逆転！！</h3><div style="width:120px;margin:0 auto">${pugP(after[0].p,'joy',120)}</div><p style="font-size:17px;font-weight:800">総合優勝は ${esc(after[0].p.name)} に！</p><button class="btn gold wide" id="bnGo">結果を見る</button></div>`,'bnGo')}
+}
+function memPoints(p){
+  const arr=[60,35,20,10],shops=Object.values(state.owners||{}).filter(id=>id===p.id).length;
+  return {arrive:p.finished?(arr[p.finishOrder-1]||5):0,stamp:Object.keys(p.stamps||{}).length,sets:Object.keys(p.sets||{}).length*6,mission:(p.missionsDone||0)*10,shops:shops*5,bau:Math.floor(p.bau/500),first:p.firstClass?10:0,award:p.awardPts||0};
+}
+function memRows(){return state.players.map(p=>{const m=memPoints(p);return {p,m,t:Object.values(m).reduce((a,b)=>a+b,0)}}).sort((a,b)=>b.t-a.t)}
+function memHtml(){
+  const rows=memRows(),mvp=rows[0],hls=[...(state.hl||[])].sort((a,b)=>b.s-a.s).slice(0,3);
+  return `<div class="card" style="margin:12px 0"><h3>👑 総合優勝（思い出ポイント）：${esc(mvp.p.name)}　${mvp.t}pt</h3><div class="statWrap"><table class="statTable"><tr><th>パグ</th><th>到着</th><th>スタンプ</th><th>セット</th><th>ミッション</th><th>お店</th><th>バウ</th><th>✈️</th><th>🎁</th><th>合計</th></tr>${rows.map(o=>`<tr><td class="nm">${esc(o.p.name)}</td><td>${o.m.arrive}</td><td>${o.m.stamp}</td><td>${o.m.sets}</td><td>${o.m.mission}</td><td>${o.m.shops}</td><td>${o.m.bau}</td><td>${o.m.first}</td><td>${o.m.award}</td><td><b>${o.t}</b></td></tr>`).join('')}</table></div>${(state.awards||[]).length?`<p style="font-size:13px;margin:8px 0 0;line-height:1.7">🎁 ボーナス：${state.awards.map(a=>`${a.i}${a.n}（${a.w.map(esc).join('・')}）`).join('／')}</p>`:''}<p class="muted" style="font-size:12px;margin:6px 0 0;line-height:1.6">到着 1位60・2位35・3位20・4位10／スタンプ1個1／セット6／ミッション10／お店1軒5／500バウごとに1／ファーストクラス10／🎁ボーナス10</p></div>
+  <div class="card" style="margin:12px 0"><h3>🎙️ 今日のベストシーン</h3>${hls.length?`<ol class="hlList">${hls.map(h=>`<li>${esc(h.t)} <small class="muted">（${h.r}日目）</small></li>`).join('')}</ol>`:'<p class="muted" style="margin:0">今日は平和な旅だったバウ。</p>'}</div>`;
+}
+function dailyConf(key){
+  const seed=seedOf('pug-daily-'+key);
+  return {seed,breed:BREED_KEYS[Math.abs(seed)%BREED_KEYS.length],rules:{cpuLevel:'normal',randomEvents:true,underdog:true,exactGoal:false,ticketMode:'choose'}};
+}
+function startDaily(){
+  const key=todayKey(),c=dailyConf(key),h=setup.humans[0];
+  startNewGame([{name:(h.name||'').trim()||'パグ1',breed:c.breed,costume:h.costume,title:h.title}],3,{seed:c.seed,daily:key,rules:c.rules,laps:1});
+}
+function renderYari(){
+  const M=meta(),L=life(),A=achGot(),D=store.get(KEY_DAILY)||{},key=todayKey(),c=dailyConf(key),td=D[key];
+  const days=[...Array(7)].map((_,i)=>{const d=new Date();d.setDate(d.getDate()-i);return todayKey(d)});
+  const got=ACH.filter(a=>A[a.id]).length;
+  $('#yariBody').innerHTML=`<div class="card"><h3>📅 今日のデイリーチャレンジ（${key.slice(5).replace('-','/')}）</h3>
+  <p style="margin:0 0 8px;font-size:14px;line-height:1.6">今日はみんな同じ「乱数の種」で遊ぶ1日1回のチャレンジ。同じ選び方をすれば同じ目が出ます。CPU3匹（ふつう）と対戦して、<b>思い出ポイント</b>でスコアを競います。今日のパグは<b>${BREEDS[c.breed].name}</b>（${BREEDS[c.breed].skill}）。</p>
+  <div class="dRow"><span>今日の自己ベスト</span><b>${td?td.best+'pt':'—'}</b></div><div class="dRow"><span>今日の挑戦回数</span><b>${td?td.plays:0}回</b></div>
+  <button class="btn primary wide" id="dailyGo" style="margin-top:10px">📅 デイリーに挑戦${td?'':'（初回+10メダル）'}</button>
+  <div style="margin-top:10px;font-size:12px" class="muted">最近7日：${days.map(k=>`${k.slice(5).replace('-','/')} ${D[k]?D[k].best+'pt':'—'}`).join('／')}</div></div>
+  <div class="card"><h3>🎖️ 思い出メダル <span class="medal">🎖️ ${M.medals}</span></h3><p class="muted" style="margin:0 0 10px;font-size:13px;line-height:1.6">ゲームのたびに「思い出ポイント÷10」枚、優勝・総合優勝で各+5枚、実績解除で+5枚もらえます。着せ替えと交換しよう。</p>
+  <div class="shopGrid">${COSTUME_KEYS.map(k=>{const C=COSTUMES[k],own=M.owned[k];return `<div class="cos">${pugSVG('fawn','smile',80,{costume:k})}<b>${C.n}</b>${own?'<div class="muted" style="font-size:13px;font-weight:800">✅ 持っている</div>':`<button class="btn sm gold wide" data-buy="${k}"${M.medals<C.p?' disabled':''}>🎖️ ${C.p}</button>`}</div>`}).join('')}</div>
+  <p class="muted" style="font-size:12px;margin:8px 0 0">持っている着せ替えは「ゲームスタート」の画面で着られます。</p></div>
+  <div class="card"><h3>🏅 実績 ${got}/${ACH.length}</h3><div class="albBar"><i style="width:${Math.round(got/ACH.length*100)}%"></i></div>
+  ${ACH.map(a=>`<div class="achRow${A[a.id]?'':' lock'}"><div class="ai">${a.i}</div><div class="at"><b>${a.n}</b><br>${a.d}<br><span class="ttl">称号：${a.t}</span></div><div style="font-size:18px">${A[a.id]?'✅':'🔒'}</div></div>`).join('')}</div>
+  <div class="card"><h3>📊 これまでの記録</h3><div class="dRow"><span>遊んだ回数</span><b>${L.games}</b></div><div class="dRow"><span>一番乗り</span><b>${L.wins}</b></div><div class="dRow"><span>総合優勝</span><b>${L.mvp}</b></div><div class="dRow"><span>温泉</span><b>${L.onsen}回</b></div><div class="dRow"><span>セルフ散歩</span><b>${L.walks}回</b></div><div class="dRow"><span>味付けのり</span><b>${L.nori}枚</b></div><div class="dRow"><span>スタンプ</span><b>${L.stamps}個</b></div><div class="dRow"><span>ミッション達成</span><b>${L.missions}回</b></div></div>`;
+  $('#dailyGo').onclick=()=>{SFX.click();startDaily()};
+  $('#yariBody').querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>{
+    const k=b.dataset.buy,M2=meta(),C=COSTUMES[k];if(M2.owned[k]||M2.medals<C.p)return;
+    M2.medals-=C.p;M2.owned[k]=1;store.set(KEY_META,M2);SFX.jackpot();toast(`👕 「${C.n}」をGET！`);
+    const a=ACH.find(x=>x.id==='dress3');if(a.c()&&grantAch(a))toast(`🏅 実績解除！「${a.n}」<br>称号「${a.t}」`);
+    renderYari();
+  });
+}
+function processMeta(){
+  const hum=state.players.filter(p=>!p.isCPU);if(!hum.length)return '';
+  const rows=memRows(),mvp=rows[0].p,w=[...state.players].sort((a,b)=>a.finishOrder-b.finishOrder)[0];
+  const L=life();L.games++;if(!w.isCPU)L.wins++;if(!mvp.isCPU)L.mvp++;
+  hum.forEach(p=>{L.onsen+=p.stats.onsen||0;L.walks+=p.stats.walks||0;L.nori+=p.stats.noriTotal||0;L.stamps+=Object.keys(p.stamps||{}).length;L.owners+=p.stats.shops||0;L.missions+=p.missionsDone||0;if(p.firstClass)L.first++});
+  let medals=0;hum.forEach(p=>{medals+=Math.floor(rows.find(r=>r.p===p).t/10)});
+  if(!w.isCPU)medals+=5;if(!mvp.isCPU)medals+=5;
+  let dl='';
+  if(state.daily){const D=store.get(KEY_DAILY)||{},k=state.daily,sc=rows.find(r=>r.p===hum[0]).t,rec=D[k]||{best:0,plays:0},first=rec.plays===0;rec.plays++;const nb=sc>rec.best;if(nb)rec.best=sc;D[k]=rec;store.set(KEY_DAILY,D);L.daily++;L.dailyDays=L.dailyDays||[];if(!L.dailyDays.includes(k))L.dailyDays.push(k);if(first)medals+=10;
+    dl=`<div class="dRow"><span>📅 デイリー（${k.slice(5).replace('-','/')}）</span><b>${sc}pt${nb?' 🎉自己ベスト':`（ベスト${rec.best}）`}</b></div>${first?'<div class="dRow"><span>デイリー初回ボーナス</span><b>+10</b></div>':''}`}
+  store.set(KEY_LIFE,L);
+  const M=meta();M.medals+=medals;store.set(KEY_META,M);
+  const G={hum,w,mvp,players:state.players,cpus:state.players.filter(p=>p.isCPU).length,level:RULE('cpuLevel')};
+  const newA=ACH.filter(a=>{try{return !achGot()[a.id]&&a.c(L,G)}catch(e){return false}}).filter(a=>grantAch(a));
+  const M2=meta();
+  return `<div class="card" style="margin:12px 0"><h3>🎖️ やり込み</h3><div class="dRow"><span>思い出メダル</span><b>+${medals+newA.length*5}（所持 ${M2.medals}）</b></div>${dl}
+  ${newA.length?`<div style="margin-top:8px;font-weight:800">🏅 新しい実績</div>${newA.map(a=>`<div class="achRow"><div class="ai">${a.i}</div><div class="at"><b>${a.n}</b><br>称号「${a.t}」が使えるようになったバウ</div></div>`).join('')}`:''}</div>`;
+}
+let lastMetaHtml='';
+function renderAlbum(){
+  const A=store.get(KEY_ALBUM)||{},got=PHOTOS.filter(x=>A[x.id]).length;
+  $('#albumBody').innerHTML=`<div class="card"><h3>📸 思い出アルバム ${got}/${PHOTOS.length}</h3><div class="albBar"><i style="width:${Math.round(got/PHOTOS.length*100)}%"></i></div><p class="muted" style="font-size:13px;margin:8px 0 0;line-height:1.6">旅の名場面に出会うと写真が増えていきます。CPUパグの場面は入りません。</p></div>
+  <div class="album">${PHOTOS.map(x=>A[x.id]?`<div class="ph"><div class="phPic">${x.e}</div><b>${x.name}</b><small>${new Date(A[x.id]).toLocaleDateString('ja-JP')}</small></div>`:`<div class="ph lock"><div class="phPic">？</div><b>？？？</b><small>ヒント：${x.hint}</small></div>`).join('')}</div>`;
+}
+
+/* ---------- events ---------- */
+async function onsenBath(p,kicker){
+  const b=2*(state.weather==='rain'?2:1)+(p.breed==='white'?1:0);
+  p.stats.onsen++;p.nextBonus+=b;SFX.onsen();photo(p,'onsen');
+  await say(p,{kicker:kicker||'♨ 温泉',emoji:'♨️',title:'いい湯だバウ～～',text:`ふぅ～～～。体の芯からほっこり。次のターン出目+${b}！${state.weather==='rain'?'（雨の日の温泉は格別）':''}${p.breed==='white'?'（温泉マスター）':''}`,face:'onsen',delay:1700});
+}
+async function doWalk(p){
+  p.stats.walks++;
+  const fwd=p.breed==='apricot'||rand()<.75,n=fwd?rr(1,6):rr(1,3);
+  await say(p,{kicker:'🐾 セルフ散歩',emoji:'🐾',title:'パグが勝手に散歩に行った！',text:'飼い主に黙ってお出かけバウ。どこまで行ったのかわからない！',face:'proud'});
+  await moveSteps(p,fwd?n:-n,'とことこ……（セルフ散歩中）');
+  if(p.finished)return;
+  if(fwd)p.stats.longestWalk=Math.max(p.stats.longestWalk,n);
+  if(fwd&&n===6){photo(p,'walk6');commentate(`${p.name}、セルフ散歩で6マスの大冒険！`,3)}
+  await say(p,{emoji:fwd?'🐾':'❓',title:fwd?`${n}マス先で発見されたバウ！`:`逆方向に${n}マス歩いてた…`,text:fwd?'得意げな顔でしっぽフリフリ。':'迷子パグになっちゃったバウ。',face:fwd?'proud':'trouble',tone:fwd?'good':'bad'});
+  if(rand()<.38){
+    if(rand()<.5)await onsenBath(p,'🐾 散歩中に温泉を発見！');
+    else{const k=rr(1,2);addNori(p,k);SFX.good();await say(p,{kicker:'🐾 セルフ散歩',emoji:NORI,title:'味付けのりを拾った！',text:`のりGETバウ！ 味付けのり+${k}枚`,face:'joy'})}
+  }
+}
+async function pagkiFly(p,n,depth){
+  await moveOrWarp(p,n);
+  if(!p.finished&&depth<1)await landing(p,depth+1);
+}
+async function moveOrWarp(p,n){await warpTo(p,Math.max(0,p.pos+n))}
+async function godBonus(p,title,kicker,depth){
+  SFX.jackpot();const r=rint(6);photo(p,'god');commentate(`${p.name}にパグ神が降臨！`,8);
+  const base={kicker,emoji:'✨',title,face:'joy',tone:'jackpot'};
+  if(r===0){await say(p,{...base,text:'パグ神の追い風！10マス進むバウ！'});await moveSteps(p,10,'びゅーん！')}
+  else if(r===1){giveItem(p,'ticket');await say(p,{...base,text:'タダ旅行券をさずかった！'})}
+  else if(r===2){addBau(p,3000);await say(p,{...base,text:'3000バウをさずかった！'})}
+  else if(r===3){addNori(p,10);await say(p,{...base,text:'味付けのり10枚！のり天国バウ！'})}
+  else if(r===4&&depth<1){await say(p,{...base,text:'もう一度サイコロを振れるバウ！'});await rollAndMove(p,depth+1)}
+  else{
+    const i=nextOfType(fromPos(p),'pagki',40);
+    if(i<0||r===4){addBau(p,2000);await say(p,{...base,text:'2000バウをさずかった！'})}
+    else{await say(p,{...base,text:'近くのぱぐーきマスへ案内してくれるバウ！'});await warpTo(p,i);if(!p.finished)await pagkiEvent(p,1)}
+  }
+}
+async function pagkiEvent(p,depth){
+  const fwd=p.breed==='gray'||rand()<.8,n=fwd?rr(2,8):rr(2,4);
+  await say(p,{kicker:'✈ ぱぐーき',emoji:'✈️',title:fwd?'ぱぐーきに乗ったバウ！':'逆方向の便だった…！',text:fwd?`${n}マス先へひとっ飛び！`:`${n}マス戻されたバウ…`,face:fwd?'joy':'trouble',tone:fwd?'good':'bad'});
+  await moveOrWarp(p,fwd?n:-n);
+}
+async function majorEvent(p,m,depth){
+  const sp=SPOTS[m],k=`${sp.emoji} ${sp.name}`;
+  switch(sp.key){
+  case 'airport':await say(p,{kicker:k,emoji:'✈️',title:'那覇空港に戻されちゃった…',text:'まだ一周していないバウ！気を取り直して再出発！',face:'trouble',tone:'neutral'});break;
+  case 'pmm':
+    if(rand()<.2){await say(p,{kicker:k,emoji:'🐠',title:'パグ、水族館に夢中！',text:'魚を見すぎて動けない…1ターン休憩バウ。',face:'trouble',tone:'bad'});if(await badGuard(p,'1ターン休憩'))p.skip++}
+    else{p.nextBonus+=1;SFX.good();await say(p,{kicker:k,emoji:'🐠',title:'パグ、水族館に夢中！',text:'わくわくが止まらない！次のターン出目+1バウ！',face:'smile'})}
+    break;
+  case 'kokusai':
+    if(rand()<.5){const c=Math.min(p.bau,rr(1,5)*100);p.bau-=c;await say(p,{kicker:k,emoji:'🛍️',title:'お土産を買ったバウ！',text:`紅いもタルトにちんすこう…つい${c}バウ使っちゃった。`,face:'proud',tone:'neutral'})}
+    else{addNori(p,2);SFX.good();await say(p,{kicker:k,emoji:NORI,title:'味付けのり専門店発見！',text:'のりGETバウ！ 味付けのり+2枚',face:'joy'})}
+    break;
+  case 'akamine':
+    await say(p,{kicker:k,emoji:'🌀',title:'台風接近！',text:'でも赤嶺パグオンは営業中バウ！次のパグは1回休みになるかも…',face:'proud',tone:'neutral'});
+    await applyTyphoon(p);break;
+  case 'shimapan':{
+    const r=rand();
+    if(r<.45){p.nextBonus+=1;const it=pick(['nori','omamori','dice','rail']);giveItem(p,it,1);SFX.good();await say(p,{kicker:k,emoji:'🥐',title:'焼きたてパンGET！',text:`沖縄で1番のパンでパワー満タン！次の出目+1、おまけで${ITEMS[it].name}ももらったバウ！`,face:'joy'})}
+    else if(r<.8){p.buffs.push({label:'パンパワー',add:1,turns:2});SFX.good();await say(p,{kicker:k,emoji:'🍞',title:'ふわふわ食パンを買った！',text:'腹持ちばっちり。次の2ターン出目+1バウ。',face:'smile'})}
+    else{await say(p,{kicker:k,emoji:'🥖',title:'大行列！',text:'焼きたてを待って並んでいたら1ターン休みバウ…',face:'trouble',tone:'bad'});if(await badGuard(p,'行列で1回休み'))p.skip++}
+    break;}
+  case 'cafe':{
+    const price=priceFor(p,2000),can=p.bau>=price;
+    const cp=can&&(RULE('cpuLevel')==='hard'?p.bau>=3000:RULE('cpuLevel')==='normal'?rand()<.6:rand()<.4);
+    const v=await say(p,{kicker:k,emoji:'☕',title:'ぱぐかふぇに入る？',text:`1時間${price}バウでパグと触れ合える癒しのお店。（所持 ${p.bau.toLocaleString()}バウ）`,face:'smile',buttons:[{label:'入る！',sub:`${price}バウ`,value:true,disabled:!can},{label:'外からのぞくだけ',value:false,cls:'ghost'}],cpuPick:cp});
+    if(v){photo(p,'cafe');p.bau-=price;p.buffs.push({label:'癒しパワー',add:1,turns:3});giveItem(p,'omamori',1);SFX.jackpot();await say(p,{kicker:k,emoji:'💞',title:'パグにもふもふ癒された～',text:'次の3ターン出目+1、パグのお守りももらったバウ！',face:'onsen',tone:'jackpot'})}
+    else await say(p,{kicker:k,emoji:'☕',title:'窓からのぞいた…',text:can?'今日はがまん。中のパグたちが手を振ってくれたバウ。':'バウが足りないバウ…またこんど！',face:'normal',tone:'neutral',delay:1100});
+    break;}
+  case 'misaki':{
+    const price=priceFor(p,300),can=p.bau>=price;
+    const v=await say(p,{kicker:k,emoji:'🗼',title:'灯台に登る？',text:`登るには${price}バウ必要。（所持 ${p.bau.toLocaleString()}バウ）`,face:'smile',buttons:[{label:'登る！',sub:`${price}バウ`,value:true,disabled:!can},{label:'下から見上げる',value:false,cls:'ghost'}],cpuPick:can&&RULE('cpuLevel')!=='easy'});
+    if(!v){await say(p,{kicker:k,emoji:'🗼',title:'灯台を見上げた',text:'いつか登ってみたいバウ…',face:'normal',tone:'neutral',delay:1000});break}
+    p.bau-=price;SFX.good();photo(p,'misaki');
+    const r=rand();
+    if(r<.35){const i=nextOfType(fromPos(p),'onsen',30);await say(p,{kicker:k,emoji:'♨️',title:'てっぺんから温泉の湯けむりを発見！',text:i>=0?'走って温泉へ直行バウ！':'その場で足湯を楽しんだバウ。',face:'joy'});if(i>=0)await warpTo(p,i);if(!p.finished)await onsenBath(p,k)}
+    else if(r<.7){await say(p,{kicker:k,emoji:'✈️',title:'ぱぐーきが手を振ってる！',text:'灯台から飛び乗って6マス先へ！',face:'joy',tone:'jackpot'});await moveOrWarp(p,6)}
+    else{p.nextBonus+=2;await say(p,{kicker:k,emoji:'🌅',title:'絶景バウ～～！',text:'心が満たされた。次の出目+2！',face:'joy'})}
+    break;}
+  case 'ryupug':{
+    const r=rand();
+    await say(p,{kicker:k,emoji:'🏮',title:'琉球時代にタイムスリップ！',text:'三線の音が聞こえる…ここはどこバウ？',face:'smile',delay:1100});
+    if(r<.45){photo(p,'treasure');addBau(p,800);SFX.good();await say(p,{kicker:k,emoji:'💰',title:'琉球の宝物を発見！',text:'800バウ相当のお宝バウ！',face:'joy'})}
+    else if(r<.8){SFX.good();await say(p,{kicker:k,emoji:'🛤️',title:'昔の近道を発見！',text:'石畳の道で4マス進むバウ！',face:'proud'});await moveSteps(p,4,'とことこ（石畳）……')}
+    else{await say(p,{kicker:k,emoji:'🌀',title:'時代を戻りすぎた！',text:'迷子になって3マス後退バウ…',face:'trouble',tone:'bad'});if(await badGuard(p,'タイムスリップで後退'))await moveSteps(p,-3)}
+    break;}
+  case 'kuina':{
+    const r=rint(3);SFX.jackpot();photo(p,'kuina');
+    await say(p,{kicker:k,emoji:'🐦',title:'ヤンパグクイナに会えた！',text:'世界にここにしかいない貴重なヤンパグクイナ。プロ意識の高いファンサービスが始まった！',face:'joy',tone:'jackpot',delay:1300});
+    if(r===0){await say(p,{kicker:k,emoji:'🐦',title:'全力ダッシュで道案内！',text:'クイナについて5マス進むバウ！',face:'joy'});await moveSteps(p,5,'ぴょこぴょこ……')}
+    else if(r===1){addNori(p,3);await say(p,{kicker:k,emoji:NORI,title:'お気に入りののりをプレゼント！',text:'のりGETバウ！ 味付けのり+3枚',face:'joy'})}
+    else{addBau(p,700);p.nextBonus+=1;await say(p,{kicker:k,emoji:'📸',title:'決めポーズで記念撮影！',text:'写真が大人気で700バウ、さらに次の出目+1！',face:'joy'})}
+    break;}
+  case 'kingpugs':{
+    const r=rand();
+    if(r<.25&&p.bau>=300){p.bau-=300;addBau(p,1300);SFX.jackpot();await say(p,{kicker:k,emoji:'🌮',title:'大盛りチャレンジ成功！',text:'300バウで挑戦して賞金1300バウ！おなかもパンパンバウ。',face:'joy',tone:'jackpot'})}
+    else{p.buffs.push({label:'タコスパワー',add:1,turns:2});SFX.good();await say(p,{kicker:k,emoji:'🌮',title:'パグタコスをほおばった！',text:'アメリカ生まれ（っぽい）味でスタミナ満点。次の2ターン出目+1！',face:'joy'})}
+    break;}
+  case 'castle':
+    addBau(p,1000);SFX.good();await say(p,{kicker:k,emoji:'👑',title:'パグ王からご褒美！',text:'1000バウもらったバウ！',face:'joy'});
+    if(rand()<.12&&depth<1){SFX.jackpot();await say(p,{kicker:k,emoji:'👑',title:'パグ王の気まぐれ！',text:'好きな場所へワープしてよいぞ、とのお言葉！',face:'joy',tone:'jackpot'});await warpChoose(p,'パグ王の気まぐれワープ',depth)}
+    break;
+  case 'village':{
+    const r=rint(4);
+    if(r===0){addBau(p,500);await say(p,{kicker:k,emoji:'🎡',title:'パグのお店を発見！',text:'お店のお手伝いで500バウGET！',face:'smile'})}
+    else if(r===1){addNori(p,1);await say(p,{kicker:k,emoji:NORI,title:'パグのお店を発見！',text:'試食の味付けのりをもらった！のり+1',face:'joy'})}
+    else if(r===2){giveItem(p,'dice');await say(p,{kicker:k,emoji:'🎲',title:'パグのお店を発見！',text:'サイコロ+1をもらったバウ！',face:'smile'})}
+    else await say(p,{kicker:k,emoji:'🎡',title:'パグのお店を発見！',text:'…見るだけで満足したバウ。何も起きない。',face:'normal',tone:'neutral'});
+    break;}
+  case 'kabo':p.nextBonus+=2;SFX.good();await say(p,{kicker:k,emoji:'🎃',title:'揚げたて発見！',text:'かぼちゃのサーターアンダギー、おいしいバウ～～！次のターン出目+2',face:'joy'});break;
+  case 'raipug':await shop(p,k);break;
+  case 'nason':{
+    if(rand()<.12){giveItem(p,'ticket');SFX.jackpot();await say(p,{kicker:k,emoji:'🎫',title:'海でタダ旅行券を発見！',text:'砂浜にキラリ…ラッキーバウ！',face:'joy',tone:'jackpot'})}
+    const n=rr(1,3)+(state.weather==='sun'?2:0);await say(p,{kicker:k,emoji:'🏖️',title:'海がきれいバウ！',text:`波打ち際ではしゃいで${n}マス進む！`,face:'smile'});
+    await moveSteps(p,n,'ぱしゃぱしゃ……');break;}
+  case 'pago':
+    if(rand()<.55){SFX.good();await say(p,{kicker:k,emoji:'⚾',title:'ホームラン！',text:'大興奮で3マス進むバウ！',face:'joy'});await moveSteps(p,3,'わっしょい……')}
+    else{await say(p,{kicker:k,emoji:'⚾',title:'延長戦！',text:'最後まで見届けるので1ターン休みバウ。',face:'trouble',tone:'bad'});if(await badGuard(p,'延長戦で1回休み'))p.skip++}
+    break;
+  case 'japagria':await japagria(p,k,depth);break;
+  case 'chura':photo(p,'jinbei');commentate(`${p.name}がジンベイパグを発見！大当たり！`,6);addBau(p,1000);addNori(p,2);giveItem(p,'dice');SFX.jackpot();await say(p,{kicker:k,emoji:'🦈',title:'ジンベイパグ発見！',text:'大当たり！ 1000バウ・味付けのり+2・サイコロ+1をGET！',face:'joy',tone:'jackpot'});break;
+  case 'sekirin':
+    p.buffs.push({label:'パグパワー',add:1,turns:3});SFX.good();
+    await say(p,{kicker:k,emoji:'⛰️',title:'パグパワーを受け取った！',text:'次の3ターン、出目+1バウ。',face:'proud'});
+    if(rand()<.1&&depth<1){SFX.jackpot();await say(p,{kicker:k,emoji:'✨',title:'パグ神の力！',text:'好きな場所へワープできるバウ！',face:'joy',tone:'jackpot'});await warpChoose(p,'パグ神の力でワープ',depth)}
+    break;
+  case 'nuchimasu':giveItem(p,'salt');SFX.good();await say(p,{kicker:k,emoji:'🧂',title:'天然塩をGET！',text:'ミネラルたっぷり。悪いイベントを1回無効化できるバウ。',face:'smile'});break;
+  case 'kudaka':await godBonus(p,'パグ神降臨！',k,depth);break;
+  case 'utaki':p.buffs.push({label:'うたきパワー',add:2,turns:3});SFX.good();await say(p,{kicker:k,emoji:'🌿',title:'パグのパワーがみなぎってきた！',text:'次の3ターン、出目+2バウ！',face:'proud'});break;
+  case 'ou':SFX.good();await say(p,{kicker:k,emoji:'🍤',title:'天ぷらパーティー！',text:'満腹でひと休み…のはずが「おかわりボーナス」！5マス進むバウ！',face:'joy'});await moveSteps(p,5,'もぐもぐ……てくてく');break;
+  case 'senaga':{const n=rr(5,10);SFX.jackpot();await say(p,{kicker:k,emoji:'✈️',title:'ぱぐーきが飛んできた！',text:`ぱぐーきに乗って${n}マスワープ！`,face:'joy',tone:'jackpot'});await moveOrWarp(p,n);break;}
+  }
+}
+const SHOP=[{k:'nori',price:200},{k:'ticket',price:1500},{k:'dice',price:400},{k:'omamori',price:500},{k:'rail',price:600}];
+async function shop(p,k){
+  const list=SHOP.map(it=>({...it,price:priceFor(p,it.price)}));
+  const btns=list.map(it=>({label:`${ITEMS[it.k].icon} ${ITEMS[it.k].name}`,sub:`${it.price}バウ${p.breed==='silver'?'（2割引）':''}`,value:it.k,disabled:p.bau<it.price,cls:''}));
+  btns.push({label:'何も買わない',value:null,cls:'ghost'});
+  let cpuPick=null;
+  if(p.isCPU){const aff=list.filter(it=>p.bau>=it.price);if(aff.length){if(RULE('cpuLevel')==='hard')cpuPick=(aff.find(i=>i.k==='ticket')||aff.find(i=>i.k==='dice')||aff[0]).k;else if(RULE('cpuLevel')==='normal')cpuPick=pick(aff).k;else cpuPick=rand()<.5?pick(aff).k:null}}
+  const v=await say(p,{kicker:k,emoji:'🏬',title:'何を買う？',text:`所持 ${p.bau.toLocaleString()}バウ`,face:'smile',buttons:btns,cpuPick,delay:1800,list:true});
+  if(v){const it=list.find(i=>i.k===v);p.bau-=it.price;giveItem(p,v,1);SFX.good();await say(p,{kicker:k,emoji:typeof ITEMS[v].icon==='string'&&ITEMS[v].icon.startsWith('<')?NORI:ITEMS[v].icon,title:`${ITEMS[v].name}を買ったバウ！`,face:'joy',delay:1100})}
+}
+const ROUL=[{icon:'👣',label:'1マス'},{icon:'👣',label:'1マス'},{icon:'🏃',label:'3マス'},{icon:'🏃',label:'3マス'},{icon:'🚀',label:'5マス'},{icon:'🎫',label:'タダ旅行券'},{icon:'🟩',label:'のり5枚'},{icon:'🌀',label:'好きな場所'}];
+async function japagria(p,k,depth){
+  showModalHtml(`<div class="ev ev-jackpot"><div class="kicker">${k}</div><div class="evPug">${pugP(p,'joy',90)}<span class="evEmoji">🦖</span></div><h3>ジャパグリア大興奮！</h3><div class="roul">${ROUL.map((r,i)=>`<div class="rc" id="rc${i}"><b>${i+1}</b><span>${r.icon}</span><small>${r.label}</small></div>`).join('')}</div><div class="roulMsg" id="roulMsg">ルーレットスタート！</div></div>`);
+  p.face='joy';renderHud();
+  const res=rint(8),steps=16+res;
+  for(let s=0;s<=steps;s++){
+    document.querySelectorAll('.rc').forEach(e=>e.classList.remove('hi'));
+    const e=document.getElementById('rc'+(s%8));if(e)e.classList.add('hi');
+    tone(700+(s%8)*60,.04,'square',.04);
+    await wait(D(45+s*s*.55));
+  }
+  const m=document.getElementById('roulMsg');if(m)m.textContent=`${res+1}番「${ROUL[res].label}」！`;
+  SFX.jackpot();await wait(Math.max(D(1100),RD(2400)));closeModal();
+  if(res<=1)await moveSteps(p,1);
+  else if(res<=3)await moveSteps(p,3);
+  else if(res===4)await moveSteps(p,5,'ダッシュ！');
+  else if(res===5){giveItem(p,'ticket');await say(p,{kicker:k,emoji:'🎫',title:'タダ旅行券をGET！',face:'joy',tone:'jackpot',delay:1100})}
+  else if(res===6){addNori(p,5);await say(p,{kicker:k,emoji:NORI,title:'味付けのり5枚！',text:'のりGETバウ！',face:'joy',tone:'jackpot',delay:1100})}
+  else if(depth<1){photo(p,'roulette8');commentate(`ジャパグリアのルーレット8番！${p.name}は好きな場所へ！`,6);await warpChoose(p,'ジャパグリアワープ！',depth)}
+  else{addBau(p,1000);await say(p,{kicker:k,emoji:'💰',title:'1000バウGET！',face:'joy',delay:1100})}
+}
+async function landing(p,depth){
+  if(p.finished||state.over)return;
+  const s=BOARD[p.pos];p.stats.events++;
+  if(p.pos===0&&depth===0&&p.stats.dist===0)return;
+  if(p.pos===0&&p.lapLand){p.lapLand=false;return}
+  const typ=p.br!=null?BRANCH.types[p.br]:s.type;
+  if(p.br==null&&s.type==='major'){
+    const key=SPOTS[s.major].key;
+    addStamp(p,key);
+    if(p.mission&&p.mission.t==='land'&&p.mission.target===key)await completeMission(p);
+    if(STORES[key])await storeOwner(p,key);
+    if(p.finished||state.over)return;
+    return majorEvent(p,s.major,depth);
+  }
+  const kick=p.br!=null?`⛰️ 山道・${SQ_TYPES[typ].name}`:`${SQ_TYPES[typ].icon} ${SQ_TYPES[typ].name}`;
+  switch(typ){
+  case 'blue':{let v=rr(1,5)*100;if(p.lucky)v+=100;if(state.weather==='sun')v=Math.round(v*1.5);addBau(p,v);SFX.good();await say(p,{kicker:kick,emoji:'💰',title:`${v}バウGET！`,text:p.lucky?'ラッキーパグなのでちょっと多めバウ！':'いいことあったバウ！',face:'smile',delay:1100});break}
+  case 'red':{
+    const r=rint(3);
+    if(r===0){const v=rr(1,4)*100;await say(p,{kicker:kick,emoji:'💸',title:'スコールで財布がびしょぬれ！',text:`${v}バウが乾かず使えなくなっちゃう…`,face:'trouble',tone:'bad'});if(await badGuard(p,'バウ減少'))p.bau=Math.max(0,p.bau-v)}
+    else if(r===1){await say(p,{kicker:kick,emoji:'💤',title:'木陰でうっかり昼寝…',text:'1ターン休みバウ。',face:'sleep',tone:'bad'});if(await badGuard(p,'1回休み'))p.skip++}
+    else{const n=rr(1,3);await say(p,{kicker:kick,emoji:'❓',title:'道に迷った！',text:`${n}マス後退バウ…`,face:'trouble',tone:'bad'});if(await badGuard(p,'後退'))await moveSteps(p,-n)}
+    break}
+  case 'green':{const it=pick(['nori','salt','dice','omamori','pagki','onsenken','nori','dice','rail']);giveItem(p,it,1);SFX.good();await say(p,{kicker:kick,emoji:it==='nori'?NORI:ITEMS[it].icon,title:`${ITEMS[it].name}をGET！`,text:ITEMS[it].desc,face:'smile'});break}
+  case 'onsen':await say(p,{kicker:kick,emoji:'♨️',title:'パグ、温泉を発見！',text:'これは入るしかないバウ！',face:'smile',delay:1000});await onsenBath(p,kick);break;
+  case 'walk':await doWalk(p);break;
+  case 'pagki':await pagkiEvent(p,depth);break;
+  case 'typhoon':await say(p,{kicker:kick,emoji:'🌀',title:'台風発生！',text:'次のパグは1回休みになるバウ…',face:'trouble',tone:'neutral'});await applyTyphoon(p);break;
+  case 'nori':{const n=rr(1,3);addNori(p,n);SFX.good();await say(p,{kicker:kick,emoji:NORI,title:'のりGETバウ！',text:`味付けのり+${n}枚`,face:'joy',delay:1100});break}
+  case 'tada':
+    if(rand()<.35){giveItem(p,'ticket');SFX.jackpot();await say(p,{kicker:kick,emoji:'🎫',title:'タダ旅行券が当たった！',text:'好きなマスへワープできるバウ！',face:'joy',tone:'jackpot'})}
+    else{addBau(p,100);await say(p,{kicker:kick,emoji:'🎫',title:'抽選はハズレ…',text:'参加賞の100バウをもらったバウ。',face:'normal',tone:'neutral',delay:1100})}
+    break;
+  case 'god':await godBonus(p,'パグ神マス！超ラッキー！',kick,depth);break;
+  }
+}
+async function randomEvent(p){
+  const K='🎲 パグ旅ランダムイベント',r=rand();
+  if(r<.16){SFX.good();await say(p,{kicker:K,emoji:'✈️',title:'突然、ぱぐーきが現れた！',text:'乗せてもらって5マス進むバウ！',face:'joy'});await moveOrWarp(p,5)}
+  else if(r<.32){addNori(p,5);SFX.jackpot();await say(p,{kicker:K,emoji:NORI,title:'味付けのりを大量発見！',text:'のり+5枚！のりGETバウ！',face:'joy',tone:'jackpot'})}
+  else if(r<.50){await doWalk(p)}
+  else if(r<.64){const i=nextOfType(fromPos(p),'onsen',25);await say(p,{kicker:K,emoji:'♨️',title:'温泉旅館を発見！',text:i>=0?'近くの温泉へワープするバウ！':'その場でひとっ風呂！',face:'smile'});if(i>=0)await warpTo(p,i);if(!p.finished)await onsenBath(p)}
+  else if(r<.76){giveItem(p,'ticket');SFX.jackpot();await say(p,{kicker:K,emoji:'🎫',title:'タダ旅行キャンペーン！',text:'タダ旅行券をもらったバウ！',face:'joy',tone:'jackpot'})}
+  else if(r<.90){if(p.breed==='black'){await say(p,{kicker:K,emoji:'🖤',title:'台風が来た！…けど',text:'黒パグは台風に強い！お休みなしバウ。',face:'proud',tone:'neutral'})}else{await say(p,{kicker:K,emoji:'🌀',title:'台風が来た！',text:'1ターン休みバウ…',face:'trouble',tone:'bad'});if(await badGuard(p,'台風の1回休み'))p.skip++}}
+  else await godBonus(p,'パグ神のお告げ',K,1);
+}
+async function checkMilestones(p){
+  if(p.finished||state.over)return;
+  await checkSets(p);await checkMission(p);
+  if(p.finished||state.over)return;
+  const n=p.items.nori,m=p.milestones;
+  if(n>=3&&!m[3]){m[3]=1;p.nextBonus+=1;SFX.good();await say(p,{kicker:'🍙 のりボーナス',emoji:NORI,title:'味付けのり3枚達成！',text:'次の出目+1バウ！',face:'smile',delay:1100})}
+  if(n>=5&&!m[5]){m[5]=1;p.doubleRoll=true;SFX.good();await say(p,{kicker:'🍙 のりボーナス',emoji:NORI,title:'味付けのり5枚達成！',text:'次のターンはサイコロを2回振れるバウ！',face:'joy',delay:1200})}
+  if(n>=10&&!m[10]){m[10]=1;photo(p,'norigod');commentate(`のり神パグ誕生！${p.name}が味付けのり10枚！`,7);giveItem(p,'ticket');addBau(p,2000);SFX.jackpot();await say(p,{kicker:'🍙 のりボーナス',emoji:'👑',title:'のり神パグ誕生！',text:'味付けのり10枚！タダ旅行券と2000バウをさずかった！',face:'joy',tone:'jackpot'})}
+}
+async function maybeUnderdog(p){
+  const act=state.players.filter(x=>!x.finished);if(act.length<2)return;
+  const minPos=Math.min(...act.map(prog)),maxPos=Math.max(...act.map(prog));
+  if(prog(p)!==minPos||maxPos-prog(p)<8||rand()>=.22)return;
+  const r=rand();let text;
+  if(r<.35){p.nextBonus+=3;text='応援パワーで次の出目+3バウ！'}
+  else if(r<.6)text='応援ぱぐーきで5マスワープ！';
+  else if(r<.85){addNori(p,5);text='差し入れの味付けのり+5枚！'}
+  else{giveItem(p,'ticket');text='応援のタダ旅行券をプレゼント！'}
+  SFX.jackpot();
+  await say(p,{kicker:'📣 最下位救済ボーナス',emoji:'📣',title:'最後尾パグ応援キャンペーン！',text,face:'joy',tone:'jackpot'});
+  if(r>=.35&&r<.6)await warpTo(p,p.pos+5);
+  await checkMilestones(p);
+}
+
+/* ---------- turn flow ---------- */
+async function rollAndMove(p,depth){
+  const nd=1+(p.extraDie||0)+(p.doubleRoll&&depth===0?1:0);
+  if(depth===0)p.doubleRoll=false;
+  p.extraDie=0;
+  const vals=[];for(let i=0;i<nd;i++)vals.push(i===0&&p.omamoriActive?rr(4,6):rr(1,6));
+  p.omamoriActive=false;
+  const mods=[];
+  if(depth===0){
+    if(p.nextBonus)mods.push(['ボーナス',p.nextBonus]);
+    p.buffs.forEach(b=>mods.push([b.label,b.add]));
+    if(p.lucky&&rand()<.15)mods.push(['🍀ラッキー',1]);
+    if(state.weather==='rainbow')mods.push(['🌈虹',1]);
+    if(state.spurt){const act=state.players.filter(x=>!x.finished);if(prog(p)<Math.max(...act.map(prog)))mods.push(['🔥追い上げ風',1])}
+    p.nextBonus=0;p.buffs.forEach(b=>b.turns--);p.buffs=p.buffs.filter(b=>b.turns>0);
+    p.stats.turns++;
+  }
+  const total=vals.reduce((a,b)=>a+b,0)+mods.reduce((a,m)=>a+m[1],0);
+  renderHud();
+  await showDice(vals,mods,total);
+  await moveSteps(p,total);
+  if(p.finished||state.over)return;
+  await landing(p,depth);
+  if(p.finished||state.over)return;
+  if(depth===0)await encounter(p);
+  if(p.finished||state.over)return;
+  if(depth===0&&RULE('randomEvents')&&rand()<(p.lucky?.17:.12)*(state.spurt?1.8:1))await randomEvent(p);
+  if(p.finished||state.over)return;
+  await checkMilestones(p);
+}
+async function useTicket(p){
+  SFX.jackpot();
+  await say(p,{kicker:'🎫 タダ旅行券',emoji:'🎫',title:'タダ旅行券を使った！',text:RULE('ticketMode')==='random'?'行き先はおまかせ！どこへ行くかな？':'好きなマスへワープできるバウ！',face:'joy',delay:1100});
+  if(RULE('ticketMode')==='random'){await warpTo(p,p.pos+rr(4,14));if(!p.finished)await landing(p,1)}
+  else await warpChoose(p,'タダ旅行！どこへ行く？',0,true);
+}
+async function useOnsenken(p){
+  const i=nextOfType(fromPos(p),'onsen');
+  await say(p,{kicker:'♨️ 温泉券',emoji:'♨️',title:'温泉券を使った！',text:i>=0?'前方の温泉へ直行バウ！':'近くに温泉がないのでその場でひとっ風呂！',face:'smile',delay:1100});
+  if(i>=0)await warpTo(p,i);
+  if(!p.finished)await onsenBath(p,'♨️ 温泉券');
+}
+async function useRail(p){
+  let i=fromPos(p)+1;while(i<N&&BOARD[i].major<0)i++;
+  const nm=i>=N?(isFinalLap(p)?'那覇空港（ゴール）':'那覇空港（次の周へ）'):SPOTS[BOARD[i].major].name;
+  SFX.good();await say(p,{kicker:'🚝 パグレール',emoji:'🚝',title:'パグレールに乗ったバウ！',text:`ガタンゴトン… 次の駅「${nm}」まで直行！（${i-p.pos}マス）`,face:'joy',delay:1200});
+  await warpTo(p,i);
+  if(!p.finished)await landing(p,1);
+}
+async function usePagki(p){
+  const n=rr(3,8);
+  await say(p,{kicker:'✈️ ぱぐーきチケット',emoji:'✈️',title:'ぱぐーきに搭乗！',text:`${n}マス先へひとっ飛びバウ！`,face:'joy',delay:1100});
+  await pagkiFly(p,n,0);
+}
+async function cpuTurn(p){
+  await wait(D(450));
+  const lv=RULE('cpuLevel'),toGoal=remainOf(p);
+  if(p.items.ticket>0){
+    const use=lv==='hard'?(toGoal<=20||rand()<.3):lv==='normal'?(toGoal<=14?rand()<.7:rand()<.12):rand()<.1;
+    if(use){p.items.ticket--;p.stats.freeTrips++;p.stats.turns++;await useTicket(p);await checkMilestones(p);return}
+  }
+  if(p.items.pagki>0&&(lv==='hard'||rand()<(lv==='normal'?.4:.2))){p.items.pagki--;p.stats.turns++;await usePagki(p);await checkMilestones(p);return}
+  if(p.items.rail>0){let i=fromPos(p)+1;while(i<N&&BOARD[i].major<0)i++;const gap=i-p.pos;if(gap>=(lv==='hard'?7:9)&&rand()<(lv==='easy'?.3:.8)){p.items.rail--;p.stats.turns++;await useRail(p);await checkMilestones(p);return}}
+  if(p.items.onsenken>0&&rand()<(lv==='easy'?.1:.3)){p.items.onsenken--;p.stats.turns++;await useOnsenken(p);await checkMilestones(p);return}
+  if(p.items.dice>0&&(lv==='hard'?toGoal>4:rand()<(lv==='normal'?.5:.25))){p.items.dice--;p.extraDie=(p.extraDie||0)+1;await say(p,{emoji:'🎲',title:`${esc(p.name)}はサイコロ+1を使った！`,face:'proud',delay:900})}
+  if(p.items.omamori>0&&rand()<(lv==='easy'?.2:.55)){p.items.omamori--;p.omamoriActive=true;await say(p,{emoji:'🧿',title:`${esc(p.name)}はお守りを使った！`,text:'次の出目は4～6！',face:'proud',delay:900})}
+  await rollAndMove(p,0);
+}
+async function startTurn(){
+  if(!state||state.over)return;
+  const p=cur();
+  if(p.finished)return endTurn();
+  phase='busy';p.face='normal';p.myTurns=(p.myTurns||0)+1;
+  if(TOASTS)TOASTS.q.length=0;
+  saveGame();renderPieces();renderHud();setControls();focusPos(pieceXY(p),true);
+  await wait(D(300));
+  p.prevRank=ranks()[p.id];
+  if(state.wNews){state.wNews=false;const W=WEATHER[state.weather],FW=WEATHER[state.forecast];commentate(`${state.round}日目の天気は${W.i}${W.n}！${W.d}。明日は${FW.i}${FW.n}の予報バウ。`)}
+  if(state.weather==='rainbow')photo(p,'rainbow');
+  await checkSpurt();
+  bgmUpdate();
+  if(!state||state.over)return;
+  if(p.skip>0){p.skip--;await say(p,{emoji:'💤',title:`${esc(p.name)}はお休み中…`,text:'今回は1回休みバウ。zzz…',face:'sleep',tone:'neutral',delay:1200});return endTurn()}
+  if(state.weather==='typhoon'&&rand()<.25){await typhoonGust(p);if(!state||state.over)return;if(p.finished)return endTurn()}
+  if(RULE('underdog'))await maybeUnderdog(p);
+  if(!state||state.over)return;
+  if(p.finished)return endTurn();
+  if(p.isCPU){await cpuTurn(p);endTurn()}
+  else{phase='await';setControls();renderHud();toast(`${esc(p.name)}のばん！サイコロを振ってね`)}
+}
+function endTurn(){
+  if(!state||state.over)return;
+  phase='busy';
+  try{afterTurnCommentary()}catch(e){}
+  const n=state.players.length;let j=state.turn,found=false;
+  for(let k=1;k<=n;k++){j=(state.turn+k)%n;if(!state.players[j].finished){found=true;break}}
+  if(!found){endGame();return}
+  if(j<=state.turn){state.round++;advanceWeather()}
+  state.turn=j;
+  setTimeout(startTurn,D(250));
+}
+async function reachGoal(p){
+  if(p.finished)return;
+  {const canB=p.bau>=1000,canN=p.items.nori>=3;
+   if(canB||canN){const btns=[];if(canN)btns.push({label:'✨ ファーストクラス（のり3枚）',value:2,cls:'gold'});if(canB)btns.push({label:'✨ ファーストクラス（1000バウ）',value:1,cls:'gold'});btns.push({label:'💺 エコノミーでOK',value:0,cls:'ghost'});
+    const v=await say(p,{kicker:'🛫 那覇空港 搭乗手続き',emoji:'🛫',title:'最終便の搭乗手続きバウ！',text:'ファーストクラスにすると思い出ポイント+10！',face:'joy',buttons:btns,cpuPick:canB&&p.bau>=2000?1:(canN?2:0)});
+    if(v===1){p.bau-=1000;p.firstClass=true}else if(v===2){p.items.nori-=3;p.firstClass=true}
+    if(p.firstClass){photo(p,'first');SFX.jackpot()}}}
+  p.goalWeather=state.weather;p.finished=true;p.pos=N;p.br=null;state.finishCount++;p.finishOrder=state.finishCount;p.face='joy';
+  if(p.finishOrder===1)photo(p,'win');
+  commentate(`ゴーール！${p.name}が${p.finishOrder}番乗りで那覇空港に到着！${p.firstClass?'しかもファーストクラス！':''}`,p.finishOrder===1?7:0);
+  renderPieces();renderHud();SFX.goal();
+  const pugs=[0,1,2].map(()=>`<span class="jumpPug" style="animation-delay:${Math.random()*.4}s">${pugP(p,'joy',p.finishOrder===1?110:86)}</span>`).join('');
+  showModalHtml(`<div class="goalWrap"><div style="font-size:15px;font-weight:800">🏁 那覇空港</div><h3>沖縄一周達成バウ～～！！</h3><div>${pugs}</div><p>${esc(p.name)}（${BREEDS[p.breed].name}）${p.finishOrder===1?'が一番乗り！':`が${p.finishOrder}位でゴール！`}</p><button class="btn gold wide" id="goalOk">やったー！</button></div>`);
+  await new Promise(res=>{let done=false;const f=()=>{if(done)return;done=true;closeModal();res()};$('#goalOk').addEventListener('click',f);if(p.isCPU&&S.msgMode!=='tap')setTimeout(f,Math.max(D(2600),RD(4200)))});
+  const rest=state.players.filter(x=>!x.finished);
+  if(rest.length<=1||!rest.some(x=>!x.isCPU)){endGame();return}
+  if(state.finishCount===1){
+    const v=await say(p,{emoji:'🏆',title:'このまま2位以下も決める？',text:'続けると、残りのパグがゴールするまで遊べるバウ。',face:'joy',auto:false,buttons:[{label:'続ける',value:'go'},{label:'結果を見る',value:'end',cls:'ghost'}]});
+    if(v==='end')endGame();
+  }
+}
+function endGame(){
+  if(!state||state.over)return;
+  state.over=true;phase='idle';
+  state.players.filter(x=>!x.finished).sort((a,b)=>prog(b)-prog(a)).forEach(x=>{state.finishCount++;x.finishOrder=state.finishCount});
+  store.del(KEY_SAVE);closeModal();
+  (async()=>{try{await bonusReveal()}catch(e){}
+    updateRanking();try{lastMetaHtml=processMeta()}catch(e){lastMetaHtml=''}RNGS=null;showResult();})();
+}
+
+/* ---------- screens ---------- */
+let prevScreen='scrTitle';
+function show(id){
+  const curS=document.querySelector('.screen.active');
+  if(curS&&curS.id!==id&&(id==='scrHow'||id==='scrSet'))prevScreen=curS.id;
+  document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));
+  if(id==='scrTitle')renderTitle();
+  bgmUpdate();
+}
+function renderTitle(){
+  {const sv=store.get(KEY_SAVE);$('#tContinue').disabled=!(sv&&sv.v===3);}
+  $('#titlePug').innerHTML=pugSVG('fawn','joy',150);
+}
+function renderTitleArt(){
+  $('#titleArt').innerHTML=`<defs><radialGradient id="tSun"><stop offset="0" stop-color="#fffbd0"/><stop offset="1" stop-color="#ffcf3a"/></radialGradient></defs>
+  <circle cx="330" cy="110" r="46" fill="url(#tSun)"/>${cloud(40,90,1.2)}${cloud(250,230,.9)}${cloud(60,330,.7)}${pagkiG(300,410,.85)}
+  <path d="M0 505 Q60 470 130 492 Q200 450 290 486 Q350 470 400 495 L400 800 L0 800Z" fill="#f6e3b0" opacity=".9"/>
+  <path d="M0 515 Q90 488 170 505 Q260 478 400 508 L400 800 L0 800Z" fill="#88d07c" opacity="0"/>
+  ${palm(40,520,1.2)}${palm(360,520,1.1)}${hibiscus(70,690,1.6)}${hibiscus(340,730,1.3,'#ff6b3d')}${hibiscus(200,770,1,'#ff8fb1')}
+  <g stroke="#fff" stroke-opacity=".35" stroke-width="3" fill="none"><path d="M20 600 q15 -8 30 0 t30 0"/><path d="M250 640 q15 -8 30 0 t30 0"/><path d="M120 700 q15 -8 30 0 t30 0"/></g>`;
+}
+function seg(key,opts,cur,disabledFn){return `<div class="seg" data-k="${key}">${opts.map(o=>`<button data-val="${o[0]}" class="${String(o[0])===String(cur)?'on':''}"${disabledFn&&disabledFn(o[0])?' disabled':''}>${o[1]}</button>`).join('')}</div>`}
+function parseVal(v){return v==='true'?true:v==='false'?false:(/^\d+$/.test(v)?+v:v)}
+function bindSegs(root,onChange){root.querySelectorAll('.seg').forEach(sg=>sg.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled)return;SFX.click();S[sg.dataset.k]=parseVal(b.dataset.val);saveSet();onChange&&onChange(sg.dataset.k)}))}
+const setup={humans:[{name:'しろまる',breed:'white'},{name:'くろべえ',breed:'black'},{name:'きなこ',breed:'fawn'},{name:'おまかせ',breed:'random'}]};
+function renderSetup(){
+  if(S.humans+S.cpus>4)S.cpus=4-S.humans;
+  let h=`<div class="card"><div class="setRow"><label>プレイヤー人数</label>${seg('humans',[[1,'1人'],[2,'2人'],[3,'3人'],[4,'4人']],S.humans)}</div>
+  <div class="setRow"><label>CPUパグ</label>${seg('cpus',[[0,'なし'],[1,'1匹'],[2,'2匹'],[3,'3匹']],S.cpus,v=>S.humans+v>4)}<div class="hint">ぜんぶで最大4匹まで。1人ならCPUと対戦できます。</div></div>
+  <div class="setRow"><label>ゲームの長さ</label>${seg('laps',[[1,'1周'],[2,'2周'],[3,'3周']],S.laps)}<div class="hint">那覇空港スタート→沖縄本島を回って→那覇空港ゴール。目安：1周 約20〜30分／2周 約40〜60分／3周 約60〜90分</div></div>
+  <div class="setRow" style="margin:0"><label>CPUの強さ</label>${seg('cpuLevel',[['easy','かんたん'],['normal','ふつう'],['hard','むずかしい']],S.cpuLevel)}</div></div>`;
+  for(let i=0;i<S.humans;i++){
+    const hu=setup.humans[i];
+    h+=`<div class="card pCard" style="--pc:${P_COLORS[i]}"><h3>プレイヤー${i+1}</h3><input maxlength="8" data-name="${i}" value="${esc(hu.name)}" aria-label="プレイヤー${i+1}の名前">
+    <div class="breeds">${BREED_KEYS.map(b=>`<button data-breed="${i}" data-b="${b}" class="${hu.breed===b?'on':''}">${pugSVG(b,'normal',44)}${BREEDS[b].name.replace('パグ','')}</button>`).join('')}<button data-breed="${i}" data-b="random" class="${hu.breed==='random'?'on':''}"><div style="font-size:30px;height:44px;line-height:44px">❓</div>ランダム</button></div><div class="hint" style="margin-top:6px;font-size:13px">${hu.breed==='random'?'🎲 どの得意技になるかはお楽しみ':'⭐ 得意技：'+BREEDS[hu.breed].skill}</div>${setupExtras(i,hu)}</div>`;
+  }
+  h+=`<div class="card"><div class="muted" style="font-size:13px;line-height:1.6">設定：${S.laps||1}周・スピード「${{slow:'ゆっくり',normal:'ふつう',fast:'はやい'}[S.speed]}」・ランダムイベント${S.randomEvents?'ON':'OFF'}・逆転イベント${S.underdog?'ON':'OFF'}</div><button class="btn sm ghost" id="toSet" style="margin-top:8px">設定を変える</button></div>
+  <button class="btn primary wide" id="goStart" style="min-height:60px;font-size:19px">✈️ 那覇空港から出発バウ！</button>`;
+  const body=$('#setupBody');body.innerHTML=h;
+  bindSegs(body,()=>renderSetup());
+  body.querySelectorAll('[data-name]').forEach(inp=>inp.addEventListener('input',()=>{setup.humans[+inp.dataset.name].name=inp.value}));
+  body.querySelectorAll('[data-cos]').forEach(b=>b.addEventListener('click',()=>{SFX.click();setup.humans[+b.dataset.cos].costume=b.dataset.c==='none'?null:b.dataset.c;renderSetup()}));
+  body.querySelectorAll('[data-title]').forEach(sel=>sel.addEventListener('change',()=>{setup.humans[+sel.dataset.title].title=sel.value}));
+  body.querySelectorAll('[data-breed]').forEach(b=>b.addEventListener('click',()=>{SFX.click();setup.humans[+b.dataset.breed].breed=b.dataset.b;renderSetup()}));
+  $('#toSet').onclick=()=>{renderSettings();show('scrSet')};
+  $('#goStart').onclick=()=>{
+    const humans=setup.humans.slice(0,S.humans).map((h,i)=>({name:(h.name||'').trim()||`パグ${i+1}`,breed:h.breed,costume:h.costume,title:h.title}));
+    startNewGame(humans,S.cpus);
+  };
+}
+function setupExtras(i,hu){
+  const M=meta(),own=COSTUME_KEYS.filter(c=>M.owned[c]),T=unlockedTitles(),pb=hu.breed==='random'?'fawn':hu.breed;
+  let h='';
+  if(own.length)h+=`<div style="margin-top:10px;font-weight:800;font-size:14px">👕 着せ替え</div><div class="breeds">${['none',...own].map(c=>`<button data-cos="${i}" data-c="${c}" class="${(hu.costume||'none')===c?'on':''}">${c==='none'?'<div style="font-size:26px;height:44px;line-height:44px">🚫</div>':pugSVG(pb,'normal',44,{costume:c})}${c==='none'?'なし':COSTUMES[c].n.slice(0,6)}</button>`).join('')}</div>`;
+  else h+=`<div class="hint" style="margin-top:8px;font-size:12px">👕 着せ替えは「やり込み」画面でメダルと交換できます</div>`;
+  if(T.length)h+=`<div style="margin-top:10px;font-weight:800;font-size:14px">🏅 称号</div><select class="selT" data-title="${i}"><option value="">称号なし</option>${T.map(t=>`<option value="${esc(t)}"${hu.title===t?' selected':''}>${esc(t)}</option>`).join('')}</select>`;
+  return h;
+}
+function renderSettings(){
+  const b=$('#setBody');
+  b.innerHTML=`<div class="card">
+  <div class="setRow"><label>ゲームの長さ</label>${seg('laps',[[1,'1周'],[2,'2周'],[3,'3周']],S.laps)}<div class="hint">次のゲームから反映。那覇空港スタート→沖縄本島を回って→那覇空港ゴール。目安：1周 約20〜30分／2周 約40〜60分／3周 約60〜90分</div></div>
+  <div class="setRow"><label>ゲームスピード</label>${seg('speed',[['slow','ゆっくり'],['normal','ふつう'],['fast','はやい']],S.speed)}</div>
+  <div class="setRow"><label>メッセージ送り</label>${seg('msgMode',[['normal','ふつう'],['slow','じっくり'],['tap','タップで進む']],S.msgMode)}<div class="hint">CPUのばんのメッセージ・実況・お知らせの表示時間。「タップで進む」は自分でタップするまで待ちます。</div></div>
+  <div class="setRow"><label>BGM</label>${seg('bgm',[[true,'ON'],[false,'OFF']],S.bgm)}<div class="hint">タイトル・旅・雨・台風・ラストスパート・結果・メニューで曲が変わります。</div></div>
+  <div class="setRow"><label>BGMの音量</label>${seg('bgmVol',[['low','小'],['mid','中'],['high','大']],S.bgmVol)}</div>
+  <div class="setRow"><label>効果音</label>${seg('sound',[[true,'ON'],[false,'OFF']],S.sound)}</div>
+  <div class="setRow"><label>ランダムイベント</label>${seg('randomEvents',[[true,'ON'],[false,'OFF']],S.randomEvents)}</div>
+  <div class="setRow"><label>逆転イベント（最下位救済）</label>${seg('underdog',[[true,'ON'],[false,'OFF']],S.underdog)}</div>
+  <div class="setRow"><label>タダ旅行券のワープ先</label>${seg('ticketMode',[['choose','自分で選ぶ'],['random','ランダム']],S.ticketMode)}</div>
+  <div class="setRow" style="margin:0"><label>ゴールのルール</label>${seg('exactGoal',[[false,'通過でOK'],[true,'ぴったり']],S.exactGoal)}<div class="hint">「ぴったり」は出目が多すぎると戻ります。</div></div></div>
+  <div class="card"><h3>CPUの強さ</h3>${seg('cpuLevel',[['easy','かんたん'],['normal','ふつう'],['hard','むずかしい']],S.cpuLevel)}</div>`;
+  bindSegs(b,()=>{renderSettings();if(state)renderHud()});
+}
+function renderHow(){
+  $('#howBody').innerHTML=`<div class="card"><h3>基本の流れ</h3><ol class="howList"><li>サイコロを振る</li><li>出た目だけ進む</li><li>止まったマスのイベントが起きる</li><li>アイテムを上手に使う</li><li>沖縄本島を時計回りに一周する</li><li>那覇空港に最初に戻ったパグが優勝！</li></ol></div>
+  <div class="card"><h3>パグたちの大好きなもの</h3><div class="legend">
+  <div><i style="background:#f97316">♨</i><span><b>温泉</b>：入ると「ふぅ～～～」。次のターン出目+2。</span></div>
+  <div><i style="background:#1d3a2a">の</i><span><b>味付けのり</b>：3枚で出目+1、5枚で次のターン2回振り、10枚で「のり神パグ」！</span></div>
+  <div><i style="background:#e8336d">🎫</i><span><b>タダ旅行券</b>：好きなマスへワープ。ゴール直前なら一気にゴールも！</span></div>
+  <div><i style="background:#8b5cf6">🐾</i><span><b>セルフ散歩</b>：飼い主に黙ってお出かけ。どこまで行くかは運しだい。</span></div></div></div>
+  <div class="card"><h3>マスの種類</h3><div class="legend">${Object.values(SQ_TYPES).map(t=>`<div><i style="background:${t.color}">${t.icon}</i><span><b>${t.name}</b>：${t.desc}</span></div>`).join('')}</div></div>
+  <div class="card"><h3>アイテム</h3><div class="legend">${ITEM_KEYS.map(k=>`<div><span style="font-size:20px;width:26px;text-align:center">${ITEMS[k].icon}</span><span><b>${ITEMS[k].name}</b>：${ITEMS[k].desc}</span></div>`).join('')}</div></div>
+  <div class="card"><h3>観光スポット</h3><div class="legend">${SPOTS.map(s=>`<div><span style="font-size:20px;width:26px;text-align:center">${s.emoji}</span><span><b>${s.name}</b>：${s.desc}</span></div>`).join('')}</div></div>
+  <div class="card"><h3>旅をもっと楽しくするしくみ</h3><div class="legend newSys">
+  <div><span>🛤️</span><span><b>分かれ道</b>：ライパグの先で「海沿いルート（観光地3か所）」か「山道の近道（赤マス・温泉・パグ神マスだらけ）」を選べる。</span></div>
+  <div><span>👃</span><span><b>すれ違いイベント</b>：他のパグと同じマスに止まると、のりの分けあい・横取り・アイテム交換・いっしょに散歩が起きる。</span></div>
+  <div><span>🏪</span><span><b>お店オーナー</b>：パグしまパン・かぼ天仲宗根・ライパグ・ぱぐかふぇ・キングパグス・おー島の経営権を買える。他のパグが止まるたびに売上が入る。</span></div>
+  <div><span>📮</span><span><b>スタンプラリー</b>：観光地を通るとスタンプ。${STAMP_SETS.map(st=>`「${st.name}」`).join('')}のセットでボーナス。</span></div>
+  <div><span>🃏</span><span><b>ひみつミッション</b>：アイテム画面で確認できる自分だけの目標。達成で1000バウ＋アイテム。</span></div>
+  <div><span>☀️</span><span><b>天気</b>：毎日変わり、明日の予報も見える。${Object.values(WEATHER).map(w=>`${w.i}${w.n}＝${w.d}`).join('／')}</span></div>
+  <div><span>⭐</span><span><b>パグの得意技</b>：${BREED_KEYS.map(b=>`${BREEDS[b].name}…${BREEDS[b].skill}`).join('／')}</span></div>
+  <div><span>🔥</span><span><b>ラストスパート</b>：誰かがゴールまで15マスに近づくと最終便アナウンス。先頭以外は出目+1、台風は先頭を直撃。ゴールでファーストクラスに乗ると+10pt。</span></div>
+  <div><span>🔁</span><span><b>ゲームの長さ</b>：スタートの画面で1〜3周を選べる。那覇空港を通るたびに1周クリアで1000バウ。最後の周で那覇空港に戻ったらゴール。</span></div>
+  <div><span>🎁</span><span><b>ボーナス発表</b>：結果画面の前に「温泉王」「散歩王」などから3つを発表し、それぞれ思い出ポイント+10。総合優勝が逆転することも。</span></div>
+  <div><span>👑</span><span><b>総合優勝</b>：一番乗りとは別に、到着順・スタンプ・セット・ミッション・お店・バウを合計した「思い出ポイント」でも表彰。</span></div>
+  <div><span>🎙️</span><span><b>実況パグ</b>：逆転や大当たりの瞬間に実況が入り、結果画面で「今日のベストシーン」を振り返れる。</span></div>
+  <div><span>📸</span><span><b>思い出アルバム</b>：名場面に出会うと写真がたまる。タイトル画面から見られる。</span></div>
+  </div></div>
+  <div class="card"><h3>ちょっとしたコツ</h3><p class="muted" style="margin:0;line-height:1.7;font-size:14px">台風は赤嶺パグオンにいれば平気。天然塩は悪いイベントを自動でブロック。最下位のパグには応援キャンペーンが来ることも。ラッキーパグ🍀は小さなボーナスが出やすい。マップのマスをタップすると説明が見られます。</p></div>`;
+}
+function renderRank(){
+  const R=store.get(KEY_RANK)||{games:0,wins:{}};
+  const wins=Object.entries(R.wins||{}).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const rec=(k,label,unit)=>R[k]?`<tr><td>${label}</td><td>${esc(R[k].name)}</td><td>${R[k].v.toLocaleString()}${unit}</td></tr>`:`<tr><td>${label}</td><td class="muted">まだなし</td><td></td></tr>`;
+  $('#rankBody').innerHTML=`<div class="card"><h3>🏆 優勝回数（${R.games||0}ゲーム）</h3>${wins.length?`<table class="rankTable">${wins.map((w,i)=>`<tr><td>${['🥇','🥈','🥉'][i]||(i+1)+'位'} ${esc(w[0])}</td><td>${w[1]}回</td></tr>`).join('')}</table>`:'<p class="muted">まだ記録がありません。旅に出よう！</p>'}</div>
+  ${(()=>{const mv=Object.entries(R.mvp||{}).sort((a,b)=>b[1]-a[1]).slice(0,8);return `<div class="card"><h3>👑 総合優勝回数（思い出ポイント）</h3>${mv.length?`<table class="rankTable">${mv.map((w,i)=>`<tr><td>${i+1}. ${esc(w[0])}</td><td>${w[1]}回</td></tr>`).join('')}</table>`:'<p class="muted">まだ記録がありません。</p>'}</div>`})()}
+  <div class="card"><h3>📜 パグ記録</h3><table class="rankTable">${rec('maxBau','最高獲得バウ','バウ')}${rec('longestWalk','最長セルフ散歩','マス')}${rec('mostOnsen','温泉最多','回')}${rec('mostNori','味付けのり最多獲得','枚')}${rec('mostFree','タダ旅行最多使用','回')}</table></div>
+  <button class="btn ghost wide" id="rankReset">記録をリセット</button>`;
+  $('#rankReset').onclick=async()=>{if(confirm('ランキングをリセットしますか？')){store.del(KEY_RANK);renderRank()}};
+}
+function updateRanking(){
+  const R=store.get(KEY_RANK)||{games:0,wins:{}};R.wins=R.wins||{};R.games=(R.games||0)+1;
+  const w=state.players.find(p=>p.finishOrder===1);
+  if(w){const key=`${w.name}（${BREEDS[w.breed].name}）`;R.wins[key]=(R.wins[key]||0)+1}
+  R.mvp=R.mvp||{};{const mv=memRows()[0].p;const key=`${mv.name}（${BREEDS[mv.breed].name}）`;R.mvp[key]=(R.mvp[key]||0)+1}
+  const upd=(k,f)=>state.players.forEach(p=>{const v=f(p);if(v>0&&(!R[k]||v>R[k].v))R[k]={v,name:p.name}});
+  upd('maxBau',p=>p.stats.bauEarned);upd('longestWalk',p=>p.stats.longestWalk);upd('mostOnsen',p=>p.stats.onsen);upd('mostNori',p=>p.stats.noriTotal);upd('mostFree',p=>p.stats.freeTrips);
+  store.set(KEY_RANK,R);
+}
+function showResult(){
+  const arr=[...state.players].sort((a,b)=>a.finishOrder-b.finishOrder),w=arr[0];
+  $('#resWin').textContent=`${w.name}（${BREEDS[w.breed].name}）、優勝バウ！！`;
+  $('#resPug').innerHTML=pugP(w,'joy',150);
+  $('#resBody').innerHTML=`<div class="statWrap"><table class="statTable"><tr><th>順位</th><th>パグ</th><th>移動</th><th>獲得バウ</th><th>アイテム</th><th>イベント</th><th>温泉</th><th>散歩</th><th>タダ旅行</th><th>のり</th><th>名所</th></tr>
+  ${arr.map(p=>`<tr><td>${['🥇','🥈','🥉'][p.finishOrder-1]||p.finishOrder+'位'}</td><td class="nm"><span class="dot" style="display:inline-block;background:${p.color};margin-right:4px"></span>${esc(p.name)}${p.finished?'':' <small class="muted">(途中)</small>'}</td><td>${p.stats.dist}マス</td><td>${p.stats.bauEarned.toLocaleString()}</td><td>${p.stats.items}</td><td>${p.stats.events}</td><td>${p.stats.onsen}</td><td>${p.stats.walks}</td><td>${p.stats.freeTrips}</td><td>${p.stats.noriTotal}</td><td>${p.stats.spots}</td></tr>`).join('')}</table></div>
+  ${memHtml()}
+  ${lastMetaHtml}
+  <div class="resBtns"><button class="btn primary" id="resAgain">もう一回！</button><button class="btn" id="resTitle">タイトルへ</button></div>`;
+  $('#resAgain').onclick=()=>{renderSetup();show('scrSetup')};
+  $('#resTitle').onclick=()=>{state=null;show('scrTitle')};
+  show('scrResult');
+}
+
+/* ---------- game start/load ---------- */
+function enterGame(){
+  show('scrGame');renderBoard();renderPieces();renderHud();setControls();
+  requestAnimationFrame(()=>focusPos(pieceXY(cur()),false));
+}
+function startNewGame(humans,cpus,opt={}){
+  RNGS=opt.seed!=null?opt.seed|0:(Math.random()*4294967296)|0;
+  const players=humans.map((h,i)=>newPlayer(i,h.name,h.breed==='random'?pick(BREED_KEYS):h.breed,false));
+  const used=new Set(players.map(p=>p.breed)),CPU_NAMES=['ゴマ','モチ','ちんすこう'];
+  for(let k=0;k<cpus;k++){const avail=BREED_KEYS.filter(b=>!used.has(b)),br=avail.length?pick(avail):pick(BREED_KEYS);used.add(br);const c=newPlayer(players.length,`CPU${CPU_NAMES[k]}`,br,true);if(rand()<.35)c.costume=pick(COSTUME_KEYS);players.push(c)}
+  humans.forEach((h,i)=>{players[i].costume=h.costume&&COSTUMES[h.costume]?h.costume:null;players[i].title=h.title||''});
+  players.forEach(p=>{addBau(p,1000);giveItem(p,'dice',1);p.items.nori+=1;p.stats.noriTotal+=1;p.stats.items+=1});
+  const lucky=pick(players);lucky.lucky=true;
+  state={v:3,N,players,turn:0,round:1,finishCount:0,over:false,owners:{},weather:rollWeather(),forecast:rollWeather(),wNews:true,spurt:false,hl:[],lastLeader:null,daily:opt.daily||null,rules:opt.rules||null,laps:Math.max(1,Math.min(3,opt.laps||S.laps||1))};
+  players.forEach(dealMission);
+  phase='busy';enterGame();
+  (async()=>{
+    SFX.jackpot();
+    await say(players[0],{kicker:'✈️ 那覇空港',emoji:'🛫',title:'ぱぐーきに乗って沖縄本島一周の旅へ出発バウ！',text:'全員に 1000バウ・サイコロ+1・味付けのり1枚 をプレゼント！',html:`<div class="luckyBox">🍀 今回のラッキーパグは <b>${esc(lucky.name)}</b>！ 小さなボーナスを受けやすいバウ。</div>`,face:'joy',auto:false,buttons:[{label:'出発！',value:'ok'}]});
+    startTurn();
+  })();
+}
+function continueGame(){
+  const s=store.get(KEY_SAVE);
+  if(!s||s.v!==3||s.N!==N||!Array.isArray(s.players)){toast('続きのデータが見つかりませんでした');renderTitle();return}
+  state=s;state.over=false;RNGS=s.rs!=null?s.rs:(Math.random()*4294967296)|0;phase='busy';enterGame();
+  toast(`ターン${state.round}から再開バウ！`);
+  setTimeout(startTurn,400);
+}
+
+/* ---------- item / info / menu ---------- */
+function openItems(){
+  if(!state)return;
+  const p=cur(),canUse=phase==='await'&&!p.isCPU;
+  const m=p.milestones;
+  const rows=ITEM_KEYS.map(k=>{const it=ITEMS[k],c=p.items[k];const blocked=(k==='dice'&&p.extraDie>=2)||(k==='omamori'&&p.omamoriActive);return `<div class="itRow"><span class="itIco">${it.icon}</span><div class="itTx"><b>${it.name} ×${c}</b><small>${it.desc}</small></div>${it.use&&canUse?`<button class="btn sm primary" data-use="${k}"${c>0&&!blocked?'':' disabled'}>使う</button>`:''}</div>`}).join('');
+  showModalHtml(`<div class="sheet"><h3>🎒 ${esc(p.name)}のアイテム</h3><p class="muted" style="margin:2px 0 6px">💰 ${p.bau.toLocaleString()}バウ ・ のりボーナス ${m[3]?'✅':'⬜'}3枚 ${m[5]?'✅':'⬜'}5枚 ${m[10]?'✅':'⬜'}10枚</p>${p.mission&&!p.isCPU?`<div class="mBox">🃏 <b>ひみつミッション</b>：${p.mission.txt}<br><small>達成で1000バウ＋アイテム＋思い出ポイント10</small></div>`:''}<div class="muted" style="font-size:12px;margin:2px 0 8px">📮 スタンプ（${Object.keys(p.stamps||{}).length}個）：${Object.keys(p.stamps||{}).map(k=>SPOTS[SPOT_IDX[k]].emoji).join('')||'まだなし'}</div>${rows}${canUse?'':'<p class="muted" style="font-size:13px">アイテムは自分のターン、サイコロを振る前に使えます。</p>'}<button class="btn wide" id="itClose" style="margin-top:12px">とじる</button></div>`);
+  $('#itClose').onclick=closeModal;
+  $('#modalCard').querySelectorAll('[data-use]').forEach(b=>b.addEventListener('click',()=>{closeModal();useItem(b.dataset.use)}));
+}
+async function useItem(k){
+  const p=cur();if(phase!=='await'||p.isCPU||p.items[k]<=0)return;
+  SFX.click();p.usedItems=(p.usedItems||0)+1;
+  if(k==='dice'){p.items.dice--;p.extraDie=(p.extraDie||0)+1;toast('🎲 このターンはサイコロが1個増える！');renderHud();return}
+  if(k==='omamori'){p.items.omamori--;p.omamoriActive=true;toast('🧿 お守りパワー！次の出目は4～6');renderHud();return}
+  phase='busy';setControls();p.items[k]--;p.stats.turns++;
+  if(p.extraDie){p.items.dice+=p.extraDie;p.extraDie=0;toast('🎲 サイコロ+1は使わずに戻したバウ')}
+  if(p.omamoriActive){p.items.omamori++;p.omamoriActive=false}
+  if(k==='ticket'){p.stats.freeTrips++;await useTicket(p)}
+  else if(k==='pagki')await usePagki(p);
+  else if(k==='onsenken')await useOnsenken(p);
+  else if(k==='rail')await useRail(p);
+  if(state&&!state.over){await checkMilestones(p);endTurn()}
+}
+function openInfo(focusId){
+  if(!state)return;
+  const R=ranks();
+  const list=[...state.players].sort((a,b)=>R[a.id]-R[b.id]);
+  showModalHtml(`<div class="sheet"><h3>🐶 プレイヤー情報</h3><p class="muted" style="margin:2px 0 10px">ターン${state.round}・全${N}マス×${LAPS()}周</p>${list.map(p=>`<div class="pInfo" style="--pc:${p.color}${p.id===focusId?';outline:3px solid '+p.color:''}"><div class="hd">${pugP(p,p.finished?'joy':p.face||'normal',36)}${esc(p.name)} <small class="muted">${BREEDS[p.breed].name}${p.isCPU?'・CPU':''}${p.lucky?'・🍀':''}</small><span class="rk">${p.finished?'🏁ゴール':R[p.id]+'位'}</span></div>
+  <div class="bar"><i style="width:${Math.round((1-remainOf(p)/(N*LAPS()))*100)}%"></i></div>${LAPS()>1?`${Math.min(LAPS(),(p.lap||0)+1)}/${LAPS()}周目・`:''}${p.title?`<span class="ttl">${esc(p.title)}</span> `:''}あと${remainOf(p)}マス
+  <div class="ln">📍 ${locNameP(p)}<br>💰${p.bau.toLocaleString()}バウ ${NORI}${p.items.nori} 🎫${p.items.ticket} 🧂${p.items.salt} 🧿${p.items.omamori} 🎲${p.items.dice} ✈️${p.items.pagki} ♨️${p.items.onsenken} 🚝${p.items.rail||0}<br>⭐ ${BREEDS[p.breed].skill}<br>📮スタンプ${Object.keys(p.stamps||{}).length}個・🃏ミッション達成${p.missionsDone||0}回・🏪${Object.values(state.owners||{}).filter(id=>id===p.id).length}軒${p.firstClass?'・✨ファーストクラス':''}<br><span class="muted">温泉${p.stats.onsen}回・散歩${p.stats.walks}回・タダ旅行${p.stats.freeTrips}回${p.skip?`・休み${p.skip}`:''}</span></div></div>`).join('')}<button class="btn wide" id="infoClose">とじる</button></div>`);
+  $('#infoClose').onclick=closeModal;
+}
+function openMenu(){
+  const canLeave=phase==='await'&&state&&!cur().isCPU;
+  showModalHtml(`<div class="sheet"><h3>⚙️ メニュー</h3>
+  <div class="setRow" style="margin-top:10px"><label>BGM</label>${seg('bgm',[[true,'ON'],[false,'OFF']],S.bgm)}</div>
+  <div class="setRow"><label>BGMの音量</label>${seg('bgmVol',[['low','小'],['mid','中'],['high','大']],S.bgmVol)}</div>
+  <div class="setRow"><label>効果音</label>${seg('sound',[[true,'ON'],[false,'OFF']],S.sound)}</div>
+  <div class="setRow"><label>ゲームスピード</label>${seg('speed',[['slow','ゆっくり'],['normal','ふつう'],['fast','はやい']],S.speed)}</div>
+  <div class="setRow"><label>メッセージ送り</label>${seg('msgMode',[['normal','ふつう'],['slow','じっくり'],['tap','タップで進む']],S.msgMode)}</div>
+  <div style="display:grid;gap:8px"><button class="btn" id="mHow">遊び方を見る</button>
+  <button class="btn sea" id="mTitle"${canLeave?'':' disabled'}>タイトルへ（続きから再開できます）</button>
+  <button class="btn ghost" id="mQuit"${canLeave?'':' disabled'}>この旅をやめる（セーブ削除）</button>
+  ${canLeave?'':'<p class="muted" style="font-size:12px;margin:0">タイトルへ戻るのは自分のターン中だけできます。</p>'}
+  <button class="btn" id="mClose">とじる</button></div></div>`);
+  bindSegs($('#modalCard'),()=>{openMenu();renderHud()});
+  $('#mClose').onclick=closeModal;
+  $('#mHow').onclick=()=>{closeModal();renderHow();show('scrHow')};
+  $('#mTitle').onclick=()=>{saveGame();closeModal();state=null;phase='idle';show('scrTitle')};
+  $('#mQuit').onclick=()=>{if(confirm('この旅のセーブを消してタイトルへ戻りますか？')){store.del(KEY_SAVE);closeModal();state=null;phase='idle';show('scrTitle')}};
+}
+
+/* ---------- wiring ---------- */
+document.addEventListener('pointerdown',()=>{ac()},{once:true});
+$('#tStart').onclick=()=>{SFX.click();renderSetup();show('scrSetup')};
+$('#tContinue').onclick=()=>{SFX.click();continueGame()};
+$('#tHow').onclick=()=>{renderHow();show('scrHow')};
+$('#tSet').onclick=()=>{renderSettings();show('scrSet')};
+$('#tRank').onclick=()=>{renderRank();show('scrRank')};
+$('#tAlbum').onclick=()=>{SFX.click();renderAlbum();show('scrAlbum')};
+$('#tYari').onclick=()=>{SFX.click();renderYari();show('scrYari')};
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{
+  const g=b.dataset.go;
+  if(g==='back'){
+    if(prevScreen==='scrGame'&&state)show('scrGame');
+    else if(prevScreen==='scrSetup'){renderSetup();show('scrSetup')}
+    else show('scrTitle');
+  }else show(g);
+}));
+$('#btnRoll').onclick=async()=>{
+  if(!state||phase!=='await')return;
+  const p=cur();if(p.isCPU)return;
+  phase='busy';setControls();
+  await rollAndMove(p,0);
+  if(state&&!state.over)endTurn();
+};
+$('#btnItem').onclick=()=>{SFX.click();openItems()};
+$('#btnInfo').onclick=()=>{SFX.click();openInfo()};
+$('#btnMenu').onclick=()=>{SFX.click();openMenu()};
+$('#btnSound').onclick=()=>{if(S.sound&&S.bgm)S.bgm=false;else if(S.sound)S.sound=false;else{S.sound=true;S.bgm=true}saveSet();renderHud();if(S.sound)SFX.pop();toast(S.sound&&S.bgm?'🔊 BGMと効果音 ON':S.sound?'🔉 効果音だけ ON（BGM OFF）':'🔇 音 OFF')};
+$('#btnMap').onclick=()=>{
+  const b=$('#board');b.classList.toggle('zoom');
+  $('#mapLbl').textContent=b.classList.contains('zoom')?'全体':'ズーム';
+  if(state)requestAnimationFrame(()=>focusPos(pieceXY(cur()),false));
+};
+$('#hudChips').addEventListener('click',e=>{const c=e.target.closest('.chip');if(c){SFX.click();openInfo(+c.dataset.pid)}});
+$('#board').addEventListener('click',e=>{
+  const g=e.target.closest('.sq');if(!g)return;
+  if(g.dataset.b!=null&&BRANCH){const t=SQ_TYPES[BRANCH.types[+g.dataset.b]];toast(`⛰️ <b>山道の近道</b>・${t.icon} ${t.name}<br>${t.desc}`);return}
+  const i=+g.dataset.i,s=BOARD[i];if(!s)return;
+  if(s.major>=0){const sp=SPOTS[s.major];toast(`${sp.emoji} <b>${sp.name}</b><br>${sp.desc}`)}
+  else{const t=SQ_TYPES[s.type];toast(`<b>${t.icon} ${t.name}</b><br>${t.desc}`)}
+});
+
+buildBoard();buildBranch();$('#ciPug').innerHTML=pugSVG('gray','proud',40);renderTitleArt();renderTitle();
+})();
+</script>
+<script>
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{})})}
+</script>
+</body>
+</html>
