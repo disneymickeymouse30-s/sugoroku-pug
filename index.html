@@ -274,6 +274,13 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
 .mRank{text-align:left;margin:6px 0 10px}.mRank div{display:flex;justify-content:space-between;padding:6px 4px;border-bottom:1px dashed var(--line);font-size:15px}
 .musicHint{margin-top:8px;border:none;border-radius:999px;background:rgba(255,255,255,.92);color:#0e6f8f;font:inherit;font-weight:800;font-size:13px;padding:6px 14px;box-shadow:0 3px 0 rgba(0,0,0,.08);animation:hop 2.4s ease-in-out infinite}
 .musicHint[hidden]{display:none}
+#manualOv{position:fixed;inset:0;z-index:95;display:flex;flex-direction:column;background:#fff6e0}
+#manualOv[hidden]{display:none!important}
+#manualOv .mBar{display:flex;align-items:center;gap:8px;padding:calc(8px + env(safe-area-inset-top,0px)) 10px 8px;background:#2b2140;color:#fff}
+#manualOv .mBar h2{flex:1;margin:0;font-size:16px;text-align:center;font-weight:800}
+#manualOv .mBar button{border:0;border-radius:999px;padding:8px 14px;font:inherit;font-weight:800;font-size:14px;background:#ffd34d;color:#2b2140;min-height:40px;cursor:pointer}
+#manualOv .mBar button.alt{background:#fff;color:#2b2140}
+#manualOv iframe{flex:1;width:100%;border:0;background:#fff6e0;padding-bottom:env(safe-area-inset-bottom,0px)}
 </style>
 </head>
 <body>
@@ -291,7 +298,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
         <button class="btn primary" id="tStart">ゲームスタート</button>
         <button class="btn sea" id="tContinue">続きから</button>
         <div class="row2">
-          <button class="btn" id="tHow">遊び方</button>
+          <button class="btn" id="tHow">📖 説明書</button>
           <button class="btn" id="tRank">ランキング</button>
         </div>
         <button class="btn gold" id="tYari">🏅 やり込み<small>デイリー・実績・着せ替え</small></button>
@@ -368,6 +375,355 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
 <div id="toast"></div>
 <div id="cutin" class="cutin" aria-live="polite"><div class="ciBox"><div class="ciPug" id="ciPug"></div><div class="ciTx"><b>🎙️ 実況パグ</b><span id="ciText"></span></div></div></div>
 
+<div id="manualOv" hidden role="dialog" aria-label="説明書">
+  <div class="mBar"><button type="button" id="manualClose">← とじる</button><h2>📖 説明書</h2><button type="button" class="alt" id="manualData">一覧</button></div>
+  <iframe id="manualFrame" title="パグ旅すごろく 説明書"></iframe>
+</div>
+<template id="manualTpl"><title>パグ旅すごろく 遊び方ガイド</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+<style>
+/* Pop layout: chunky outlined sticker cards with offset shadows, rounded type,
+   a candy palette, and a pug mascot. One column on phones. */
+:root{
+  --bg:#fff6e0; --card:#ffffff; --ink:#2b2140; --muted:#6b5f7d;
+  --pink:#ff6fa5; --sky:#43c6f0; --mint:#5fd3a0; --sun:#ffd34d; --lilac:#b79cff; --orange:#ff9a3d;
+  --pale-pink:#ffe1ee; --pale-sky:#dff5fd; --pale-mint:#dcf8ea; --pale-sun:#fff3c4; --pale-lilac:#ece4ff;
+  --fawn:#e6bf86; --dot:rgba(43,33,64,.09);
+  --shadow:#2b2140;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#241d33; --card:#302745; --ink:#fbf4ff; --muted:#c7b9dd;
+    --pink:#ff86b5; --sky:#6ad7f5; --mint:#7fe3b6; --sun:#ffe07a; --lilac:#c6b0ff; --orange:#ffae63;
+    --pale-pink:#4a2a48; --pale-sky:#1f3d4d; --pale-mint:#1f4438; --pale-sun:#4a4023; --pale-lilac:#3a2f58;
+    --fawn:#c79f62; --dot:rgba(255,255,255,.06); --shadow:#0c0816; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#241d33; --card:#302745; --ink:#fbf4ff; --muted:#c7b9dd;
+  --pink:#ff86b5; --sky:#6ad7f5; --mint:#7fe3b6; --sun:#ffe07a; --lilac:#c6b0ff; --orange:#ffae63;
+  --pale-pink:#4a2a48; --pale-sky:#1f3d4d; --pale-mint:#1f4438; --pale-sun:#4a4023; --pale-lilac:#3a2f58;
+  --fawn:#c79f62; --dot:rgba(255,255,255,.06); --shadow:#0c0816; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;color:var(--ink);background-color:var(--bg);
+  background-image:radial-gradient(var(--dot) 2px,transparent 2.5px);background-size:22px 22px;
+  font-family:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  font-size:16px;line-height:1.8;padding-inline:16px;padding-block:0 56px;overflow-x:hidden;
+}
+h1,h2,h3{line-height:1.35;text-wrap:balance;margin:0;font-weight:900}
+p{margin:0}
+a:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+
+/* Hero */
+.hero{position:relative;text-align:center;padding:26px 8px 8px}
+.hero .mascot{width:124px;height:auto;display:block;margin:0 auto;filter:drop-shadow(4px 5px 0 var(--shadow))}
+.hero h1{font-size:30px;margin-top:8px;color:var(--ink);text-shadow:3px 3px 0 var(--sun)}
+.hero h1 small{display:block;font-size:17px;color:var(--pink);text-shadow:none;margin-top:4px}
+.hero p{margin:12px auto 0;max-width:30em;color:var(--muted);font-weight:700;font-size:15px}
+.sparkle{position:absolute;font-size:22px;animation:bob 2.4s ease-in-out infinite}
+.sparkle.a{left:8%;top:18px}.sparkle.b{right:8%;top:40px;animation-delay:.8s}.sparkle.c{right:20%;top:118px;animation-delay:1.4s}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-7px) rotate(12deg)}}
+
+/* Chapter chips */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;margin:14px -16px 0;padding:10px 16px;background:var(--bg);border-block:3px solid var(--shadow);overflow-x:auto;white-space:nowrap;display:flex;gap:9px;scrollbar-width:none}
+.bar::-webkit-scrollbar{display:none}
+.bar a{display:inline-flex;align-items:center;min-height:42px;padding:6px 14px;border-radius:999px;border:3px solid var(--shadow);background:var(--card);color:var(--ink);text-decoration:none;font-weight:900;font-size:14px;box-shadow:3px 3px 0 var(--shadow)}
+.bar a:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--shadow)}
+
+.item .ic.pugic{background:var(--pale-sky);width:58px;height:58px}
+.item .ic.pugic svg{width:48px;height:48px;display:block}
+.item.breed:nth-child(2) .ic{background:var(--pale-pink)}
+.item.breed:nth-child(4) .ic{background:var(--pale-sun)}
+.item.breed:nth-child(6) .ic{background:var(--pale-lilac)}
+svg.inl{vertical-align:-5px;display:inline-block}
+/* Sticker cards */
+section{
+  position:relative;margin-top:26px;background:var(--card);border:3px solid var(--shadow);
+  border-radius:24px;padding:20px 16px 18px;box-shadow:6px 6px 0 var(--shadow);scroll-margin-top:84px;
+}
+.chapter{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.badge{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:50%;border:3px solid var(--shadow);font-weight:900;font-size:22px;box-shadow:3px 3px 0 var(--shadow);flex:none;color:var(--shadow)}
+.chapter h2{font-size:23px;padding:2px 12px;border-radius:12px;border:3px solid var(--shadow);background:var(--sun);color:var(--shadow);box-shadow:3px 3px 0 var(--shadow);transform:rotate(-1.5deg)}
+.c1 .badge{background:var(--sky)} .c1 h2{background:var(--pale-sky)}
+.c2 .badge{background:var(--sun)} .c2 h2{background:var(--pale-sun)}
+.c3 .badge{background:var(--pink)} .c3 h2{background:var(--pale-pink)}
+.c4 .badge{background:var(--mint)} .c4 h2{background:var(--pale-mint)}
+.c5 .badge{background:var(--lilac)} .c5 h2{background:var(--pale-lilac)}
+.c6 .badge{background:var(--orange)} .c6 h2{background:var(--sun)}
+.c7 .badge{background:var(--pink)} .c7 h2{background:var(--pale-pink)}
+.c8 .badge{background:var(--sky)} .c8 h2{background:var(--pale-sky)}
+
+.lead{font-weight:700;margin-bottom:12px}
+
+/* Steps */
+.step{display:grid;gap:12px;margin-top:16px;padding-top:16px;border-top:3px dotted var(--shadow)}
+.step:first-of-type{border-top:0;margin-top:0;padding-top:0}
+.step h3{font-size:18px}
+.step > div > p{font-weight:700;color:var(--muted);font-size:15px;margin-top:2px}
+
+/* Bubbles / tips */
+.tip{position:relative;background:var(--pale-sun);border:3px solid var(--shadow);border-radius:18px;padding:11px 14px;font-weight:700;font-size:15px;box-shadow:4px 4px 0 var(--shadow)}
+.tip b{color:var(--orange)}
+
+/* Figures */
+.fig{margin:0;background:var(--pale-sky);border:3px solid var(--shadow);border-radius:20px;padding:14px;display:grid;place-items:center;box-shadow:4px 4px 0 var(--shadow)}
+.fig svg{width:100%;height:auto;display:block;max-width:360px}
+.fig figcaption{font-size:13px;font-weight:700;color:var(--muted);margin-top:8px;text-align:center}
+.phone{width:min(210px,70%);margin:0 auto;border:4px solid var(--shadow);border-radius:30px;padding:10px;background:var(--card);box-shadow:4px 4px 0 var(--shadow)}
+
+/* Cards */
+.grid2{display:grid;grid-template-columns:1fr;gap:12px}
+.item{display:flex;gap:12px;align-items:center;padding:11px 12px;border:3px solid var(--shadow);border-radius:18px;background:var(--card);box-shadow:3px 3px 0 var(--shadow);min-width:0}
+.item .ic{flex:none;width:48px;height:48px;display:grid;place-items:center;font-size:26px;border-radius:50%;border:3px solid var(--shadow);background:var(--pale-pink)}
+.item b{display:block;font-size:16px}
+.item span.t{font-size:15px;font-weight:700;color:var(--ink)}
+.item:nth-child(4n+1) .ic{background:var(--pale-sky)}
+.item:nth-child(4n+2) .ic{background:var(--pale-sun)}
+.item:nth-child(4n+3) .ic{background:var(--pale-pink)}
+.item:nth-child(4n) .ic{background:var(--pale-mint)}
+
+/* Square colors */
+.sq{display:flex;gap:12px;align-items:center;padding:10px 12px;border-radius:18px;border:3px solid var(--shadow);background:var(--card);box-shadow:3px 3px 0 var(--shadow);min-width:0}
+.sq i{font-style:normal;flex:none;width:44px;height:44px;border-radius:14px;border:3px solid var(--shadow);display:grid;place-items:center;color:#fff;font-weight:900;font-size:19px;text-shadow:1px 1px 0 rgba(0,0,0,.25)}
+.sq b,.item b{display:block;font-weight:900;font-size:16.5px;color:var(--ink)}
+.sq span.t{font-size:15px;font-weight:700}
+
+/* Ordered flow */
+ol.order{margin:6px 0 0;padding:0;list-style:none;display:grid;gap:10px}
+ol.order li{display:flex;align-items:center;gap:12px;font-weight:900;font-size:16px}
+ol.order li b{flex:none;width:36px;height:36px;border-radius:50%;border:3px solid var(--shadow);display:inline-grid;place-items:center;background:var(--sun);color:var(--shadow);font-size:16px;box-shadow:2px 2px 0 var(--shadow)}
+ol.order li:nth-child(2) b{background:var(--sky)}
+ol.order li:nth-child(3) b{background:var(--mint)}
+ol.order li:nth-child(4) b{background:var(--lilac)}
+ol.order li:nth-child(5) b{background:var(--orange)}
+ol.order li:nth-child(6) b{background:var(--pink)}
+
+/* Extra / FAQ */
+.faq{background:var(--pale-lilac);border:3px solid var(--shadow);border-radius:18px;padding:13px 14px;box-shadow:3px 3px 0 var(--shadow)}
+.faq + .faq{margin-top:12px}
+.faq h3{font-size:16px;margin-bottom:4px}
+.faq p{font-size:15px;font-weight:700}
+.end{text-align:center;margin-top:30px;font-weight:900;font-size:18px}
+.end span{display:inline-block;animation:bob 2s ease-in-out infinite}
+
+@media (min-width:640px){
+  .grid2{grid-template-columns:1fr 1fr}
+  .hero h1{font-size:36px}
+  .hero .mascot{width:150px}
+}
+@media (prefers-reduced-motion:reduce){.sparkle,.end span{animation:none}}
+</style>
+
+<header class="hero">
+  <span class="sparkle a" aria-hidden="true">✨</span>
+  <span class="sparkle b" aria-hidden="true">🌺</span>
+  <span class="sparkle c" aria-hidden="true">⭐</span>
+  <svg viewBox="0 0 100 100" width="130" height="130" class="pug mascot" role="img" aria-label="パグのマスコット" focusable="false"><path d="M17 36 Q6 16 27 15 Q36 21 33 33Z" fill="#3a2a20"/><path d="M83 36 Q94 16 73 15 Q64 21 67 33Z" fill="#3a2a20"/><ellipse cx="50" cy="56" rx="37" ry="33" fill="#e6bf86"/><path d="M38 33 Q50 28 62 33 M41 39 Q50 35.5 59 39" stroke="#3a2a20" stroke-opacity=".4" stroke-width="2.2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="67" rx="21" ry="16" fill="#33251c"/><path d="M38 57 Q50 51 62 57" stroke="#1a1411" stroke-opacity=".6" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="61.5" rx="7" ry="4.6" fill="#0d0b0a"/><ellipse cx="47.8" cy="60" rx="2.2" ry="1.1" fill="#fff" opacity=".55"/><path d="M26 51 Q33 42 40 51" stroke="#1b1714" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M60 51 Q67 42 74 51" stroke="#1b1714" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M40 70 Q50 84 60 70Z" fill="#2a0f12"/><path d="M44 74 Q50 72 56 74 L56 77 Q50 86 44 77Z" fill="#ff6f8e"/><path d="M50 75 V81" stroke="#d94f70" stroke-width="1.2"/><ellipse cx="22" cy="63" rx="6" ry="3.6" fill="#ff7b9c" opacity=".55"/><ellipse cx="78" cy="63" rx="6" ry="3.6" fill="#ff7b9c" opacity=".55"/><path d="M10 22 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z M88 14 l1.6 4 4 1.6 -4 1.6 -1.6 4 -1.6 -4 -4 -1.6 4 -1.6z" fill="#ffc531"/></svg>
+  <h1>パグ旅すごろく<small>🐾 遊び方ガイド 🐾</small></h1>
+  <p>はじめての人も安心！スマホでサクサク読める、パグのかんたん説明書です。</p>
+</header>
+
+<nav class="bar" aria-label="目次">
+  <a href="#start"><svg viewBox="0 0 100 100" width="22" height="22" class="pug inl" aria-hidden="true" focusable="false"><path d="M17 36 Q6 16 27 15 Q36 21 33 33Z" fill="#3a2a20"/><path d="M83 36 Q94 16 73 15 Q64 21 67 33Z" fill="#3a2a20"/><ellipse cx="50" cy="56" rx="37" ry="33" fill="#e6bf86"/><path d="M38 33 Q50 28 62 33 M41 39 Q50 35.5 59 39" stroke="#3a2a20" stroke-opacity=".4" stroke-width="2.2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="67" rx="21" ry="16" fill="#33251c"/><path d="M38 57 Q50 51 62 57" stroke="#1a1411" stroke-opacity=".6" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="61.5" rx="7" ry="4.6" fill="#0d0b0a"/><ellipse cx="47.8" cy="60" rx="2.2" ry="1.1" fill="#fff" opacity=".55"/><path d="M26 51 Q33 42 40 51" stroke="#1b1714" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M60 51 Q67 42 74 51" stroke="#1b1714" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M42 71 Q46 75 50 70.5 Q54 75 58 71" stroke="#7d6a5f" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M45.5 73 Q50 71 54.5 73 L54.5 75.5 Q50 83 45.5 75.5Z" fill="#ff6f8e"/><path d="M50 74 V78" stroke="#d94f70" stroke-width="1.2"/><ellipse cx="22" cy="63" rx="6" ry="3.6" fill="#ff7b9c" opacity=".55"/><ellipse cx="78" cy="63" rx="6" ry="3.6" fill="#ff7b9c" opacity=".55"/></svg> はじめる</a>
+  <a href="#flow">🗺️ 流れ</a>
+  <a href="#dice">🎲 サイコロ</a>
+  <a href="#squares">🎨 マスの色</a>
+  <a href="#items">🎒 アイテム</a>
+  <a href="#goal">🏁 ゴール</a>
+  <a href="#extras">🏅 もっと</a>
+  <a href="#qa">💬 困ったら</a>
+</nav>
+
+<section id="start" class="c1">
+  <div class="chapter"><span class="badge">1</span><h2>はじめる</h2></div>
+
+  <div class="step">
+    <div>
+      <h3>① 「ゲームスタート」をタップ！</h3>
+      <p>タイトル画面の大きなボタンを押すと、旅のはじまりです。</p>
+    </div>
+    <figure class="fig">
+      <div class="phone">
+        <svg viewBox="0 0 180 230" role="img" aria-label="タイトル画面の見本">
+          <rect x="0" y="0" width="180" height="230" rx="14" fill="#8fd8ef"/>
+          <circle cx="152" cy="30" r="14" fill="#ffd34d" stroke="#2b2140" stroke-width="2.5"/>
+          <svg style="width:18px;height:18px" viewBox="0 0 100 100" width="18" height="18" class="pug" aria-hidden="true" x="14" y="50"><path d="M17 36 Q6 16 27 15 Q36 21 33 33Z" fill="#3a2a20"/><path d="M83 36 Q94 16 73 15 Q64 21 67 33Z" fill="#3a2a20"/><ellipse cx="50" cy="56" rx="37" ry="33" fill="#e6bf86"/><path d="M38 33 Q50 28 62 33 M41 39 Q50 35.5 59 39" stroke="#3a2a20" stroke-opacity=".4" stroke-width="2.2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="67" rx="21" ry="16" fill="#33251c"/><path d="M38 57 Q50 51 62 57" stroke="#1a1411" stroke-opacity=".6" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="61.5" rx="7" ry="4.6" fill="#0d0b0a"/><ellipse cx="47.8" cy="60" rx="2.2" ry="1.1" fill="#fff" opacity=".55"/><path d="M26 51 Q33 42 40 51" stroke="#1b1714" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M60 51 Q67 42 74 51" stroke="#1b1714" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M42 71 Q46 75 50 70.5 Q54 75 58 71" stroke="#7d6a5f" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M45.5 73 Q50 71 54.5 73 L54.5 75.5 Q50 83 45.5 75.5Z" fill="#ff6f8e"/><path d="M50 74 V78" stroke="#d94f70" stroke-width="1.2"/><ellipse cx="22" cy="63" rx="6" ry="3.6" fill="#ff7b9c" opacity=".55"/><ellipse cx="78" cy="63" rx="6" ry="3.6" fill="#ff7b9c" opacity=".55"/></svg><text x="98" y="64" text-anchor="middle" font-size="15" font-weight="900" fill="#2b2140">パグ旅すごろく</text>
+          <rect x="26" y="96" width="128" height="34" rx="17" fill="#ff6fa5" stroke="#2b2140" stroke-width="2.5"/>
+          <text x="90" y="118" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">ゲームスタート</text>
+          <rect x="26" y="140" width="128" height="26" rx="13" fill="#fff" stroke="#2b2140" stroke-width="2.5"/>
+          <text x="90" y="157" text-anchor="middle" font-size="12" font-weight="900" fill="#2b2140">続きから</text>
+          <rect x="26" y="174" width="128" height="26" rx="13" fill="#fff" stroke="#2b2140" stroke-width="2.5"/>
+          <text x="90" y="191" text-anchor="middle" font-size="12" font-weight="900" fill="#2b2140">やり込み</text>
+          <text x="90" y="218" text-anchor="middle" font-size="18">👆</text>
+        </svg>
+      </div>
+      <figcaption>タイトル画面。「ゲームスタート」で出発！</figcaption>
+    </figure>
+  </div>
+
+  <div class="step">
+    <div>
+      <h3>② 人数と長さを決めよう</h3>
+      <p>設定画面で、次の4つを選びます。</p>
+    </div>
+    <div class="grid2">
+      <div class="item"><span class="ic">👥</span><span><b>プレイヤー人数</b><span class="t">1〜4人。1人ならCPUと対戦できるよ。</span></span></div>
+      <div class="item"><span class="ic">🤖</span><span><b>CPUパグ</b><span class="t">ぜんぶで最大4匹まで。</span></span></div>
+      <div class="item"><span class="ic">🔁</span><span><b>ゲームの長さ</b><span class="t">1周（約20〜30分）・2周（約40〜60分）・3周（約60〜90分）</span></span></div>
+      <div class="item"><span class="ic">🧠</span><span><b>CPUの強さ</b><span class="t">かんたん・ふつう・むずかしい</span></span></div>
+    </div>
+    <p class="tip">💡 はじめての人は、<b>1人・CPU 2匹・1周・ふつう</b>がおすすめ！</p>
+  </div>
+
+  <div class="step">
+    <div>
+      <h3>③ パグを選ぼう</h3>
+      <p>プレイヤーごとに6種類のパグから選びます。それぞれ得意技があるよ。</p>
+    </div>
+    <div class="grid2"><div class="item breed"><span class="ic pugic"><svg viewBox="0 0 100 100" width="48" height="48" class="pug " aria-hidden="true" focusable="false"><path d="M17 36 Q6 16 27 15 Q36 21 33 33Z" fill="#4a3f39"/><path d="M83 36 Q94 16 73 15 Q64 21 67 33Z" fill="#4a3f39"/><ellipse cx="50" cy="56" rx="37" ry="33" fill="#f7f2ea"/><path d="M38 33 Q50 28 62 33 M41 39 Q50 35.5 59 39" stroke="#4a3f39" stroke-opacity=".4" stroke-width="2.2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="67" rx="21" ry="16" fill="#3a312c"/><path d="M38 57 Q50 51 62 57" stroke="#1a1411" stroke-opacity=".6" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="61.5" rx="7" ry="4.6" fill="#0d0b0a"/><ellipse cx="47.8" cy="60" rx="2.2" ry="1.1" fill="#fff" opacity=".55"/><circle cx="33" cy="49" r="8" fill="#fff"/><circle cx="33" cy="49" r="6.3" fill="#17120f"/><circle cx="35.2" cy="46.6" r="2" fill="#fff"/><circle cx="67" cy="49" r="8" fill="#fff"/><circle cx="67" cy="49" r="6.3" fill="#17120f"/><circle cx="69.2" cy="46.6" r="2" fill="#fff"/><path d="M42 71 Q46 75 50 70.5 Q54 75 58 71" stroke="#7d6a5f" stroke-width="2" fill="none" stroke-linecap="round"/></svg></span><span><b>白パグ</b><span class="t">温泉マスター：温泉の効果がさらに+1</span></span></div><div class="item breed"><span class="ic pugic"><svg viewBox="0 0 100 100" width="48" height="48" class="pug " aria-hidden="true" focusable="false"><path d="M17 36 Q6 16 27 15 Q36 21 33 33Z" fill="#141110"/><path d="M83 36 Q94 16 73 15 Q64 21 67 33Z" fill="#141110"/><ellipse cx="50" cy="56" rx="37" ry="33" fill="#2c2826"/><path d="M38 33 Q50 28 62 33 M41 39 Q50 35.5 59 39" stroke="#55504c" stroke-opacity=".4" stroke-width="2.2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="67" rx="21" ry="16" fill="#423b37"/><path d="M38 57 Q50 51 62 57" stroke="#5a524d" stroke-opacity=".6" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="61.5" rx="7" ry="4.6" fill="#0d0b0a"/><ellipse cx="47.8" cy="60" rx="2.2" ry="1.1" fill="#fff" opacity=".55"/><circle cx="33" cy="49" r="8" fill="#fff"/><circle cx="33" cy="49" r="6.3" fill="#17120f"/><circle cx="35.2" cy="46.6" r="2" fill="#fff"/><circle cx="67" cy="49" r="8" fill="#fff"/><circle cx="67" cy="49" r="6.3" fill="#17120f"/><circle cx="69.2" cy="46.6" r="2" fill="#fff"/><path d="M42 71 Q46 75 50 70.5 Q54 75 58 71" stroke="#9a8c84" stroke-width="2" fill="none" stroke-linecap="round"/></svg></span><span><b>黒パグ</b><span class="t">台風に強い：台風や強風でお休み・後退しない</span></span></div><div class="item breed"><span class="ic pugic"><svg viewBox="0 0 100 100" width="48" height="48" class="pug " aria-hidden="true" focusable="false"><path d="M17 36 Q6 16 27 15 Q36 21 33 33Z" fill="#3a2a20"/><path d="M83 36 Q94 16 73 15 Q64 21 67 33Z" fill="#3a2a20"/><ellipse cx="50" cy="56" rx="37" ry="33" fill="#e6bf86"/><path d="M38 33 Q50 28 62 33 M41 39 Q50 35.5 59 39" stroke="#3a2a20" stroke-opacity=".4" stroke-width="2.2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="67" rx="21" ry="16" fill="#33251c"/><path d="M38 57 Q50 51 62 57" stroke="#1a1411" stroke-opacity=".6" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="61.5" rx="7" ry="4.6" fill="#0d0b0a"/><ellipse cx="47.8" cy="60" rx="2.2" ry="1.1" fill="#fff" opacity=".55"/><circle cx="33" cy="49" r="8" fill="#fff"/><circle cx="33" cy="49" r="6.3" fill="#17120f"/><circle cx="35.2" cy="46.6" r="2" fill="#fff"/><circle cx="67" cy="49" r="8" fill="#fff"/><circle cx="67" cy="49" r="6.3" fill="#17120f"/><circle cx="69.2" cy="46.6" r="2" fill="#fff"/><path d="M42 71 Q46 75 50 70.5 Q54 75 58 71" stroke="#7d6a5f" stroke-width="2" fill="none" stroke-linecap="round"/></svg></span><span><b>フォーンパグ</b><span class="t">のり運：味付けのりを手に入れるたび+1枚</span></span></div><div class="item breed"><span class="ic pugic"><svg viewBox="0 0 100 100" width="48" height="48" class="pug " aria-hidden="true" focusable="false"><path d="M17 36 Q6 16 27 15 Q36 21 33 33Z" fill="#4a2b1a"/><path d="M83 36 Q94 16 73 15 Q64 21 67 33Z" fill="#4a2b1a"/><ellipse cx="50" cy="56" rx="37" ry="33" fill="#eda066"/><path d="M38 33 Q50 28 62 33 M41 39 Q50 35.5 59 39" stroke="#4a2b1a" stroke-opacity=".4" stroke-width="2.2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="67" rx="21" ry="16" fill="#3d2416"/><path d="M38 57 Q50 51 62 57" stroke="#1a1411" stroke-opacity=".6" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="61.5" rx="7" ry="4.6" fill="#0d0b0a"/><ellipse cx="47.8" cy="60" rx="2.2" ry="1.1" fill="#fff" opacity=".55"/><circle cx="33" cy="49" r="8" fill="#fff"/><circle cx="33" cy="49" r="6.3" fill="#17120f"/><circle cx="35.2" cy="46.6" r="2" fill="#fff"/><circle cx="67" cy="49" r="8" fill="#fff"/><circle cx="67" cy="49" r="6.3" fill="#17120f"/><circle cx="69.2" cy="46.6" r="2" fill="#fff"/><path d="M42 71 Q46 75 50 70.5 Q54 75 58 71" stroke="#7d6a5f" stroke-width="2" fill="none" stroke-linecap="round"/></svg></span><span><b>アプリコットパグ</b><span class="t">道しるべ：セルフ散歩で後ろに戻らない</span></span></div><div class="item breed"><span class="ic pugic"><svg viewBox="0 0 100 100" width="48" height="48" class="pug " aria-hidden="true" focusable="false"><path d="M17 36 Q6 16 27 15 Q36 21 33 33Z" fill="#3a3837"/><path d="M83 36 Q94 16 73 15 Q64 21 67 33Z" fill="#3a3837"/><ellipse cx="50" cy="56" rx="37" ry="33" fill="#a9a6a3"/><path d="M38 33 Q50 28 62 33 M41 39 Q50 35.5 59 39" stroke="#3a3837" stroke-opacity=".4" stroke-width="2.2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="67" rx="21" ry="16" fill="#34312f"/><path d="M38 57 Q50 51 62 57" stroke="#1a1411" stroke-opacity=".6" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="61.5" rx="7" ry="4.6" fill="#0d0b0a"/><ellipse cx="47.8" cy="60" rx="2.2" ry="1.1" fill="#fff" opacity=".55"/><circle cx="33" cy="49" r="8" fill="#fff"/><circle cx="33" cy="49" r="6.3" fill="#17120f"/><circle cx="35.2" cy="46.6" r="2" fill="#fff"/><circle cx="67" cy="49" r="8" fill="#fff"/><circle cx="67" cy="49" r="6.3" fill="#17120f"/><circle cx="69.2" cy="46.6" r="2" fill="#fff"/><path d="M42 71 Q46 75 50 70.5 Q54 75 58 71" stroke="#7d6a5f" stroke-width="2" fill="none" stroke-linecap="round"/></svg></span><span><b>グレーパグ</b><span class="t">空の達人：ぱぐーきで逆方向に飛ばされない</span></span></div><div class="item breed"><span class="ic pugic"><svg viewBox="0 0 100 100" width="48" height="48" class="pug " aria-hidden="true" focusable="false"><path d="M17 36 Q6 16 27 15 Q36 21 33 33Z" fill="#2e3035"/><path d="M83 36 Q94 16 73 15 Q64 21 67 33Z" fill="#2e3035"/><ellipse cx="50" cy="56" rx="37" ry="33" fill="#d8dbe0"/><path d="M38 33 Q50 28 62 33 M41 39 Q50 35.5 59 39" stroke="#2e3035" stroke-opacity=".4" stroke-width="2.2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="67" rx="21" ry="16" fill="#2b2d31"/><path d="M38 57 Q50 51 62 57" stroke="#1a1411" stroke-opacity=".6" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="61.5" rx="7" ry="4.6" fill="#0d0b0a"/><ellipse cx="47.8" cy="60" rx="2.2" ry="1.1" fill="#fff" opacity=".55"/><circle cx="33" cy="49" r="8" fill="#fff"/><circle cx="33" cy="49" r="6.3" fill="#17120f"/><circle cx="35.2" cy="46.6" r="2" fill="#fff"/><circle cx="67" cy="49" r="8" fill="#fff"/><circle cx="67" cy="49" r="6.3" fill="#17120f"/><circle cx="69.2" cy="46.6" r="2" fill="#fff"/><path d="M42 71 Q46 75 50 70.5 Q54 75 58 71" stroke="#7d6a5f" stroke-width="2" fill="none" stroke-linecap="round"/></svg></span><span><b>シルバーパグ</b><span class="t">買い物上手：お買い物・お店・入場料が2割引</span></span></div></div>
+  </div>
+</section>
+
+<section id="flow" class="c2">
+  <div class="chapter"><span class="badge">2</span><h2>ゲームの流れ</h2></div>
+  <p class="lead">自分の番になったら、この6つをくり返します！</p>
+  <ol class="order">
+    <li><b>1</b>サイコロを振る</li>
+    <li><b>2</b>出た目の数だけ進む</li>
+    <li><b>3</b>止まったマスのできごとが起きる</li>
+    <li><b>4</b>必要ならアイテムを使う</li>
+    <li><b>5</b>沖縄本島を時計まわりに一周する</li>
+    <li><b>6</b>那覇空港に最初に戻ったパグが優勝！🏆</li>
+  </ol>
+
+  <figure class="fig" style="margin-top:16px">
+    <svg viewBox="0 0 300 250" role="img" aria-label="沖縄本島を時計まわりに一周するルートの図">
+      <path d="M150 40 C 215 30, 262 80, 250 130 C 240 180, 200 220, 150 214 C 100 208, 62 180, 58 130 C 54 86, 92 48, 150 40 Z" fill="#b8f0cf" stroke="#2b2140" stroke-width="4"/>
+      <path d="M150 40 C 190 36, 228 62, 250 130" fill="none" stroke="#ff6fa5" stroke-width="7" stroke-linecap="round" stroke-dasharray="1 12"/>
+      <path d="M250 130 C 240 180, 200 220, 150 214" fill="none" stroke="#ff6fa5" stroke-width="7" stroke-linecap="round" stroke-dasharray="1 12"/>
+      <path d="M150 214 C 100 208, 62 180, 58 130" fill="none" stroke="#ff6fa5" stroke-width="7" stroke-linecap="round" stroke-dasharray="1 12"/>
+      <path d="M58 130 C 54 86, 92 48, 150 40" fill="none" stroke="#ff6fa5" stroke-width="7" stroke-linecap="round" stroke-dasharray="1 12"/>
+      <circle cx="150" cy="214" r="16" fill="#ffd34d" stroke="#2b2140" stroke-width="3.5"/>
+      <text x="150" y="220" text-anchor="middle" font-size="15">🛫</text>
+      <rect x="172" y="200" width="112" height="28" rx="14" fill="#fff" stroke="#2b2140" stroke-width="2.5"/>
+      <text x="228" y="219" text-anchor="middle" font-size="13" font-weight="900" fill="#2b2140">那覇空港</text>
+      <text x="150" y="112" text-anchor="middle" font-size="15" font-weight="900" fill="#2b2140">沖縄本島</text>
+      <text x="150" y="132" text-anchor="middle" font-size="12" font-weight="700" fill="#2b2140">北 → 東 → 南 → 西</text>
+      <text x="262" y="60" font-size="13" fill="#ff6fa5" font-weight="900">北へ</text>
+      <text x="6" y="60" font-size="13" fill="#ff6fa5" font-weight="900">西へ</text>
+      <svg style="width:26px;height:26px" viewBox="0 0 100 100" width="26" height="26" class="pug" aria-hidden="true" x="137" y="26"><path d="M17 36 Q6 16 27 15 Q36 21 33 33Z" fill="#3a2a20"/><path d="M83 36 Q94 16 73 15 Q64 21 67 33Z" fill="#3a2a20"/><ellipse cx="50" cy="56" rx="37" ry="33" fill="#e6bf86"/><path d="M38 33 Q50 28 62 33 M41 39 Q50 35.5 59 39" stroke="#3a2a20" stroke-opacity=".4" stroke-width="2.2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="67" rx="21" ry="16" fill="#33251c"/><path d="M38 57 Q50 51 62 57" stroke="#1a1411" stroke-opacity=".6" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="61.5" rx="7" ry="4.6" fill="#0d0b0a"/><ellipse cx="47.8" cy="60" rx="2.2" ry="1.1" fill="#fff" opacity=".55"/><path d="M26 51 Q33 42 40 51" stroke="#1b1714" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M60 51 Q67 42 74 51" stroke="#1b1714" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M42 71 Q46 75 50 70.5 Q54 75 58 71" stroke="#7d6a5f" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M45.5 73 Q50 71 54.5 73 L54.5 75.5 Q50 83 45.5 75.5Z" fill="#ff6f8e"/><path d="M50 74 V78" stroke="#d94f70" stroke-width="1.2"/><ellipse cx="22" cy="63" rx="6" ry="3.6" fill="#ff7b9c" opacity=".55"/><ellipse cx="78" cy="63" rx="6" ry="3.6" fill="#ff7b9c" opacity=".55"/></svg>
+    </svg>
+    <figcaption>時計まわりにぐるっと旅！ゴールは下の那覇空港です。</figcaption>
+  </figure>
+</section>
+
+<section id="dice" class="c3">
+  <div class="chapter"><span class="badge">3</span><h2>サイコロを振る</h2></div>
+  <div class="step" style="border-top:0;margin-top:0;padding-top:0">
+    <div>
+      <h3>④ 自分の番に「サイコロを振る」！</h3>
+      <p>自分の番のしるしは、画面下の大きなボタンです。出た目の数だけ進みます。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 260 96" role="img" aria-label="サイコロを振るボタンと出目の見本">
+        <rect x="8" y="22" width="158" height="50" rx="25" fill="#ffd34d" stroke="#2b2140" stroke-width="3.5"/>
+        <text x="87" y="53" text-anchor="middle" font-size="15" font-weight="900" fill="#2b2140">🎲 サイコロを振る</text>
+        <rect x="190" y="16" width="60" height="60" rx="14" fill="#fff" stroke="#2b2140" stroke-width="3.5"/>
+        <circle cx="206" cy="32" r="4.5" fill="#2b2140"/><circle cx="234" cy="32" r="4.5" fill="#2b2140"/>
+        <circle cx="220" cy="44" r="4.5" fill="#2b2140"/>
+        <circle cx="206" cy="58" r="4.5" fill="#2b2140"/><circle cx="234" cy="58" r="4.5" fill="#2b2140"/>
+        <text x="220" y="92" text-anchor="middle" font-size="12" font-weight="900" fill="#2b2140">出た目＝進むマス</text>
+      </svg>
+      <figcaption>ボタンを押すとサイコロがコロコロ！</figcaption>
+    </figure>
+    <p class="tip">🐾 出た目の数だけ、パグが1マスずつ進むよ。</p>
+  </div>
+</section>
+
+<section id="squares" class="c4">
+  <div class="chapter"><span class="badge">4</span><h2>マスの色の意味</h2></div>
+  <p class="lead">止まったマスの色で、おこることが決まります！</p>
+  <div class="grid2">
+    <div class="sq"><i style="background:#2f7fe8">+</i><span><b>青マス</b><span class="t">ボーナス！100〜500バウもらえる</span></span></div>
+    <div class="sq"><i style="background:#e11d48">!</i><span><b>赤マス</b><span class="t">トラブル…バウ減少・1回休み・後退のどれか</span></span></div>
+    <div class="sq"><i style="background:#16a34a">🎁</i><span><b>緑マス</b><span class="t">アイテムがもらえる</span></span></div>
+    <div class="sq"><i style="background:#f97316">♨</i><span><b>温泉マス</b><span class="t">ふぅ～～～。次のターン出目+2</span></span></div>
+    <div class="sq"><i style="background:#8b5cf6">🐾</i><span><b>セルフ散歩マス</b><span class="t">飼い主に黙ってお出かけ！どこまで行くかは運しだい</span></span></div>
+    <div class="sq"><i style="background:#0ea5e9">✈</i><span><b>ぱぐーきマス</b><span class="t">ぱぐーきに乗ってランダムにワープ</span></span></div>
+    <div class="sq"><i style="background:#64748b">🌀</i><span><b>台風マス</b><span class="t">次のプレイヤーが1回休み</span></span></div>
+    <div class="sq"><i style="background:#1d3a2a">の</i><span><b>味付けのりマス</b><span class="t">味付けのりを1〜3枚GET</span></span></div>
+    <div class="sq"><i style="background:#e8336d">🎫</i><span><b>タダ旅行マス</b><span class="t">運がよければタダ旅行券GET</span></span></div>
+    <div class="sq"><i style="background:#e0a800">✨</i><span><b>パグ神マス</b><span class="t">超レア！パグ神からごほうび</span></span></div>
+  </div>
+  <p class="tip" style="margin-top:14px">📖 マスの説明は画面の文章をよく読んでね。選ぶ画面が出たらボタンで選ぼう。</p>
+</section>
+
+<section id="items" class="c5">
+  <div class="chapter"><span class="badge">5</span><h2>アイテムを使う</h2></div>
+  <p class="lead">画面下の🎒「アイテム」ボタンから使えるよ！</p>
+  <div class="grid2">
+    <div class="item"><span class="ic">🎫</span><span><b>タダ旅行券</b><span class="t">好きな観光地へワープ！ゴールの那覇空港へは直接行けないよ</span></span></div>
+    <div class="item"><span class="ic">🧿</span><span><b>パグのお守り</b><span class="t">次の出目が必ず4〜6になる</span></span></div>
+    <div class="item"><span class="ic">🎲</span><span><b>サイコロ+1</b><span class="t">このターンだけサイコロが1個増える</span></span></div>
+    <div class="item"><span class="ic">✈️</span><span><b>ぱぐーきチケット</b><span class="t">3〜8マス先へひとっ飛び</span></span></div>
+    <div class="item"><span class="ic">♨️</span><span><b>温泉券</b><span class="t">前方の温泉マスへ行ってお風呂！</span></span></div>
+    <div class="item"><span class="ic">🚝</span><span><b>パグレール</b><span class="t">次の観光スポットまで直行！</span></span></div>
+    <div class="item"><span class="ic">🧂</span><span><b>天然塩</b><span class="t">悪いできごとを1回、自動でふせぐ</span></span></div>
+    <div class="item"><span class="ic">🧶</span><span><b>味付けのり</b><span class="t">3枚で出目+1、5枚で次のターン2回振り、10枚で「のり神パグ」！</span></span></div>
+  </div>
+  <p class="tip" style="margin-top:14px">💡 アイテムを使うと、そのときの説明が画面に出るよ。迷ったら読んでね。</p>
+</section>
+
+<section id="goal" class="c6">
+  <div class="chapter"><span class="badge">6</span><h2>ゴールと優勝</h2></div>
+  <p class="lead">那覇空港に最初に戻ったパグが優勝！🏆</p>
+  <div class="grid2">
+    <div class="item"><span class="ic">🏁</span><span><b>ゴールのルール</b><span class="t">「通過でOK」か「ぴったり」から選べるよ。「ぴったり」は出目が多すぎると戻されちゃう</span></span></div>
+    <div class="item"><span class="ic">🎁</span><span><b>ボーナス発表</b><span class="t">結果の前に「温泉王」「散歩王」などを3つ発表！思い出ポイントもGET</span></span></div>
+  </div>
+  <p class="tip" style="margin-top:14px">🔁 2周・3周のゲームは、那覇空港を通るたびに周回が進むよ。最後の周で那覇空港に戻ったらゴール！</p>
+</section>
+
+<section id="extras" class="c7">
+  <div class="chapter"><span class="badge">7</span><h2>もっと楽しむ</h2></div>
+  <div class="grid2">
+    <div class="item"><span class="ic">🏅</span><span><b>やり込み</b><span class="t">毎日同じ盤面に挑戦できる「デイリー」、実績、着せ替えがあるよ。デイリーでは名前も入れられる！</span></span></div>
+    <div class="item"><span class="ic">📸</span><span><b>思い出アルバム</b><span class="t">観光スポットで撮った写真がたまっていく</span></span></div>
+    <div class="item"><span class="ic">🏆</span><span><b>パグランキング</b><span class="t">これまでのゲームの記録が見られる</span></span></div>
+    <div class="item"><span class="ic">📍</span><span><b>観光スポット</b><span class="t">寄ったスポットではいろいろなできごとが！スタンプラリーもあるよ</span></span></div>
+  </div>
+</section>
+
+<section id="qa" class="c8">
+  <div class="chapter"><span class="badge">8</span><h2>困ったときは</h2></div>
+  <div class="faq">
+    <h3>🔇 音が出ない！</h3>
+    <p>スマホは、画面を一度タップすると音が出るようになります。🔊ボタンで効果音がオンかも確かめてね。音楽は設定画面で切り替えられます。</p>
+  </div>
+  <div class="faq">
+    <h3>📖 この説明書をもう一度見たい</h3>
+    <p>タイトル画面の「📖 説明書」、またはゲーム中の⚙️メニューの「📖 説明書を見る」から、いつでも開けます。上の「一覧」ボタンでは、マス・アイテム・観光スポットのくわしい一覧が見られます。</p>
+  </div>
+  <div class="faq">
+    <h3>💾 途中のゲームを続けたい</h3>
+    <p>タイトル画面の「続きから」を押すと、途中のゲームを再開できます。</p>
+  </div>
+  <div class="faq">
+    <h3>🧹 古いデータが消えた</h3>
+    <p>新しい版ではマスの数が変わったため、以前のデータは「続きから」で再開できません。</p>
+  </div>
+  <div class="faq">
+    <h3>🤖 CPUのばんが止まって見える</h3>
+    <p>CPUのばんは自動で進みます。少し待つか、画面をタップして進めてね。</p>
+  </div>
+</section>
+
+<p class="end"><span><svg viewBox="0 0 100 100" width="28" height="28" class="pug inl" aria-hidden="true" focusable="false"><path d="M17 36 Q6 16 27 15 Q36 21 33 33Z" fill="#3a2a20"/><path d="M83 36 Q94 16 73 15 Q64 21 67 33Z" fill="#3a2a20"/><ellipse cx="50" cy="56" rx="37" ry="33" fill="#e6bf86"/><path d="M38 33 Q50 28 62 33 M41 39 Q50 35.5 59 39" stroke="#3a2a20" stroke-opacity=".4" stroke-width="2.2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="67" rx="21" ry="16" fill="#33251c"/><path d="M38 57 Q50 51 62 57" stroke="#1a1411" stroke-opacity=".6" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="61.5" rx="7" ry="4.6" fill="#0d0b0a"/><ellipse cx="47.8" cy="60" rx="2.2" ry="1.1" fill="#fff" opacity=".55"/><path d="M26 51 Q33 42 40 51" stroke="#1b1714" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M60 51 Q67 42 74 51" stroke="#1b1714" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M42 71 Q46 75 50 70.5 Q54 75 58 71" stroke="#7d6a5f" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M45.5 73 Q50 71 54.5 73 L54.5 75.5 Q50 83 45.5 75.5Z" fill="#ff6f8e"/><path d="M50 74 V78" stroke="#d94f70" stroke-width="1.2"/><ellipse cx="22" cy="63" rx="6" ry="3.6" fill="#ff7b9c" opacity=".55"/><ellipse cx="78" cy="63" rx="6" ry="3.6" fill="#ff7b9c" opacity=".55"/></svg>🌺 楽しいパグ旅を！ 🌺<svg viewBox="0 0 100 100" width="28" height="28" class="pug inl" aria-hidden="true" focusable="false"><path d="M17 36 Q6 16 27 15 Q36 21 33 33Z" fill="#3a2a20"/><path d="M83 36 Q94 16 73 15 Q64 21 67 33Z" fill="#3a2a20"/><ellipse cx="50" cy="56" rx="37" ry="33" fill="#e6bf86"/><path d="M38 33 Q50 28 62 33 M41 39 Q50 35.5 59 39" stroke="#3a2a20" stroke-opacity=".4" stroke-width="2.2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="67" rx="21" ry="16" fill="#33251c"/><path d="M38 57 Q50 51 62 57" stroke="#1a1411" stroke-opacity=".6" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="61.5" rx="7" ry="4.6" fill="#0d0b0a"/><ellipse cx="47.8" cy="60" rx="2.2" ry="1.1" fill="#fff" opacity=".55"/><path d="M26 51 Q33 42 40 51" stroke="#1b1714" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M60 51 Q67 42 74 51" stroke="#1b1714" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M42 71 Q46 75 50 70.5 Q54 75 58 71" stroke="#7d6a5f" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M45.5 73 Q50 71 54.5 73 L54.5 75.5 Q50 83 45.5 75.5Z" fill="#ff6f8e"/><path d="M50 74 V78" stroke="#d94f70" stroke-width="1.2"/><ellipse cx="22" cy="63" rx="6" ry="3.6" fill="#ff7b9c" opacity=".55"/><ellipse cx="78" cy="63" rx="6" ry="3.6" fill="#ff7b9c" opacity=".55"/></svg></span></p>
+</template>
 <script>
 (()=>{
 'use strict';
@@ -1910,22 +2266,40 @@ function openMenu(){
   <div class="setRow"><label>効果音</label>${seg('sound',[[true,'ON'],[false,'OFF']],S.sound)}</div>
   <div class="setRow"><label>ゲームスピード</label>${seg('speed',[['slow','ゆっくり'],['normal','ふつう'],['fast','はやい']],S.speed)}</div>
   <div class="setRow"><label>メッセージ送り</label>${seg('msgMode',[['normal','ふつう'],['slow','じっくり'],['tap','タップで進む']],S.msgMode)}</div>
-  <div style="display:grid;gap:8px"><button class="btn" id="mHow">遊び方を見る</button>
+  <div style="display:grid;gap:8px"><button class="btn" id="mHow">📖 説明書を見る</button>
   <button class="btn sea" id="mTitle"${canLeave?'':' disabled'}>タイトルへ（続きから再開できます）</button>
   <button class="btn ghost" id="mQuit"${canLeave?'':' disabled'}>この旅をやめる（セーブ削除）</button>
   ${canLeave?'':'<p class="muted" style="font-size:12px;margin:0">タイトルへ戻るのは自分のターン中だけできます。</p>'}
   <button class="btn" id="mClose">とじる</button></div></div>`);
   bindSegs($('#modalCard'),()=>{openMenu();renderHud()});
   $('#mClose').onclick=closeModal;
-  $('#mHow').onclick=()=>{closeModal();renderHow();show('scrHow')};
+  $('#mHow').onclick=()=>{closeModal();openManual()};
   $('#mTitle').onclick=()=>{saveGame();closeModal();state=null;phase='idle';show('scrTitle')};
   $('#mQuit').onclick=()=>{if(confirm('この旅のセーブを消してタイトルへ戻りますか？')){store.del(KEY_SAVE);closeModal();state=null;phase='idle';show('scrTitle')}};
 }
 
+
+/* ---------- illustrated manual ---------- */
+function openManual(){
+  const ov=$('#manualOv'),fr=$('#manualFrame');
+  if(!fr.dataset.ready){
+    const body=$('#manualTpl').innerHTML;
+    fr.srcdoc='<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'+
+      '<style>html{scroll-behavior:smooth}</style></head><body>'+body+
+      '<scr'+'ipt>document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest(\'a[href^="#"]\');if(!a)return;var t=document.getElementById(a.getAttribute("href").slice(1));if(t){e.preventDefault();t.scrollIntoView({behavior:"smooth",block:"start"})}});</scr'+'ipt></body></html>';
+    fr.dataset.ready='1';
+  }
+  ov.hidden=false;
+}
+function closeManual(){$('#manualOv').hidden=true}
+$('#manualClose').onclick=()=>{try{SFX.click()}catch(e){}closeManual()};
+$('#manualData').onclick=()=>{try{SFX.click()}catch(e){}closeManual();renderHow();show('scrHow')};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#manualOv').hidden)closeManual()});
+
 /* ---------- wiring ---------- */
 $('#tStart').onclick=()=>{SFX.click();renderSetup();show('scrSetup')};
 $('#tContinue').onclick=()=>{SFX.click();continueGame()};
-$('#tHow').onclick=()=>{renderHow();show('scrHow')};
+$('#tHow').onclick=()=>{try{SFX.click()}catch(e){}openManual()};
 $('#tSet').onclick=()=>{renderSettings();show('scrSet')};
 $('#tRank').onclick=()=>{renderRank();show('scrRank')};
 $('#tAlbum').onclick=()=>{SFX.click();renderAlbum();show('scrAlbum')};
