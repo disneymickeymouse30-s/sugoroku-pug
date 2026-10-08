@@ -272,6 +272,8 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
 .awardPugs{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:8px 0}
 .awardBig{font-size:46px;line-height:1.1}
 .mRank{text-align:left;margin:6px 0 10px}.mRank div{display:flex;justify-content:space-between;padding:6px 4px;border-bottom:1px dashed var(--line);font-size:15px}
+.musicHint{margin-top:8px;border:none;border-radius:999px;background:rgba(255,255,255,.92);color:#0e6f8f;font:inherit;font-weight:800;font-size:13px;padding:6px 14px;box-shadow:0 3px 0 rgba(0,0,0,.08);animation:hop 2.4s ease-in-out infinite}
+.musicHint[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -281,7 +283,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
     <svg id="titleArt" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
     <div class="titleBody">
       <div class="logo">
-        <span class="tag">パグしか住んでいない沖縄本島へようこそ</span>
+        <span class="tag">パグしか住んでいない沖縄本島へようこそ</span><br><button class="musicHint" id="musicHint" type="button" hidden>🎵 タップで音楽スタート</button>
         <h1><span class="t1">🐶 パグ旅すごろく</span><span class="t2">～沖縄本島一周バウ！～</span></h1>
         <div class="titlePug" id="titlePug"></div>
       </div>
@@ -398,7 +400,7 @@ const RD=ms=>Math.round(ms*(READF[S.msgMode]||1)*Math.max(.85,SPEED[S.speed]||1)
 let actx=null;
 function ac(){
   if(!actx){try{actx=new (window.AudioContext||window.webkitAudioContext)()}catch(e){actx=null}}
-  if(actx&&actx.state==='suspended'){actx.resume().catch(()=>{})}
+  if(actx&&actx.state!=='running'&&actx.state!=='closed'){actx.resume().catch(()=>{})}
   return actx;
 }
 function tone(f,d,type='sine',v=.14,when=0,slide){
@@ -509,7 +511,7 @@ function bgmPlay(name){
   const a=ac();if(!a)return;
   if(!BGM.master){BGM.master=a.createGain();BGM.master.connect(a.destination)}
   BGM.master.gain.setValueAtTime(BGMVOL[S.bgmVol]||.6,a.currentTime);
-  if(BGM.cur&&BGM.cur.name===name)return;
+  if(BGM.cur&&BGM.cur.name===name){if(!BGM.timer)BGM.timer=setInterval(bgmTick,40);return}
   bgmFadeOut();
   const T=TRACKS[name];if(!T)return;
   const g=a.createGain();g.gain.setValueAtTime(.0001,a.currentTime);g.gain.exponentialRampToValueAtTime(1,a.currentTime+1.2);g.connect(BGM.master);
@@ -527,7 +529,8 @@ function bgmDuck(sec){
   try{m.cancelScheduledValues(t);m.setValueAtTime(m.value,t);m.linearRampToValueAtTime(v*.25,t+.08);m.setValueAtTime(v*.25,t+sec);m.linearRampToValueAtTime(v,t+sec+.8)}catch(e){}
 }
 function bgmTick(){
-  const c=BGM.cur,a=actx;if(!c||!a||a.state!=='running')return;
+  const c=BGM.cur,a=actx;if(!c||!a)return;
+  if(a.state!=='running'){if(userGest&&!document.hidden&&(!c.retry||performance.now()-c.retry>1500)){c.retry=performance.now();a.resume().catch(()=>{})}return}
   const sp=60/c.T.bpm/2;
   if(c.nextT<a.currentTime-.25)c.nextT=a.currentTime+.05;
   while(c.nextT<a.currentTime+.2){
@@ -539,8 +542,23 @@ function bgmTick(){
     c.step=(st+1)%T.len;c.nextT+=sp;
   }
 }
-document.addEventListener('pointerdown',()=>{if(!userGest){userGest=true;bgmUpdate()}const a=actx;if(a&&a.state==='suspended'&&!document.hidden)a.resume().catch(()=>{})},{passive:true});
-document.addEventListener('visibilitychange',()=>{if(!actx)return;if(document.hidden)actx.suspend().catch(()=>{});else if(userGest)actx.resume().catch(()=>{})});
+let audioUnlocked=false;
+function unlockAudio(){
+  if(document.hidden)return;
+  const a=ac();if(!a)return;
+  if(!audioUnlocked){try{const b=a.createBuffer(1,1,22050),src=a.createBufferSource();src.buffer=b;src.connect(a.destination);src.start(0);audioUnlocked=true}catch(e){}}
+  userGest=true;
+  if(a.state!=='running')a.resume().then(()=>{bgmUpdate();renderMusicHint()}).catch(()=>{});
+  bgmUpdate();renderMusicHint();
+}
+['pointerdown','pointerup','touchend','click','keydown'].forEach(ev=>document.addEventListener(ev,unlockAudio,{passive:true,capture:true}));
+document.addEventListener('visibilitychange',()=>{if(!actx)return;if(document.hidden){actx.suspend().catch(()=>{})}else if(userGest){actx.resume().then(()=>{bgmUpdate();renderMusicHint()}).catch(()=>{renderMusicHint()})}});
+window.addEventListener('pageshow',()=>{if(userGest&&actx&&actx.state!=='running')actx.resume().then(bgmUpdate).catch(()=>{});renderMusicHint()});
+function renderMusicHint(){
+  const h=document.getElementById('musicHint');if(!h)return;
+  const playing=!!(actx&&actx.state==='running'&&BGM.cur);
+  h.hidden=!S.bgm||playing;
+}
 
 /* ---------- data ---------- */
 const VB={w:480,h:1080};
@@ -1653,6 +1671,7 @@ function show(id){
   bgmUpdate();
 }
 function renderTitle(){
+  setTimeout(renderMusicHint,0);
   {const sv=store.get(KEY_SAVE);$('#tContinue').disabled=!(sv&&sv.v===3);}
   $('#titlePug').innerHTML=pugSVG('fawn','joy',150);
 }
@@ -1861,7 +1880,6 @@ function openMenu(){
 }
 
 /* ---------- wiring ---------- */
-document.addEventListener('pointerdown',()=>{ac()},{once:true});
 $('#tStart').onclick=()=>{SFX.click();renderSetup();show('scrSetup')};
 $('#tContinue').onclick=()=>{SFX.click();continueGame()};
 $('#tHow').onclick=()=>{renderHow();show('scrHow')};
@@ -1902,6 +1920,7 @@ $('#board').addEventListener('click',e=>{
   else{const t=SQ_TYPES[s.type];toast(`<b>${t.icon} ${t.name}</b><br>${t.desc}`)}
 });
 
+$('#musicHint').addEventListener('click',e=>{e.stopPropagation();unlockAudio();setTimeout(renderMusicHint,300)});
 buildBoard();buildBranch();$('#ciPug').innerHTML=pugSVG('gray','proud',40);renderTitleArt();renderTitle();
 })();
 </script>
