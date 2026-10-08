@@ -1241,9 +1241,12 @@ function dailyConf(key){
   const seed=seedOf('pug-daily-'+key);
   return {seed,breed:BREED_KEYS[Math.abs(seed)%BREED_KEYS.length],rules:{cpuLevel:'normal',randomEvents:true,underdog:true,exactGoal:false,ticketMode:'choose'}};
 }
+const KEY_DNAME='pugSugoroku.dailyName.v1';
+function dailyName(){const v=store.get(KEY_DNAME);return (typeof v==='string'&&v.trim())?v:(setup.humans[0].name||'パグ1')}
 function startDaily(){
   const key=todayKey(),c=dailyConf(key),h=setup.humans[0];
-  startNewGame([{name:(h.name||'').trim()||'パグ1',breed:c.breed,costume:h.costume,title:h.title}],3,{seed:c.seed,daily:key,rules:c.rules,laps:1});
+  const nm=(dailyName()||'').trim().slice(0,8)||'パグ1';store.set(KEY_DNAME,nm);
+  startNewGame([{name:nm,breed:c.breed,costume:h.costume,title:h.title}],3,{seed:c.seed,daily:key,rules:c.rules,laps:1});
 }
 function renderYari(){
   const M=meta(),L=life(),A=achGot(),D=store.get(KEY_DAILY)||{},key=todayKey(),c=dailyConf(key),td=D[key];
@@ -1251,16 +1254,24 @@ function renderYari(){
   const got=ACH.filter(a=>A[a.id]).length;
   $('#yariBody').innerHTML=`<div class="card"><h3>📅 今日のデイリーチャレンジ（${key.slice(5).replace('-','/')}）</h3>
   <p style="margin:0 0 8px;font-size:14px;line-height:1.6">今日はみんな同じ「乱数の種」で遊ぶ1日1回のチャレンジ。同じ選び方をすれば同じ目が出ます。CPU3匹（ふつう）と対戦して、<b>思い出ポイント</b>でスコアを競います。今日のパグは<b>${BREEDS[c.breed].name}</b>（${BREEDS[c.breed].skill}）。</p>
-  <div class="dRow"><span>今日の自己ベスト</span><b>${td?td.best+'pt':'—'}</b></div><div class="dRow"><span>今日の挑戦回数</span><b>${td?td.plays:0}回</b></div>
+  <div class="pCard" style="--pc:${P_COLORS[0]};border-left:6px solid var(--pc);padding:10px 12px;border-radius:14px;background:var(--surface2);margin:4px 0 10px">
+   <label for="dailyNameIn" style="display:block;font-weight:800;font-size:14px;margin-bottom:6px">✏️ 挑戦するパグの名前</label>
+   <div style="display:flex;gap:10px;align-items:center">${pugSVG(c.breed,'smile',52,{costume:setup.humans[0].costume})}<input id="dailyNameIn" style="background:var(--surface)" maxlength="8" value="${esc(dailyName())}" placeholder="名前（8文字まで）" autocomplete="off"></div>
+   ${setupExtras(0,{...setup.humans[0],breed:c.breed})}
+   <div class="hint" style="font-size:12px;color:var(--muted);margin-top:6px">名前はこの端末に保存され、記録にも残ります。</div></div>
+  <div class="dRow"><span>今日の自己ベスト</span><b>${td?td.best+'pt'+(td.name?`（${esc(td.name)}）`:''):'—'}</b></div><div class="dRow"><span>今日の挑戦回数</span><b>${td?td.plays:0}回</b></div>
   <button class="btn primary wide" id="dailyGo" style="margin-top:10px">📅 デイリーに挑戦${td?'':'（初回+10メダル）'}</button>
-  <div style="margin-top:10px;font-size:12px" class="muted">最近7日：${days.map(k=>`${k.slice(5).replace('-','/')} ${D[k]?D[k].best+'pt':'—'}`).join('／')}</div></div>
+  <div style="margin-top:10px;font-size:12px" class="muted">最近7日：${days.map(k=>`${k.slice(5).replace('-','/')} ${D[k]?D[k].best+'pt'+(D[k].name?`（${esc(D[k].name)}）`:''):'—'}`).join('／')}</div></div>
   <div class="card"><h3>🎖️ 思い出メダル <span class="medal">🎖️ ${M.medals}</span></h3><p class="muted" style="margin:0 0 10px;font-size:13px;line-height:1.6">ゲームのたびに「思い出ポイント÷10」枚、優勝・総合優勝で各+5枚、実績解除で+5枚もらえます。着せ替えと交換しよう。</p>
   <div class="shopGrid">${COSTUME_KEYS.map(k=>{const C=COSTUMES[k],own=M.owned[k];return `<div class="cos">${pugSVG('fawn','smile',80,{costume:k})}<b>${C.n}</b>${own?'<div class="muted" style="font-size:13px;font-weight:800">✅ 持っている</div>':`<button class="btn sm gold wide" data-buy="${k}"${M.medals<C.p?' disabled':''}>🎖️ ${C.p}</button>`}</div>`}).join('')}</div>
   <p class="muted" style="font-size:12px;margin:8px 0 0">持っている着せ替えは「ゲームスタート」の画面で着られます。</p></div>
   <div class="card"><h3>🏅 実績 ${got}/${ACH.length}</h3><div class="albBar"><i style="width:${Math.round(got/ACH.length*100)}%"></i></div>
   ${ACH.map(a=>`<div class="achRow${A[a.id]?'':' lock'}"><div class="ai">${a.i}</div><div class="at"><b>${a.n}</b><br>${a.d}<br><span class="ttl">称号：${a.t}</span></div><div style="font-size:18px">${A[a.id]?'✅':'🔒'}</div></div>`).join('')}</div>
   <div class="card"><h3>📊 これまでの記録</h3><div class="dRow"><span>遊んだ回数</span><b>${L.games}</b></div><div class="dRow"><span>一番乗り</span><b>${L.wins}</b></div><div class="dRow"><span>総合優勝</span><b>${L.mvp}</b></div><div class="dRow"><span>温泉</span><b>${L.onsen}回</b></div><div class="dRow"><span>セルフ散歩</span><b>${L.walks}回</b></div><div class="dRow"><span>味付けのり</span><b>${L.nori}枚</b></div><div class="dRow"><span>スタンプ</span><b>${L.stamps}個</b></div><div class="dRow"><span>ミッション達成</span><b>${L.missions}回</b></div></div>`;
-  $('#dailyGo').onclick=()=>{SFX.click();startDaily()};
+  const din=$('#dailyNameIn');din.addEventListener('input',()=>store.set(KEY_DNAME,din.value));
+  $('#yariBody').querySelectorAll('[data-cos]').forEach(b=>b.addEventListener('click',()=>{SFX.click();setup.humans[0].costume=b.dataset.c==='none'?null:b.dataset.c;store.set(KEY_DNAME,din.value);renderYari()}));
+  $('#yariBody').querySelectorAll('[data-title]').forEach(sel=>sel.addEventListener('change',()=>{setup.humans[0].title=sel.value}));
+  $('#dailyGo').onclick=()=>{SFX.click();store.set(KEY_DNAME,din.value);if(!din.value.trim()){din.focus();toast('名前を入れてね（8文字まで）');return}startDaily()};
   $('#yariBody').querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>{
     const k=b.dataset.buy,M2=meta(),C=COSTUMES[k];if(M2.owned[k]||M2.medals<C.p)return;
     M2.medals-=C.p;M2.owned[k]=1;store.set(KEY_META,M2);SFX.jackpot();toast(`👕 「${C.n}」をGET！`);
@@ -1276,7 +1287,7 @@ function processMeta(){
   let medals=0;hum.forEach(p=>{medals+=Math.floor(rows.find(r=>r.p===p).t/10)});
   if(!w.isCPU)medals+=5;if(!mvp.isCPU)medals+=5;
   let dl='';
-  if(state.daily){const D=store.get(KEY_DAILY)||{},k=state.daily,sc=rows.find(r=>r.p===hum[0]).t,rec=D[k]||{best:0,plays:0},first=rec.plays===0;rec.plays++;const nb=sc>rec.best;if(nb)rec.best=sc;D[k]=rec;store.set(KEY_DAILY,D);L.daily++;L.dailyDays=L.dailyDays||[];if(!L.dailyDays.includes(k))L.dailyDays.push(k);if(first)medals+=10;
+  if(state.daily){const D=store.get(KEY_DAILY)||{},k=state.daily,sc=rows.find(r=>r.p===hum[0]).t,rec=D[k]||{best:0,plays:0},first=rec.plays===0;rec.plays++;const nb=sc>rec.best;if(nb){rec.best=sc;rec.name=hum[0].name}D[k]=rec;store.set(KEY_DAILY,D);L.daily++;L.dailyDays=L.dailyDays||[];if(!L.dailyDays.includes(k))L.dailyDays.push(k);if(first)medals+=10;
     dl=`<div class="dRow"><span>📅 デイリー（${k.slice(5).replace('-','/')}）</span><b>${sc}pt${nb?' 🎉自己ベスト':`（ベスト${rec.best}）`}</b></div>${first?'<div class="dRow"><span>デイリー初回ボーナス</span><b>+10</b></div>':''}`}
   store.set(KEY_LIFE,L);
   const M=meta();M.medals+=medals;store.set(KEY_META,M);
