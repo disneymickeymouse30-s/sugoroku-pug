@@ -281,6 +281,26 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
 #manualOv .mBar button{border:0;border-radius:999px;padding:8px 14px;font:inherit;font-weight:800;font-size:14px;background:#ffd34d;color:#2b2140;min-height:40px;cursor:pointer}
 #manualOv .mBar button.alt{background:#fff;color:#2b2140}
 #manualOv iframe{flex:1;width:100%;border:0;background:#fff6e0;padding-bottom:env(safe-area-inset-bottom,0px)}
+.piece{cursor:pointer}
+.piece .actRing{animation:actPulse 1.3s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes actPulse{0%,100%{transform:scale(1);opacity:.95}50%{transform:scale(1.18);opacity:.55}}
+.piece .actTag{animation:tagBob 1.1s ease-in-out infinite}
+@keyframes tagBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.piece .pingRing{opacity:0;transform-box:fill-box;transform-origin:center}
+.piece.ping .pingRing{animation:ping 1.5s ease-out 1}
+@keyframes ping{0%{transform:scale(1);opacity:1}100%{transform:scale(3.4);opacity:0}}
+#raceBar{position:relative;height:36px;margin:6px 2px 0}
+#raceBar .rbTrack{position:absolute;left:16px;right:16px;top:15px;height:7px;border-radius:4px;background:repeating-linear-gradient(90deg,#f6e3b0 0 8px,#ffd98a 8px 16px);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+#raceBar .rbEnd{position:absolute;top:8px;font-size:15px;line-height:1}
+#raceBar .rbEnd.s{left:-2px}#raceBar .rbEnd.g{right:-2px}
+#raceBar .rbLap{position:absolute;top:-4px;width:3px;height:15px;border-radius:2px;background:#e8a25a}
+#raceBar .rbP{position:absolute;width:28px;height:28px;border-radius:50%;border:3px solid var(--pc);background:#fff;padding:0;display:grid;place-items:center;transform:translateX(-50%);transition:left .5s ease;box-shadow:0 2px 4px rgba(0,0,0,.18)}
+#raceBar .rbP svg{width:22px;height:22px}
+#raceBar .rbP i{position:absolute;right:-7px;bottom:-5px;font-style:normal;font-size:10px;font-weight:900;background:var(--pc);color:#fff;border:1.5px solid #fff;border-radius:9px;min-width:16px;line-height:13px;text-align:center}
+#raceBar .rbP.on{z-index:3;box-shadow:0 0 0 3px #ffd34d,0 2px 6px rgba(0,0,0,.25)}
+#raceBar .rbP.fin{opacity:.8}
+.chip .num{font-style:normal;font-size:10px;font-weight:900;background:var(--pc);color:#fff;border-radius:9px;min-width:16px;line-height:15px;text-align:center}
+.chip .loc{font-size:11px;line-height:1;margin-left:-1px}
 </style>
 </head>
 <body>
@@ -347,6 +367,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
         </div>
       </div>
       <div id="hudChips"></div>
+      <div id="raceBar" aria-label="みんなの進み具合"></div>
     </div>
     <div id="boardWrap">
       <div class="walkHolder"><div id="walkTag">てくてく……</div></div>
@@ -532,6 +553,7 @@ ol.order li:nth-child(6) b{background:var(--pink)}
   <a href="#flow">🗺️ 流れ</a>
   <a href="#dice">🎲 サイコロ</a>
   <a href="#squares">🎨 マスの色</a>
+  <a href="#where">📍 居場所</a>
   <a href="#items">🎒 アイテム</a>
   <a href="#goal">🏁 ゴール</a>
   <a href="#extras">🏅 もっと</a>
@@ -660,6 +682,17 @@ ol.order li:nth-child(6) b{background:var(--pink)}
     <div class="sq"><i style="background:#e0a800">✨</i><span><b>パグ神マス</b><span class="t">超レア！パグ神からごほうび</span></span></div>
   </div>
   <p class="tip" style="margin-top:14px">📖 マスの説明は画面の文章をよく読んでね。選ぶ画面が出たらボタンで選ぼう。</p>
+</section>
+
+<section id="where" class="c1">
+  <div class="chapter"><span class="badge">📍</span><h2>みんなの居場所</h2></div>
+  <p class="lead">どのパグがどこにいるか、ひと目でわかるよ！</p>
+  <div class="grid2">
+    <div class="item"><span class="ic">🔢</span><span><b>番号バッジ</b><span class="t">マップのパグには1〜4の番号がついているよ。名前の横の番号と同じだよ</span></span></div>
+    <div class="item"><span class="ic">⭐</span><span><b>いまのばんのパグ</b><span class="t">黄色い光と名前の札がついて、ぴょこぴょこ動くよ</span></span></div>
+    <div class="item"><span class="ic">🛫</span><span><b>進み具合バー</b><span class="t">画面上のバーで、スタートからゴールまでどのくらい進んだかがわかるよ</span></span></div>
+    <div class="item"><span class="ic">👆</span><span><b>タップで探す</b><span class="t">名前ボタンかバーのパグをタップすると、マップがそのパグの場所へ動くよ。マップのパグをタップするとくわしい情報が見られるよ</span></span></div>
+  </div>
 </section>
 
 <section id="items" class="c5">
@@ -1255,7 +1288,14 @@ function renderPieces(){
   const cp=cur();let h='';
   [...state.players].sort((a,b)=>(a===cp)-(b===cp)).forEach(p=>{
     const k=locKey(p),arr=groups[k],off=OFF[arr.length][arr.indexOf(p)],c=pieceXY(p);
-    h+=`<g class="piece${p===cp?' active':''}" id="pc${p.id}" transform="translate(${(c.x+off[0]).toFixed(1)} ${(c.y+off[1]).toFixed(1)})"><g class="bob">${pieceInner(p)}</g></g>`;
+    const act=p===cp,nm=p.name.length>6?p.name.slice(0,6)+'…':p.name,tw=labelW(nm,10);
+    h+=`<g class="piece${act?' active':''}" id="pc${p.id}" transform="translate(${(c.x+off[0]).toFixed(1)} ${(c.y+off[1]).toFixed(1)})">`+
+      `<circle class="pingRing" r="15" fill="none" stroke="${p.color}" stroke-width="4"/>`+
+      (act?`<circle class="actRing" r="19.5" fill="#ffd34d" fill-opacity=".28" stroke="#ffd34d" stroke-width="3.5"/>`:'')+
+      `<g class="bob">${pieceInner(p)}</g>`+
+      `<g transform="translate(11.5 -11.5)"><circle r="7" fill="${p.color}" stroke="#fff" stroke-width="2"/><text y="3.4" font-size="9.5" font-weight="900" text-anchor="middle" fill="#fff">${pNum(p)}</text></g>`+
+      (act?`<g class="actTag"><rect x="${(-tw/2).toFixed(1)}" y="-46" width="${tw.toFixed(1)}" height="17" rx="8.5" fill="${p.color}" stroke="#fff" stroke-width="2"/><text y="-34" font-size="10" font-weight="900" text-anchor="middle" fill="#fff">${esc(nm)}</text><path d="M-5 -29.5 L5 -29.5 L0 -22 Z" fill="${p.color}" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></g>`:'')+
+      `</g>`;
   });
   g.innerHTML=h;
 }
@@ -1292,6 +1332,33 @@ function giveItem(p,k,n=1){if(k==='nori')return addNori(p,n);p.items[k]+=n;p.sta
 function nextOfType(pos,type,range=99){for(let i=pos+1;i<N&&i<=pos+range;i++)if(BOARD[i].type===type)return i;return -1}
 function nextUnfinished(src){const n=state.players.length,i0=state.players.indexOf(src);for(let k=1;k<n;k++){const p=state.players[(i0+k)%n];if(!p.finished)return p}return null}
 
+
+/* ---------- where is everyone ---------- */
+const pNum=p=>p.id+1;
+function progFrac(p){const tot=LAPS()*N;return p.finished?1:Math.max(0,Math.min(1,(tot-remainOf(p))/tot))}
+function renderRaceBar(){
+  const el=$('#raceBar');if(!el||!state)return;
+  const cp=cur(),L=LAPS();
+  let h='<div class="rbTrack">';for(let k=1;k<L;k++)h+=`<span class="rbLap" style="left:calc(${(k/L*100).toFixed(2)}% - 1.5px)" title="${k}周目の那覇空港"></span>`;
+  h+='</div><span class="rbEnd s" aria-hidden="true">🛫</span><span class="rbEnd g" aria-hidden="true">🏁</span>';
+  const arr=state.players.map(p=>({p,f:progFrac(p)})).sort((a,b)=>a.f-b.f);
+  const GAP=.085;arr.forEach((o,i)=>{o.d=i?Math.max(o.f,arr[i-1].d+GAP):o.f;o.top=4});
+  const over=arr.length?arr[arr.length-1].d-1:0;
+  if(over>0)for(let i=arr.length-1;i>=0;i--){const lim=i===arr.length-1?1:arr[i+1].d-GAP;arr[i].d=Math.min(arr[i].d,lim)}
+  arr.forEach(o=>o.f=Math.max(0,o.d));
+  arr.sort((a,b)=>(a.p===cp)-(b.p===cp)).forEach(({p,f,top})=>{
+    h+=`<button class="rbP${p===cp?' on':''}${p.finished?' fin':''}" data-pid="${p.id}" style="--pc:${p.color};left:calc(16px + (100% - 32px) * ${f.toFixed(4)});top:${top}px" aria-label="${esc(p.name)}の場所を見る">${pugP(p,p.finished?'joy':(p.face||'normal'),22)}<i>${pNum(p)}</i></button>`;
+  });
+  el.innerHTML=h;
+}
+function locatePlayer(id){
+  if(!state)return;const p=state.players.find(x=>x.id===id);if(!p)return;
+  focusXY(pieceXY(p));
+  const el=document.getElementById('pc'+id);
+  if(el){el.classList.remove('ping');void el.getBoundingClientRect();el.classList.add('ping');setTimeout(()=>el.classList.remove('ping'),1600)}
+  toast(`📍 <b>${esc(p.name)}</b>（${pNum(p)}）<br>${locNameP(p)}・あと${remainOf(p)}マス`);
+}
+
 /* ---------- HUD ---------- */
 function renderHud(){
   if(!state)return;
@@ -1311,7 +1378,8 @@ function renderHud(){
   <div class="curLoc"><span style="overflow:hidden;text-overflow:ellipsis">📍 ${locNameP(p)}</span><span class="prog">${state.daily?'📅':''}${LAPS()>1?`${Math.min(LAPS(),(p.lap||0)+1)}/${LAPS()}周・`:''}${state.round}日目・あと${remainOf(p)}マス</span></div>
   <div class="curStats"><span>💰${p.bau.toLocaleString()}バウ</span><span>${NORI}${p.items.nori}</span><span>🎫${p.items.ticket}</span><span>🧂${p.items.salt}</span><span>🎲${p.items.dice}</span></div>
   ${mods.length?`<div class="mods">${mods.map(m=>`<span>${m}</span>`).join('')}</div>`:''}</div>`;
-  $('#hudChips').innerHTML=state.players.map(x=>`<button class="chip${x===p?' on':''}" data-pid="${x.id}" style="--pc:${x.color}">${pugP(x,x.finished?'joy':(x.face||'normal'),24)}<span>${esc(x.name)}</span><b>${x.finished?'🏁':R[x.id]+'位'}</b></button>`).join('');
+  $('#hudChips').innerHTML=state.players.map(x=>`<button class="chip${x===p?' on':''}" data-pid="${x.id}" style="--pc:${x.color}" aria-label="${esc(x.name)}の場所を見る">${pugP(x,x.finished?'joy':(x.face||'normal'),24)}<i class="num">${pNum(x)}</i><span>${esc(x.name)}</span><b>${x.finished?'🏁':R[x.id]+'位'}</b><span class="loc" aria-hidden="true">📍</span></button>`).join('');
+  renderRaceBar();
   $('#btnSound').textContent=S.sound&&S.bgm?'🔊':S.sound?'🔉':S.bgm?'🎵':'🔇';$('#btnSound').setAttribute('aria-label',S.sound&&S.bgm?'BGMと効果音：ON':S.sound?'効果音だけON':S.bgm?'BGMだけON':'音：OFF');
 }
 function setControls(){
@@ -2328,8 +2396,10 @@ $('#btnMap').onclick=()=>{
   $('#mapLbl').textContent=b.classList.contains('zoom')?'全体':'ズーム';
   if(state)requestAnimationFrame(()=>focusPos(pieceXY(cur()),false));
 };
-$('#hudChips').addEventListener('click',e=>{const c=e.target.closest('.chip');if(c){SFX.click();openInfo(+c.dataset.pid)}});
+$('#hudChips').addEventListener('click',e=>{const c=e.target.closest('.chip');if(c){SFX.click();locatePlayer(+c.dataset.pid)}});
+$('#raceBar').addEventListener('click',e=>{const c=e.target.closest('.rbP');if(c){SFX.click();locatePlayer(+c.dataset.pid)}});
 $('#board').addEventListener('click',e=>{
+  const pc=e.target.closest('.piece');if(pc&&state){SFX.click();openInfo(+pc.id.slice(2));return}
   const g=e.target.closest('.sq');if(!g)return;
   if(g.dataset.b!=null&&BRANCH){const t=SQ_TYPES[BRANCH.types[+g.dataset.b]];toast(`⛰️ <b>山道の近道</b>・${t.icon} ${t.name}<br>${t.desc}`);return}
   const i=+g.dataset.i,s=BOARD[i];if(!s)return;
