@@ -115,6 +115,16 @@
       nothost: 'ホストだけができる操作です',
       denied: 'その操作は許可されていません'
     };
+    if (c === 'auth' || c === 'sdk') {        // 原因が分かるようにヒントとコードを添える
+      var raw = String((e && e.message) || '');
+      var code = (raw.match(/auth\/[a-z0-9-]+/) || [''])[0];
+      var hint = '';
+      if (/referer|referrer|API_KEY_HTTP_REFERRER|requests-from/i.test(raw)) hint = '（APIキーの「ウェブサイトの制限」が合っていません）';
+      else if (/admin-restricted|operation-not-allowed/i.test(raw)) hint = '（Firebaseで「匿名」ログインが有効になっていません）';
+      else if (/api-key-not-valid|invalid-api-key|API key not valid/i.test(raw)) hint = '（firebase-config.js の apiKey が違います）';
+      else if (/network-request-failed|Failed to fetch/i.test(raw)) hint = '（通信できませんでした。電波を確認してね）';
+      return m[c] + hint + (code ? ' [' + code + ']' : '');
+    }
     if (c && m[c]) return m[c];
     if (isDenied(e)) return m.denied;
     return '通信エラーが起きました。もう一度ためしてね';
