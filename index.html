@@ -141,6 +141,34 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
 #toast{position:fixed;left:50%;bottom:calc(100px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);background:rgba(20,40,55,.94);color:#fff;font-weight:700;font-size:14px;padding:10px 16px;border-radius:14px;max-width:min(92vw,420px);text-align:center;opacity:0;pointer-events:none;transition:all .25s;z-index:80;line-height:1.5}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
+/* ===== Online ===== */
+.btn.netT{background:linear-gradient(135deg,#7c5cff,#18a6c9);color:#fff;border-color:transparent}
+.btn.netT small{display:block;font-size:11px;opacity:.9;font-weight:700}
+.netCard{margin:0 0 12px}
+.netCard h3{margin:0 0 8px;font-size:16px}
+.netLbl{display:block;font-size:12px;font-weight:800;color:var(--muted);margin:2px 0 4px}
+.netIn{width:100%;font:inherit;font-size:18px;font-weight:800;padding:10px 12px;border-radius:12px;border:2px solid var(--line);background:var(--surface2);color:var(--text)}
+.netCodeIn{text-align:center;letter-spacing:.3em;font-size:24px;margin-bottom:8px}
+.netBreeds{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.netBreeds button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;border-radius:12px;border:2px solid var(--line);background:var(--surface2);font-weight:800}
+.netBreeds button small{font-size:10px}
+.netBreeds button.on{border-color:var(--coral);background:var(--surface);box-shadow:0 0 0 2px var(--coral) inset}
+.netRoom{text-align:center}
+.netCodeBig{font-size:42px;font-weight:900;letter-spacing:.12em;color:var(--sea);line-height:1.1;margin:2px 0 8px;font-variant-numeric:tabular-nums}
+.netSeat{display:flex;align-items:center;gap:8px;padding:8px;border-radius:12px;background:var(--surface2);margin-bottom:6px;min-height:56px}
+.netSeat .nm{flex:1;min-width:0;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.netSeat .nm small{display:block;font-size:11px;color:var(--muted);font-weight:700}
+.netSeat.empty{border:2px dashed var(--line);background:transparent;color:var(--muted);justify-content:space-between;padding-left:14px}
+.netDot{width:10px;height:10px;border-radius:50%;background:#94a3b8;flex:0 0 auto}
+.netDot.on{background:var(--good);box-shadow:0 0 0 3px rgba(22,163,74,.2)}
+.netWait{text-align:center;font-weight:800;color:var(--muted);margin:14px 0}
+.netNote{font-size:12px;line-height:1.6}
+.netBusy{opacity:.6;pointer-events:none}
+#netBar{position:fixed;left:8px;right:8px;top:calc(env(safe-area-inset-top,0px) + 6px);margin:0 auto;max-width:600px;z-index:90;display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:14px;background:rgba(20,40,55,.95);color:#fff;font-size:13px;font-weight:800;line-height:1.4;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+#netBar span{flex:1;min-width:0}
+#netBar[hidden]{display:none}
+#netBar .btn{flex:0 0 auto}
+
 /* ===== Modal ===== */
 .modal{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:calc(14px + env(safe-area-inset-top,0px)) 14px calc(14px + env(safe-area-inset-bottom,0px));background:rgba(6,32,48,.55)}
 .modal.hidden{display:none}
@@ -313,6 +341,18 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
 .isleT.on b{background:#18a6c9;color:#fff}
 .chuB .ico{vertical-align:-3px}
 @media (max-height:760px){.titlePug{width:104px;height:104px}.titlePug svg{width:100%;height:100%}.menu{gap:8px}.menu .btn{min-height:48px;font-size:16px}.isleT{min-height:40px!important}.logo h1 .t2{margin-top:6px}}
+.amiWrap{padding-bottom:6px}
+.amiVs{display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;font-weight:800;margin:4px 0 6px;flex-wrap:wrap}
+.amiVs span{display:inline-flex;align-items:center;gap:4px;border:2px solid var(--pc);border-radius:999px;padding:1px 8px 1px 2px;background:var(--surface)}
+.amiVs b{color:#e8336d}
+.amiTop{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:0 auto -4px;max-width:300px}
+.amiPick{justify-self:center;width:44px;height:44px;border-radius:50%;border:3px solid #5b4a3a;background:#ffd34d;color:#3b2600;font-weight:900;font-size:18px;display:grid;place-items:center;padding:0;cursor:pointer}
+.amiPick:disabled{opacity:.55;cursor:default}
+.amiPick.taken{opacity:1;background:#fff;border-color:var(--pc)}
+.amiPick:not(:disabled):not(.taken){animation:amiPulse 1s ease-in-out infinite}
+@keyframes amiPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.amiSvg{display:block;width:100%;max-width:300px;height:auto;margin:0 auto}
+.amiMsg{min-height:40px;margin:6px 0 4px;font-size:14px;line-height:1.5}
 </style>
 </head>
 <body>
@@ -330,6 +370,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
         <button class="btn primary" id="tStart">ゲームスタート</button>
         <button class="btn isleT" id="tIsle" type="button" aria-pressed="false">🏝️ 離島追加モード <b>OFF</b></button>
         <button class="btn sea" id="tContinue">続きから</button>
+        <button class="btn netT" id="tOnline" type="button" hidden>🌐 オンライン対戦<small>部屋番号で2〜4匹</small></button>
         <div class="row2">
           <button class="btn" id="tHow">📖 説明書</button>
           <button class="btn" id="tRank">ランキング</button>
@@ -338,6 +379,11 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
         <div class="row2"><button class="btn" id="tSet">設定</button><button class="btn" id="tAlbum">📸 アルバム</button></div>
       </div>
     </div>
+  </section>
+
+  <section id="scrOnline" class="screen page">
+    <div class="pageHead"><button class="back" id="netBackBtn" aria-label="もどる">←</button><h2>🌐 オンライン対戦</h2></div>
+    <div class="pageBody scroll" id="onlineBody"></div>
   </section>
 
   <section id="scrSetup" class="screen page">
@@ -405,6 +451,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
 </div>
 
 <div id="modal" class="modal hidden" role="dialog" aria-modal="true"><div id="modalCard"></div></div>
+<div id="netBar" role="status" aria-live="polite" hidden></div>
 <div id="diceLayer" class="hidden"><div class="diceBox"><div id="diceRow"></div><div id="diceRes"></div><div id="diceMod"></div></div></div>
 <div id="toast"></div>
 <div id="cutin" class="cutin" aria-live="polite"><div class="ciBox"><div class="ciPug" id="ciPug"></div><div class="ciTx"><b>🎙️ 実況パグ</b><span id="ciText"></span></div></div></div>
@@ -721,7 +768,7 @@ ol.order li:nth-child(6) b{background:var(--pink)}
     <div class="item"><span class="ic">🚝</span><span><b>パグレール</b><span class="t">次の観光スポットまで直行！</span></span></div>
     <div class="item"><span class="ic">🧂</span><span><b>天然塩</b><span class="t">悪いできごとを1回、自動でふせぐ</span></span></div>
     <div class="item"><span class="ic">🧶</span><span><b>味付けのり</b><span class="t">3枚で出目+1、5枚で次のターン2回振り、10枚で「のり神パグ」！</span></span></div>
-    <div class="item"><span class="ic">🍡</span><span><b>ちゅ〜る（レア）</b><span class="t">大逆転アイテム！最下位で1位と大きく離れていると、緑マスやパグ神マス、みんなの応援でもらえることがあるよ。1位のパグに食べさせると「1位をゆずってあげるバウ！」と場所を入れかわってくれる！</span></span></div>
+    <div class="item"><span class="ic">🍡</span><span><b>ちゅ〜る（レア）</b><span class="t">大逆転アイテム！最下位で1位と大きく離れていると、緑マスやパグ神マス、みんなの応援でもらえることがあるよ。1位のパグに食べさせると、あみだくじで勝負！ 選び終わるまで答えはヒミツで、毎回ランダムだよ。勝ったら「1位をゆずってあげるバウ！」と場所を入れかわってくれる！</span></span></div>
   </div>
   <p class="tip" style="margin-top:14px">💡 アイテムを使うと、そのときの説明が画面に出るよ。迷ったら読んでね。</p>
 </section>
@@ -787,6 +834,8 @@ ol.order li:nth-child(6) b{background:var(--pink)}
 
 <p class="end"><span><svg viewBox="0 0 100 100" width="28" height="28" class="pug inl" aria-hidden="true" focusable="false"><path d="M17 36 Q6 16 27 15 Q36 21 33 33Z" fill="#3a2a20"/><path d="M83 36 Q94 16 73 15 Q64 21 67 33Z" fill="#3a2a20"/><ellipse cx="50" cy="56" rx="37" ry="33" fill="#e6bf86"/><path d="M38 33 Q50 28 62 33 M41 39 Q50 35.5 59 39" stroke="#3a2a20" stroke-opacity=".4" stroke-width="2.2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="67" rx="21" ry="16" fill="#33251c"/><path d="M38 57 Q50 51 62 57" stroke="#1a1411" stroke-opacity=".6" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="61.5" rx="7" ry="4.6" fill="#0d0b0a"/><ellipse cx="47.8" cy="60" rx="2.2" ry="1.1" fill="#fff" opacity=".55"/><path d="M26 51 Q33 42 40 51" stroke="#1b1714" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M60 51 Q67 42 74 51" stroke="#1b1714" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M42 71 Q46 75 50 70.5 Q54 75 58 71" stroke="#7d6a5f" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M45.5 73 Q50 71 54.5 73 L54.5 75.5 Q50 83 45.5 75.5Z" fill="#ff6f8e"/><path d="M50 74 V78" stroke="#d94f70" stroke-width="1.2"/><ellipse cx="22" cy="63" rx="6" ry="3.6" fill="#ff7b9c" opacity=".55"/><ellipse cx="78" cy="63" rx="6" ry="3.6" fill="#ff7b9c" opacity=".55"/></svg>🌺 楽しいパグ旅を！ 🌺<svg viewBox="0 0 100 100" width="28" height="28" class="pug inl" aria-hidden="true" focusable="false"><path d="M17 36 Q6 16 27 15 Q36 21 33 33Z" fill="#3a2a20"/><path d="M83 36 Q94 16 73 15 Q64 21 67 33Z" fill="#3a2a20"/><ellipse cx="50" cy="56" rx="37" ry="33" fill="#e6bf86"/><path d="M38 33 Q50 28 62 33 M41 39 Q50 35.5 59 39" stroke="#3a2a20" stroke-opacity=".4" stroke-width="2.2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="67" rx="21" ry="16" fill="#33251c"/><path d="M38 57 Q50 51 62 57" stroke="#1a1411" stroke-opacity=".6" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="61.5" rx="7" ry="4.6" fill="#0d0b0a"/><ellipse cx="47.8" cy="60" rx="2.2" ry="1.1" fill="#fff" opacity=".55"/><path d="M26 51 Q33 42 40 51" stroke="#1b1714" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M60 51 Q67 42 74 51" stroke="#1b1714" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M42 71 Q46 75 50 70.5 Q54 75 58 71" stroke="#7d6a5f" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M45.5 73 Q50 71 54.5 73 L54.5 75.5 Q50 83 45.5 75.5Z" fill="#ff6f8e"/><path d="M50 74 V78" stroke="#d94f70" stroke-width="1.2"/><ellipse cx="22" cy="63" rx="6" ry="3.6" fill="#ff7b9c" opacity=".55"/><ellipse cx="78" cy="63" rx="6" ry="3.6" fill="#ff7b9c" opacity=".55"/></svg></span></p>
 </template>
+<script src="firebase-config.js"></script>
+<script src="online.js"></script>
 <script>
 (()=>{
 'use strict';
@@ -809,11 +858,12 @@ const DEFAULT_SET={laps:1,bgm:true,bgmVol:'mid',msgMode:'normal',speed:'normal',
 let S=Object.assign({},DEFAULT_SET,store.get(KEY_SET)||{});
 const saveSet=()=>{store.set(KEY_SET,S);bgmUpdate()};
 const SPEED={slow:1.45,normal:1,fast:.55};
-const D=ms=>Math.round(ms*(SPEED[S.speed]||1));
+const NET={on:false,wired:false,started:false,host:false,mySeat:-1,seatOfPid:[],log:[],pos:0,pending:null,acts:{},catchup:0,sent:-1,reenable:null,conn:true,wErr:0};
+const D=ms=>NET.catchup?Math.min(ms,8):Math.round(ms*(SPEED[S.speed]||1));
 const RULE=k=>(state&&state.rules&&k in state.rules)?state.rules[k]:S[k];
 const READF={normal:1,slow:1.6,tap:1.6};
 function readMs(t){const n=String(t||'').replace(/<[^>]*>/g,'').replace(/\s+/g,'').length;return Math.min(9000,Math.max(2200,1400+n*85))}
-const RD=ms=>Math.round(ms*(READF[S.msgMode]||1)*Math.max(.85,SPEED[S.speed]||1));
+const RD=ms=>NET.catchup?Math.min(ms,8):Math.round(ms*(READF[S.msgMode]||1)*Math.max(.85,SPEED[S.speed]||1));
 
 /* ---------- sound ---------- */
 let actx=null;
@@ -1049,7 +1099,7 @@ const ITEMS={
  pagki:{name:'ぱぐーきチケット',icon:'✈️',desc:'3～8マス先へひとっ飛び（サイコロの代わり）',use:true},
  onsenken:{name:'温泉券',icon:'♨️',desc:'前方の温泉マスへ行って入浴（サイコロの代わり）',use:true},
  rail:{name:'パグレール',icon:'🚝',desc:'パグ専用のモノレール。次の観光スポットまで乗りかえなしで直行（サイコロの代わり）',use:true},
- chu:{name:'ちゅ〜る',icon:CHURU,desc:'大逆転のレアアイテム！1位のパグに食べさせると、気分が良くなって順位（場所）を入れかわってくれる（サイコロの代わり）',use:true,rare:true}
+ chu:{name:'ちゅ〜る',icon:CHURU,desc:'大逆転のレアアイテム！1位のパグに食べさせて、あみだくじで勝負。勝ったら1位と場所を入れかわれる（サイコロの代わり）',use:true,rare:true}
 };
 const ITEM_KEYS=Object.keys(ITEMS);
 const STORES={shimapan:{price:1500,fee:300},kabo:{price:1500,fee:300},raipug:{price:2500,fee:500},cafe:{price:2000,fee:400},kingpugs:{price:1800,fee:350},ou:{price:1600,fee:300}};
@@ -1337,7 +1387,7 @@ async function fallsBattle(p){
   for(let round=0;round<5;round++){
     const hide=`<div class="jkVs"><div>${pugP(p,'proud',64)}<span>❔</span></div><b>VS</b><div>${iriPugSVG(64)}<span class="jkHide">❓</span></div></div><p class="muted" style="margin:0;font-size:12px">イリオモテパグは手をうしろにかくしている…</p>`;
     const me=await say(p,{kicker:'🏞️ じゃんけん対決',title:round?'あいこで…':'じゃんけん…',text:'出す手を選ぶバウ！',html:hide,face:'proud',tone:'neutral',buttons:JK.map(h=>({label:`${h[1]} ${h[2]}`,value:h[0],cls:''})),cpuPick:pick(['g','c','p']),delay:1000});
-    const op=pick(['g','c','p']),res=me===op?'draw':JK_WIN[me]===op?'win':'lose';
+    const op=NET.on?['g','c','p'][(await netRnd())%3]:pick(['g','c','p']),res=me===op?'draw':JK_WIN[me]===op?'win':'lose';
     const vs=`<div class="jkVs"><div>${pugP(p,res==='win'?'joy':res==='lose'?'trouble':'normal',64)}<span>${jkHand(me)[1]}</span></div><b>VS</b><div>${iriPugSVG(64)}<span>${jkHand(op)[1]}</span></div></div>`;
     if(res==='win'){
       SFX.jackpot();photo(p,'iriwin');
@@ -1455,7 +1505,7 @@ function commentate(text,score){
   if(score&&state){state.hl=state.hl||[];state.hl.push({s:score,t:text,r:state.round})}
 }
 function photo(p,id){
-  if(!p||p.isCPU)return;const A=store.get(KEY_ALBUM)||{};if(A[id])return;
+  if(!p||p.isCPU||!netMineP(p))return;const A=store.get(KEY_ALBUM)||{};if(A[id])return;
   A[id]=Date.now();store.set(KEY_ALBUM,A);const ph=PHOTOS.find(x=>x.id===id);
   if(ph)setTimeout(()=>toast(`📸 アルバムに追加！<br><b>${ph.e} ${ph.name}</b>`),D(500));
 }
@@ -1543,7 +1593,7 @@ function hideWalk(){$('#walkTag').classList.remove('show')}
 let state=null,phase='idle';
 const cur=()=>state.players[state.turn];
 function newPlayer(i,name,breed,isCPU){return {id:i,name,breed,isCPU,color:P_COLORS[i],pos:0,bau:0,items:{nori:0,ticket:0,salt:0,omamori:0,dice:0,pagki:0,onsenken:0,rail:0,chu:0},skip:0,nextBonus:0,buffs:[],doubleRoll:false,omamoriActive:false,extraDie:0,finished:false,finishOrder:0,face:'normal',lucky:false,milestones:{},br:null,takeBranch:false,stamps:{},sets:{},mission:null,missionsDone:0,firstClass:false,prevRank:0,stats:{meets:0,shops:0,dist:0,bauEarned:0,items:0,events:0,onsen:0,walks:0,longestWalk:0,freeTrips:0,noriTotal:0,spots:0,turns:0}}}
-function saveGame(){if(state&&!state.over){state.rs=RNGS;store.set(KEY_SAVE,state)}}
+function saveGame(){if(NET.on)return;if(state&&!state.over){state.rs=RNGS;store.set(KEY_SAVE,state)}}
 function ranks(){
   const arr=[...state.players].sort((a,b)=>(a.finished&&b.finished)?a.finishOrder-b.finishOrder:a.finished?-1:b.finished?1:prog(b)-prog(a));
   const r={};arr.forEach((p,i)=>{const prev=arr[i-1];r[p.id]=(prev&&!p.finished&&!prev.finished&&prev.pos===p.pos)?r[prev.id]:i+1});return r;
@@ -1574,13 +1624,21 @@ function churuChance(p,base){
 }
 async function grantChuru(p,kick){
   giveItem(p,'chu',1);photo(p,'churu');SFX.jackpot();commentate(`${p.name}が大逆転のレアアイテム「ちゅ〜る」をGET！`,6);
-  await say(p,{kicker:kick||'✨ 大逆転チャンス',emoji:CHURU,title:'レアアイテム「ちゅ〜る」をGET！',text:'最下位のがんばりにごほうび！1位のパグに食べさせると、場所を入れかわってくれるかも…！？',face:'joy',tone:'jackpot'});
+  await say(p,{kicker:kick||'✨ 大逆転チャンス',emoji:CHURU,title:'レアアイテム「ちゅ〜る」をGET！',text:'最下位のがんばりにごほうび！1位のパグに食べさせて、あみだくじで勝負！ 勝てば場所を入れかわれるバウ！',face:'joy',tone:'jackpot'});
 }
 async function useChuru(p){
   const ld=churuTarget(p);if(!ld){p.items.chu=(p.items.chu||0)+1;return}
   SFX.click();
   await say(p,{kicker:'🍡 ちゅ〜る',emoji:CHURU,title:`${esc(ld.name)}にちゅ〜るをあげた！`,text:'ペロペロペロ…… おいしそうに夢中で食べているバウ。',face:'smile',tone:'neutral',delay:1300});
-  await say(ld,{kicker:'🍡 ちゅ〜る',emoji:'💕',title:'「1位をゆずってあげるバウ！」',text:`ちゅ〜るがおいしすぎて気分がいい${esc(ld.name)}。${esc(p.name)}と場所を入れかわってくれた！`,face:'joy',tone:'jackpot'});
+  await say(ld,{kicker:'🍡 ちゅ〜る',emoji:'😋',title:'「おいしかったバウ！ でも…」',text:'「1位はかんたんにはゆずれないバウ！ あみだくじで勝負して、ボクが負けたら入れかわってあげるバウ！」',face:'proud',tone:'neutral'});
+  const win=await amidaBattle(p,ld);
+  if(!state||state.over)return;
+  if(!win){
+    commentate(`${ld.name}があみだくじで1位を守った！`,3);
+    await say(ld,{kicker:'🍡 あみだくじ勝負',emoji:'🛡️',title:'「1位は守ったバウ！ ちゅ〜る、ごちそうさま！」',text:`${esc(p.name)}はあみだくじで負けちゃった…。入れかわりはなしバウ。`,face:'joy',tone:'bad'});
+    return;
+  }
+  await say(ld,{kicker:'🍡 あみだくじ勝負',emoji:'💕',title:'「負けたバウ…1位をゆずってあげるバウ！」',text:`ちゅ〜るもおいしかったし、約束どおり${esc(p.name)}と場所を入れかわってくれた！`,face:'joy',tone:'jackpot'});
   const a={pos:p.pos,lap:p.lap||0,br:p.br},b={pos:ld.pos,lap:ld.lap||0,br:ld.br};
   const ea=$(`#pc${p.id}`),eb=$(`#pc${ld.id}`),ca=pieceXY(p),cb=pieceXY(ld);
   SFX.warp();showWalk('ぴゅ～ん！ いれかわり！');
@@ -1590,6 +1648,87 @@ async function useChuru(p){
   hideWalk();renderPieces();renderHud();focusXY(pieceXY(p),true);
   commentate(`大逆転！${p.name}がちゅ〜るで${ld.name}と入れかわった！`,9);
   await say(p,{kicker:'🍡 大逆転',emoji:'🏆',title:'大逆転バウ～～！！',text:`${esc(p.name)}がトップに躍り出た！ いまは「${locNameP(p)}」バウ。`,face:'joy',tone:'jackpot'});
+}
+
+
+/* ---------- あみだくじ勝負（ちゅ〜る） ---------- */
+const trueRand=()=>{try{const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]/4294967296}catch(e){return Math.random()}};
+function makeAmida(K=4,trueRand=window.__amiR||(()=>{try{const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]/4294967296}catch(e){return Math.random()}})){
+  const LV=9,rungs=[];
+  for(let l=0;l<LV;l++){let i=0;while(i<K-1){if(trueRand()<.5){rungs.push({l,i});i+=2}else i++}}
+  while(rungs.length<6){const l=Math.floor(trueRand()*LV),i=Math.floor(trueRand()*(K-1));if(!rungs.some(r=>r.l===l&&Math.abs(r.i-i)<=1))rungs.push({l,i})}
+  const prize=[1,2,3,4].slice(0,K);for(let i=K-1;i>0;i--){const j=Math.floor(trueRand()*(i+1));[prize[i],prize[j]]=[prize[j],prize[i]]}
+  return {K,LV,rungs,prize};
+}
+function amidaTrace(A,s){
+  const W=300,xs=i=>W*(i+.5)/A.K,yl=l=>62+l*17;let i=s;const pts=[[xs(i),34],[xs(i),yl(0)-8]];
+  for(let l=0;l<A.LV;l++){const y=yl(l);
+    if(A.rungs.some(r=>r.l===l&&r.i===i)){pts.push([xs(i),y]);i++;pts.push([xs(i),y])}
+    else if(A.rungs.some(r=>r.l===l&&r.i===i-1)){pts.push([xs(i),y]);i--;pts.push([xs(i),y])}}
+  pts.push([xs(i),232]);return {end:i,pts};
+}
+const AMI_MEDAL={1:'🥇',2:'🥈',3:'🥉',4:'4'};
+function amidaBattle(giver,leader){
+  return new Promise(res=>{
+    let A=NET.on?{K:4,LV:9,rungs:[],prize:[1,2,3,4]}:makeAmida(4);const W=300,xs=i=>W*(i+.5)/A.K,yl=l=>62+l*17;
+    const lines=[...Array(A.K)].map((_,i)=>`<line x1="${xs(i)}" y1="34" x2="${xs(i)}" y2="232" stroke="#5b4a3a" stroke-width="4" stroke-linecap="round"/>`).join('');
+    const rungs=A.rungs.map(r=>`<line x1="${xs(r.i)}" y1="${yl(r.l)}" x2="${xs(r.i+1)}" y2="${yl(r.l)}" stroke="#5b4a3a" stroke-width="4" stroke-linecap="round"/>`).join('');
+    const bottoms=[...Array(A.K)].map((_,i)=>`<g id="amiB${i}" class="amiB"><rect x="${xs(i)-22}" y="238" width="44" height="34" rx="9" fill="#5b4a3a"/><text x="${xs(i)}" y="261" font-size="18" font-weight="900" text-anchor="middle" fill="#fff">？</text></g>`).join('');
+    showModalHtml(`<div class="ev ev-neutral amiWrap"><div class="kicker">🍡 ちゅ〜る・あみだくじ勝負</div>
+      <h3 style="margin:4px 0 2px">あみだくじで勝負バウ！</h3>
+      <p style="margin:0 0 6px;font-size:13px">${esc(giver.name)}が勝ったら1位と入れかわり！ たどり着いたメダルが良い方（🥇→🥈→🥉→4）の勝ち。下の「？」は選び終わるまでヒミツ。</p>
+      <div class="amiVs"><span style="--pc:${giver.color}">${pugP(giver,'proud',30)}${esc(giver.name)}</span><b>VS</b><span style="--pc:${leader.color}">${pugP(leader,'smile',30)}${esc(leader.name)}（1位）</span></div>
+      <div class="amiTop">${[...Array(A.K)].map((_,i)=>`<button class="amiPick" data-ami="${i}" type="button">${i+1}</button>`).join('')}</div>
+      <svg class="amiSvg" viewBox="0 0 300 276" role="img" aria-label="あみだくじ">${lines}<g id="amiRungs">${rungs}</g>
+        <g id="amiPaths"></g>
+        <g id="amiCover"><rect x="6" y="44" width="288" height="182" rx="14" fill="#f6e3b0" stroke="#d9b56a" stroke-width="2"/><text x="150" y="128" font-size="15" font-weight="900" text-anchor="middle" fill="#8a5a2b">？ かくし紙 ？</text><text x="150" y="150" font-size="11" font-weight="800" text-anchor="middle" fill="#8a5a2b">ふたりが選び終わったらオープン！</text></g>
+        ${bottoms}</svg>
+      <p class="amiMsg" id="amiMsg"></p><div id="amiEnd"></div></div>`);
+    const msg=t=>{const m=$('#amiMsg');if(m)m.innerHTML=t};
+    const picks={};
+    const mark=(i,p)=>{const b=document.querySelector(`[data-ami="${i}"]`);if(!b)return;b.disabled=true;b.classList.add('taken');b.style.setProperty('--pc',p.color);b.innerHTML=pugP(p,'proud',28)};
+    const netAmi=async p=>{
+      const free=[...Array(A.K).keys()].filter(i=>!(i in picks)),mine=netMineP(p);
+      msg(`<b style="color:${p.color}">${esc(p.name)}</b>${p.isCPU?'が選んでいる…':mine?'のばん！ 上の番号をタップして線を選ぶバウ':'が選んでいる…（🌐）'}`);
+      if(p.isCPU){await wait(D(1100));const v=await netRnd();SFX.click();return free[v%free.length]}
+      const dec=netDecide(p.id,'ami',v=>Number.isInteger(v)&&free.includes(v));
+      const lock=()=>document.querySelectorAll('.amiPick').forEach(x=>{x.onclick=null;if(!x.classList.contains('taken'))x.disabled=true});
+      if(mine){const open=()=>document.querySelectorAll('.amiPick').forEach(b=>{if(b.classList.contains('taken'))return;b.disabled=false;b.onclick=()=>{if(netChoose('ami',+b.dataset.ami)){SFX.click();lock()}}});open();NET.reenable=open}
+      const e=await dec;NET.reenable=null;lock();
+      if(e.cpu){p.isCPU=true;return free[0]}
+      return e.v;
+    };
+    const choose=(p)=>NET.on?netAmi(p):new Promise(ok=>{
+      msg(`<b style="color:${p.color}">${esc(p.name)}</b>${p.isCPU?'が選んでいる…':'のばん！ 上の番号をタップして線を選ぶバウ'}`);
+      if(p.isCPU){const free=[...Array(A.K).keys()].filter(i=>!(i in picks));setTimeout(()=>{const i=free[Math.floor(trueRand()*free.length)];SFX.click();ok(i)},D(1100));return}
+      document.querySelectorAll('.amiPick').forEach(b=>{if(b.classList.contains('taken'))return;b.disabled=false;b.onclick=()=>{SFX.click();document.querySelectorAll('.amiPick').forEach(x=>{x.onclick=null;if(!x.classList.contains('taken'))x.disabled=true});ok(+b.dataset.ami)}});
+    });
+    document.querySelectorAll('.amiPick').forEach(b=>b.disabled=true);
+    (async()=>{
+      await wait(D(500));
+      const gi=await choose(giver);picks[gi]=giver.id;mark(gi,giver);await wait(D(350));
+      const li=await choose(leader);picks[li]=leader.id;mark(li,leader);
+      msg('かくし紙をめくるバウ…！');
+      if(NET.on){const sd=await netRnd();A=makeAmida(4,mulberry32(sd|0));const rg=$('#amiRungs');if(rg)rg.innerHTML=A.rungs.map(r=>`<line x1="${xs(r.i)}" y1="${yl(r.l)}" x2="${xs(r.i+1)}" y2="${yl(r.l)}" stroke="#5b4a3a" stroke-width="4" stroke-linecap="round"/>`).join('')}
+      await wait(D(700));
+      const cv=$('#amiCover');if(cv){cv.style.transition='opacity .5s';cv.style.opacity='0'}
+      await wait(D(600));
+      const tg=amidaTrace(A,gi),tl=amidaTrace(A,li),pg=$('#amiPaths');
+      const poly=(t,c,id)=>`<polyline id="${id}" points="${t.pts.map(q=>q.join(',')).join(' ')}" fill="none" stroke="${c}" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" opacity=".9"/>`;
+      if(pg)pg.innerHTML=poly(tg,giver.color,'amiPg')+poly(tl,leader.color,'amiPl');
+      for(const id of ['amiPg','amiPl']){const el=document.getElementById(id);if(!el)continue;const L=el.getTotalLength?el.getTotalLength():600;el.style.strokeDasharray=L;el.style.strokeDashoffset=L;void el.getBoundingClientRect();el.style.transition=`stroke-dashoffset ${D(1500)}ms linear`;el.style.strokeDashoffset='0'}
+      for(let k=0;k<6;k++){tone(600+k*80,.05,'square',.03);await wait(D(250))}
+      for(let i=0;i<A.K;i++){const g=document.getElementById('amiB'+i);if(!g)continue;const pr=A.prize[i],who=i===tg.end?giver:i===tl.end?leader:null;
+        g.innerHTML=`<rect x="${xs(i)-22}" y="238" width="44" height="34" rx="9" fill="${who?who.color:'#fff'}" stroke="${who?'#fff':'#d9b56a'}" stroke-width="2"/><text x="${xs(i)}" y="262" font-size="${pr===4?16:20}" font-weight="900" text-anchor="middle" fill="${who?'#fff':'#8a5a2b'}">${AMI_MEDAL[pr]}</text>`}
+      const gw=A.prize[tg.end]<A.prize[tl.end];
+      if(gw)SFX.jackpot();else if(SFX.bad)SFX.bad();else SFX.click();
+      msg(gw?`<b style="color:${giver.color}">${esc(giver.name)}</b>は${AMI_MEDAL[A.prize[tg.end]]}、${esc(leader.name)}は${AMI_MEDAL[A.prize[tl.end]]}… <b>${esc(giver.name)}の勝ち！</b>`:`<b style="color:${giver.color}">${esc(giver.name)}</b>は${AMI_MEDAL[A.prize[tg.end]]}、${esc(leader.name)}は${AMI_MEDAL[A.prize[tl.end]]}… <b>1位の${esc(leader.name)}の勝ち！</b>`);
+      const done=()=>{closeModal();res(gw)};
+      const auto=NET.catchup||(NET.on?(!netMineP(giver)&&!netMineP(leader)):(giver.isCPU&&leader.isCPU))&&S.msgMode!=='tap';
+      const box=$('#amiEnd');if(box){box.innerHTML='<button class="btn primary wide" id="amiOk" type="button">つづく</button>';$('#amiOk').onclick=()=>{SFX.click();done()}}
+      if(auto)setTimeout(()=>{if($('#amiOk'))done()},D(2200));
+    })();
+  });
 }
 
 /* ---------- where is everyone ---------- */
@@ -1644,9 +1783,9 @@ function renderHud(){
 }
 function setControls(){
   const r=$('#btnRoll');if(!state)return;
-  const p=cur(),mine=phase==='await'&&!p.isCPU;
+  const p=cur(),mine=phase==='await'&&!p.isCPU&&netMineP(p);
   r.disabled=!mine;
-  r.textContent=mine?'🎲 サイコロを振る':(p.isCPU&&phase!=='idle'?`🤖 ${p.name}のばん…`:'⏳ イベント中…');
+  r.textContent=mine?'🎲 サイコロを振る':(p.isCPU&&phase!=='idle'?`🤖 ${p.name}のばん…`:phase==='remote'?`🌐 ${p.name}のばん…`:'⏳ イベント中…');
   $('#btnItem').disabled=false;
 }
 
@@ -1670,19 +1809,30 @@ function say(p,o){
   return new Promise(res=>{
     if(p&&o.face){p.face=o.face;renderHud()}
     const btns=o.buttons||[{label:'OK',value:'ok'}];
-    const auto=('auto' in o)?o.auto:!!(p&&p.isCPU);
+    let auto=('auto' in o)?o.auto:!!(p&&p.isCPU);
+    const nOwner=(p&&!p.isCPU)?p.id:-1,netD=NET.on&&!!o.buttons&&!auto,remote=netD&&!netMine(nOwner);
+    const netOther=NET.on&&!o.buttons&&!auto&&(!!NET.catchup||!netMine(nOwner));
+    if(netOther)auto=true;
     const cpuV=('cpuPick' in o)?o.cpuPick:btns[0].value;
     const tone=o.tone||'good';
-    const tapOnly=S.msgMode==='tap',cpuChoice=auto&&!!o.buttons;
-    const autoMs=auto&&!tapOnly?Math.max(D(o.delay||1500),RD(readMs((o.title||'')+(o.text||''))+(o.buttons?1500:0))):0;
+    const tapOnly=S.msgMode==='tap'&&!NET.catchup,cpuChoice=auto&&!!o.buttons;
+    const autoMs=auto&&!tapOnly?NET.catchup?1:Math.max(D(o.delay||1500),RD(readMs((o.title||'')+(o.text||''))+(o.buttons?1500:0))):0;
     const pugHtml=p?`<div class="evPug">${pugP(p,o.face||p.face||'normal',112)}${o.emoji?`<span class="evEmoji">${o.emoji}</span>`:''}</div>`:(o.emoji?`<div class="evBig">${o.emoji}</div>`:'');
     const who=p?`<div><span class="evWho" style="--pc:${p.color}">${esc(p.name)}${p.isCPU?' <span class="cpuTag">CPU</span>':''}</span></div>`:'';
-    showModalHtml(`<div class="ev ev-${tone}">${o.kicker?`<div class="kicker">${o.kicker}</div>`:''}${pugHtml}${who}<h3>${o.title}</h3>${o.text?`<p>${o.text}</p>`:''}${o.html||''}<div class="evBtns${o.list?' list':''}">${btns.map((b,i)=>{const ch=cpuChoice&&b.value===cpuV;return `<button class="btn ${b.cls!=null?b.cls:(i===0?'primary':'')}${cpuChoice?' cpuOpt'+(ch?' cpuChosen':''):''}" data-v="${i}"${cpuChoice||(b.disabled&&!auto)?' disabled':''}>${ch?'🤖 ':''}${auto&&!o.buttons?'▶ 次へ':b.label}${b.sub?`<small>${b.sub}</small>`:''}</button>`}).join('')}${cpuChoice?'<button class="btn sea wide cpuNext" data-next="1">▶ 次へ</button>':''}</div>${auto?`<div class="autoNote">${cpuChoice?'🤖 CPUが選びました（「次へ」で進む）':tapOnly?'CPUのばん（「次へ」で進む）':'CPUが進行中…（「次へ」で早送り）'}</div>${autoMs?`<div class="autoBar"><i style="animation-duration:${autoMs}ms"></i></div>`:''}`:''}</div>`);
+    showModalHtml(`<div class="ev ev-${tone}">${o.kicker?`<div class="kicker">${o.kicker}</div>`:''}${pugHtml}${who}<h3>${o.title}</h3>${o.text?`<p>${o.text}</p>`:''}${o.html||''}<div class="evBtns${o.list?' list':''}">${btns.map((b,i)=>{const ch=cpuChoice&&b.value===cpuV;return `<button class="btn ${b.cls!=null?b.cls:(i===0?'primary':'')}${cpuChoice?' cpuOpt'+(ch?' cpuChosen':''):''}" data-v="${i}"${cpuChoice||remote||(b.disabled&&!auto)?' disabled':''}>${ch?'🤖 ':''}${auto&&!o.buttons?'▶ 次へ':b.label}${b.sub?`<small>${b.sub}</small>`:''}</button>`}).join('')}${cpuChoice?'<button class="btn sea wide cpuNext" data-next="1">▶ 次へ</button>':''}</div>${remote?`<div class="autoNote">🌐 ${p?esc(p.name):'ホスト'}が選んでいます…</div>`:''}${auto?`<div class="autoNote">${netOther?`🌐 ${p?esc(p.name):'ホスト'}のばん（「次へ」で進む）`:cpuChoice?'🤖 CPUが選びました（「次へ」で進む）':tapOnly?'CPUのばん（「次へ」で進む）':'CPUが進行中…（「次へ」で早送り）'}</div>${autoMs?`<div class="autoBar"><i style="animation-duration:${autoMs}ms"></i></div>`:''}`:''}</div>`);
     let done=false,tm=null;
-    const fin=v=>{if(done)return;done=true;clearTimeout(tm);closeModal();res(v)};
-    $('#modalCard').querySelectorAll('[data-v]').forEach(b=>b.addEventListener('click',()=>{if(b.disabled)return;SFX.click();fin(auto?cpuV:btns[+b.dataset.v].value)}));
+    const fin=v=>{if(done)return;done=true;clearTimeout(tm);if(netD)NET.reenable=null;closeModal();res(v)};
+    const allV=()=>$('#modalCard').querySelectorAll('[data-v]');
+    allV().forEach(b=>b.addEventListener('click',()=>{if(b.disabled)return;SFX.click();
+      if(netD){if(netChoose('say',+b.dataset.v)){allV().forEach(x=>x.disabled=true);NET.reenable=()=>allV().forEach((x,i)=>{x.disabled=!!btns[i].disabled})}return}
+      fin(auto?cpuV:btns[+b.dataset.v].value)}));
     $('#modalCard').querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>{SFX.click();fin(cpuV)}));
     if(autoMs)tm=setTimeout(()=>fin(cpuV),autoMs);
+    if(netD)netDecide(nOwner,'say',v=>Number.isInteger(v)&&v>=0&&v<btns.length&&!btns[v].disabled).then(async e=>{
+      if(e.cpu){if(p)p.isCPU=true;fin(btns[0].value);return}
+      if(remote&&!NET.catchup){const b=$('#modalCard').querySelector(`[data-v="${e.v}"]`);if(b){b.classList.add('cpuChosen');b.innerHTML='👉 '+b.innerHTML}await wait(D(900))}
+      fin(btns[e.v].value);
+    });
   });
 }
 
@@ -1874,7 +2024,7 @@ async function completeMission(p){
   commentate(`${p.name}がひみつミッション「${m.txt}」を達成！`,5);
   await say(p,{kicker:'🃏 ひみつミッション',emoji:'🃏',title:'ミッション達成！',text:`「${m.txt}」をクリア！ 1000バウと${ITEMS[it].name}をGET。思い出ポイント+10`,face:'joy',tone:'jackpot'});
   dealMission(p);
-  if(!p.isCPU)await say(p,{kicker:'🃏 ひみつミッション',emoji:'🃏',title:'次のミッションカード',text:p.mission.txt,face:'proud',delay:1300});
+  if(!p.isCPU&&netMineP(p))await say(p,{kicker:'🃏 ひみつミッション',emoji:'🃏',title:'次のミッションカード',text:p.mission.txt,face:'proud',delay:1300});
 }
 async function checkSpurt(){
   if(state.spurt)return;
@@ -2353,6 +2503,7 @@ async function startTurn(){
   if(!state||state.over)return;
   if(p.finished)return endTurn();
   if(p.isCPU){await cpuTurn(p);endTurn()}
+  else if(NET.on)netTurn(p);
   else{phase='await';setControls();renderHud();toast(`${esc(p.name)}のばん！サイコロを振ってね`)}
 }
 function endTurn(){
@@ -2379,7 +2530,7 @@ async function reachGoal(p){
   renderPieces();renderHud();SFX.goal();
   const pugs=[0,1,2].map(()=>`<span class="jumpPug" style="animation-delay:${Math.random()*.4}s">${pugP(p,'joy',p.finishOrder===1?110:86)}</span>`).join('');
   showModalHtml(`<div class="goalWrap"><div style="font-size:15px;font-weight:800">${isleOn()?'🏞️ 西表島・パグの滝':'🏁 那覇空港'}</div><h3>${isleOn()?'離島めぐり達成バウ～～！！':'沖縄一周達成バウ～～！！'}</h3><div>${pugs}</div><p>${esc(p.name)}（${BREEDS[p.breed].name}）${p.finishOrder===1?'が一番乗り！':`が${p.finishOrder}位でゴール！`}</p><button class="btn gold wide" id="goalOk">やったー！</button></div>`);
-  await new Promise(res=>{let done=false;const f=()=>{if(done)return;done=true;closeModal();res()};$('#goalOk').addEventListener('click',f);if(p.isCPU&&S.msgMode!=='tap')setTimeout(f,Math.max(D(2600),RD(4200)))});
+  await new Promise(res=>{let done=false;const f=()=>{if(done)return;done=true;closeModal();res()};$('#goalOk').addEventListener('click',f);if(NET.catchup)setTimeout(f,5);else if((p.isCPU||!netMineP(p))&&S.msgMode!=='tap')setTimeout(f,Math.max(D(2600),RD(4200)))});
   const rest=state.players.filter(x=>!x.finished);
   if(rest.length<=1||!rest.some(x=>!x.isCPU)){endGame();return}
   if(state.finishCount===1){
@@ -2391,9 +2542,9 @@ function endGame(){
   if(!state||state.over)return;
   state.over=true;phase='idle';
   state.players.filter(x=>!x.finished).sort((a,b)=>prog(b)-prog(a)).forEach(x=>{state.finishCount++;x.finishOrder=state.finishCount});
-  store.del(KEY_SAVE);closeModal();
+  if(!NET.on)store.del(KEY_SAVE);closeModal();
   (async()=>{try{await bonusReveal()}catch(e){}
-    updateRanking();try{lastMetaHtml=processMeta()}catch(e){lastMetaHtml=''}RNGS=null;showResult();})();
+    if(!NET.on)updateRanking();try{lastMetaHtml=NET.on?'':processMeta()}catch(e){lastMetaHtml=''}RNGS=null;showResult();})();
 }
 
 /* ---------- screens ---------- */
@@ -2409,6 +2560,7 @@ function renderTitle(){
   setTimeout(renderMusicHint,0);
   {const b=$('#tIsle');if(b){b.classList.toggle('on',!!S.isle);b.setAttribute('aria-pressed',S.isle?'true':'false');b.querySelector('b').textContent=S.isle?'ON':'OFF'}}
   {const sv=store.get(KEY_SAVE);$('#tContinue').disabled=!(sv&&sv.v===3);}
+  {const t=$('#tOnline');if(t)t.hidden=!netAvail();}
   $('#titlePug').innerHTML=pugSVG('fawn','joy',150);
 }
 function renderTitleArt(){
@@ -2493,7 +2645,7 @@ function renderHow(){
   <div><span>⭐</span><span><b>パグの得意技</b>：${BREED_KEYS.map(b=>`${BREEDS[b].name}…${BREEDS[b].skill}`).join('／')}</span></div>
   <div><span>🔥</span><span><b>ラストスパート</b>：誰かがゴールまで15マスに近づくと最終便アナウンス。先頭以外は出目+1、台風は先頭を直撃。ゴールでファーストクラスに乗ると+10pt。</span></div>
   <div><span>🏝️</span><span><b>離島追加モード</b>：タイトル画面でONにすると、沖縄本島のあと宮古島→石垣島→フェリーで西表島へ。台風の日はフェリーが欠航。ゴールの「パグの滝」でイリオモテパグにじゃんけんで勝てばゴール！</span></div>
-  <div><span>🍡</span><span><b>ちゅ〜る</b>：最下位で大きく離されたときにだけ手に入るレアアイテム。1位のパグと場所を入れかわれる！</span></div>
+  <div><span>🍡</span><span><b>ちゅ〜る</b>：最下位で大きく離されたときにだけ手に入るレアアイテム。1位のパグに食べさせてあみだくじで勝負、勝ったら場所を入れかわれる！</span></div>
   <div><span>🔁</span><span><b>ゲームの長さ</b>：スタートの画面で1〜3周を選べる。那覇空港を通るたびに1周クリアで1000バウ。最後の周で那覇空港に戻ったらゴール。</span></div>
   <div><span>🎁</span><span><b>ボーナス発表</b>：結果画面の前に「温泉王」「散歩王」などから3つを発表し、それぞれ思い出ポイント+10。総合優勝が逆転することも。</span></div>
   <div><span>👑</span><span><b>総合優勝</b>：一番乗りとは別に、到着順・スタンプ・セット・ミッション・お店・バウを合計した「思い出ポイント」でも表彰。</span></div>
@@ -2529,9 +2681,9 @@ function showResult(){
   ${arr.map(p=>`<tr><td>${['🥇','🥈','🥉'][p.finishOrder-1]||p.finishOrder+'位'}</td><td class="nm"><span class="dot" style="display:inline-block;background:${p.color};margin-right:4px"></span>${esc(p.name)}${p.finished?'':' <small class="muted">(途中)</small>'}</td><td>${p.stats.dist}マス</td><td>${p.stats.bauEarned.toLocaleString()}</td><td>${p.stats.items}</td><td>${p.stats.events}</td><td>${p.stats.onsen}</td><td>${p.stats.walks}</td><td>${p.stats.freeTrips}</td><td>${p.stats.noriTotal}</td><td>${p.stats.spots}</td></tr>`).join('')}</table></div>
   ${memHtml()}
   ${lastMetaHtml}
-  <div class="resBtns"><button class="btn primary" id="resAgain">もう一回！</button><button class="btn" id="resTitle">タイトルへ</button></div>`;
-  $('#resAgain').onclick=()=>{renderSetup();show('scrSetup')};
-  $('#resTitle').onclick=()=>{state=null;show('scrTitle')};
+  ${NET.on?'<div class="resBtns"><button class="btn primary" id="resTitle">🌐 部屋を出てタイトルへ</button></div>':'<div class="resBtns"><button class="btn primary" id="resAgain">もう一回！</button><button class="btn" id="resTitle">タイトルへ</button></div>'}`;
+  {const ra=$('#resAgain');if(ra)ra.onclick=()=>{renderSetup();show('scrSetup')}}
+  $('#resTitle').onclick=()=>{if(NET.on){netLeave();return}state=null;show('scrTitle')};
   show('scrResult');
 }
 
@@ -2548,7 +2700,7 @@ function startNewGame(humans,cpus,opt={}){
   humans.forEach((h,i)=>{players[i].costume=h.costume&&COSTUMES[h.costume]?h.costume:null;players[i].title=h.title||''});
   players.forEach(p=>{addBau(p,1000);giveItem(p,'dice',1);p.items.nori+=1;p.stats.noriTotal+=1;p.stats.items+=1});
   const lucky=pick(players);lucky.lucky=true;
-  state={v:3,N,players,turn:0,round:1,finishCount:0,over:false,owners:{},weather:rollWeather(),forecast:rollWeather(),wNews:true,spurt:false,hl:[],lastLeader:null,daily:opt.daily||null,rules:opt.rules||null,isle:opt.daily?!!opt.isle:!!S.isle,laps:Math.max(1,Math.min(3,opt.laps||S.laps||1))};
+  state={v:3,N,players,turn:0,round:1,finishCount:0,over:false,owners:{},weather:rollWeather(),forecast:rollWeather(),wNews:true,spurt:false,hl:[],lastLeader:null,daily:opt.daily||null,rules:opt.rules||null,isle:(opt.daily||opt.net)?!!opt.isle:!!S.isle,laps:Math.max(1,Math.min(3,opt.laps||S.laps||1))};
   players.forEach(dealMission);
   phase='busy';enterGame();
   (async()=>{
@@ -2568,15 +2720,15 @@ function continueGame(){
 /* ---------- item / info / menu ---------- */
 function openItems(){
   if(!state)return;
-  const p=cur(),canUse=phase==='await'&&!p.isCPU;
+  const p=cur(),canUse=phase==='await'&&!p.isCPU&&netMineP(p);
   const m=p.milestones;
   const rows=ITEM_KEYS.filter(k=>!ITEMS[k].rare||(p.items[k]||0)>0).map(k=>{const it=ITEMS[k],c=p.items[k]||0;const blocked=(k==='chu'&&!churuTarget(p))||(k==='ticket'&&!ticketUsable(p))||(k==='dice'&&p.extraDie>=2)||(k==='omamori'&&p.omamoriActive);return `<div class="itRow"><span class="itIco">${it.icon}</span><div class="itTx"><b>${it.name} ×${c}</b><small>${it.desc}</small></div>${it.use&&canUse?`<button class="btn sm primary" data-use="${k}"${c>0&&!blocked?'':' disabled'}>使う</button>`:''}</div>`}).join('');
-  showModalHtml(`<div class="sheet"><h3>🎒 ${esc(p.name)}のアイテム</h3><p class="muted" style="margin:2px 0 6px">💰 ${p.bau.toLocaleString()}バウ ・ のりボーナス ${m[3]?'✅':'⬜'}3枚 ${m[5]?'✅':'⬜'}5枚 ${m[10]?'✅':'⬜'}10枚</p>${p.mission&&!p.isCPU?`<div class="mBox">🃏 <b>ひみつミッション</b>：${p.mission.txt}<br><small>達成で1000バウ＋アイテム＋思い出ポイント10</small></div>`:''}<div class="muted" style="font-size:12px;margin:2px 0 8px">📮 スタンプ（${Object.keys(p.stamps||{}).length}個）：${Object.keys(p.stamps||{}).map(k=>SPOTS[SPOT_IDX[k]].emoji).join('')||'まだなし'}</div>${rows}${canUse?'':'<p class="muted" style="font-size:13px">アイテムは自分のターン、サイコロを振る前に使えます。</p>'}<button class="btn wide" id="itClose" style="margin-top:12px">とじる</button></div>`);
+  showModalHtml(`<div class="sheet"><h3>🎒 ${esc(p.name)}のアイテム</h3><p class="muted" style="margin:2px 0 6px">💰 ${p.bau.toLocaleString()}バウ ・ のりボーナス ${m[3]?'✅':'⬜'}3枚 ${m[5]?'✅':'⬜'}5枚 ${m[10]?'✅':'⬜'}10枚</p>${p.mission&&!p.isCPU&&netMineP(p)?`<div class="mBox">🃏 <b>ひみつミッション</b>：${p.mission.txt}<br><small>達成で1000バウ＋アイテム＋思い出ポイント10</small></div>`:''}<div class="muted" style="font-size:12px;margin:2px 0 8px">📮 スタンプ（${Object.keys(p.stamps||{}).length}個）：${Object.keys(p.stamps||{}).map(k=>SPOTS[SPOT_IDX[k]].emoji).join('')||'まだなし'}</div>${rows}${canUse?'':'<p class="muted" style="font-size:13px">アイテムは自分のターン、サイコロを振る前に使えます。</p>'}<button class="btn wide" id="itClose" style="margin-top:12px">とじる</button></div>`);
   $('#itClose').onclick=closeModal;
-  $('#modalCard').querySelectorAll('[data-use]').forEach(b=>b.addEventListener('click',()=>{closeModal();useItem(b.dataset.use)}));
+  $('#modalCard').querySelectorAll('[data-use]').forEach(b=>b.addEventListener('click',()=>{closeModal();if(NET.on)netChoose('turn','use:'+b.dataset.use);else useItem(b.dataset.use)}));
 }
-async function useItem(k){
-  const p=cur();if(phase!=='await'||p.isCPU||p.items[k]<=0)return;
+async function useItem(k,net){
+  const p=cur();if(!net&&(phase!=='await'||p.isCPU))return false;if(!(p.items[k]>0))return false;
   if(k==='ticket'&&!ticketUsable(p)){toast(state.isle&&fromPos(p)>=N?'🎫 離島ではタダ旅行券は使えないバウ':'🎫 ゴールの那覇空港は目の前！タダ旅行券はここでは使えないバウ');return}
   if(k==='chu'&&!churuTarget(p)){toast('🍡 いまは入れかわれる1位のパグがいないバウ');return}
   SFX.click();p.usedItems=(p.usedItems||0)+1;
@@ -2591,6 +2743,7 @@ async function useItem(k){
   else if(k==='rail')await useRail(p);
   else if(k==='chu')await useChuru(p);
   if(state&&!state.over){await checkMilestones(p);endTurn()}
+  return true;
 }
 function openInfo(focusId){
   if(!state)return;
@@ -2602,6 +2755,7 @@ function openInfo(focusId){
   $('#infoClose').onclick=closeModal;
 }
 function openMenu(){
+  if(NET.on)return openNetMenu();
   const canLeave=phase==='await'&&state&&!cur().isCPU;
   showModalHtml(`<div class="sheet"><h3>⚙️ メニュー</h3>
   <div class="setRow" style="margin-top:10px"><label>BGM</label>${seg('bgm',[[true,'ON'],[false,'OFF']],S.bgm)}</div>
@@ -2639,6 +2793,261 @@ $('#manualClose').onclick=()=>{try{SFX.click()}catch(e){}closeManual()};
 $('#manualData').onclick=()=>{try{SFX.click()}catch(e){}closeManual();renderHow();show('scrHow')};
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#manualOv').hidden)closeManual()});
 
+
+/* ---------- 🌐 オンライン対戦（全員が同じゲームを動かし、選択だけを記録で共有） ---------- */
+const GAMEVER='v12';
+const KEY_NET='pugtabi-net-room';
+function netAvail(){try{return !!(window.PugNet&&window.PugNet.available())}catch(e){return false}}
+function netOwnerSeat(owner){return owner<0?0:NET.seatOfPid[owner]}
+function netMine(owner){return !NET.on||netOwnerSeat(owner)===NET.mySeat}
+function netMineP(p){return !NET.on||(!!p&&!p.isCPU&&NET.seatOfPid[p.id]===NET.mySeat)}
+function netOwnerName(owner){const p=state&&state.players[owner<0?0:owner];return p?p.name:'ホスト'}
+function netDecide(owner,kind,validate){
+  const pos=NET.pos++;
+  return new Promise(res=>{NET.pending={pos,owner,kind,validate:validate||(()=>true),res};netPump()});
+}
+function netRnd(){return netDecide(-1,'rnd').then(e=>e.v>>>0)}
+function netPump(){
+  const d=NET.pending;if(!d||!NET.on)return;
+  const e=NET.log[d.pos];
+  if(e){
+    const ok=e.k===d.kind&&(d.kind==='rnd'?typeof e.v==='number':(e.p===d.owner&&(e.cpu||d.validate(e.v))));
+    if(!ok){netDesync();return}
+    NET.pending=null;NET.reenable=null;
+    if(NET.catchup&&d.pos+1>=NET.catchup)NET.catchup=0;
+    netBar();d.res(e);return;
+  }
+  NET.catchup=0;
+  if(NET.host){
+    if(d.kind==='rnd'){netAppend({p:-1,k:'rnd',v:PugNet.trueRand(4294967296)});return}
+    const seat=netOwnerSeat(d.owner),a=NET.acts[seat];
+    if(seat!==NET.mySeat&&a&&a.pos===d.pos&&a.kind===d.kind&&d.validate(a.v)){netAppend({p:d.owner,k:d.kind,v:a.v});return}
+  }
+  netBar();
+}
+function netAppend(e){
+  const d=NET.pending;if(!d||NET.log[d.pos])return;
+  NET.log[d.pos]=e;netWrite(d.pos,e,0);netPump();
+}
+function netWrite(n,e,tries){
+  PugNet.appendLog(n,e).then(()=>{if(NET.wErr){NET.wErr=0;netBar()}},()=>{
+    if(!NET.on)return;NET.wErr=1;netBar();
+    if(tries<30)setTimeout(()=>{if(NET.on)netWrite(n,e,tries+1)},Math.min(8000,700*(tries+1)));
+  });
+}
+function netChoose(kind,v){
+  const d=NET.pending;if(!NET.on||!d||d.kind!==kind||!netMine(d.owner)||NET.log[d.pos]||!d.validate(v))return false;
+  if(NET.host){netAppend({p:d.owner,k:kind,v});return true}
+  if(NET.sent===d.pos)return false;NET.sent=d.pos;
+  PugNet.sendAct('in',`${d.pos}|${kind}|${v}`).catch(err=>{NET.sent=-1;toast('📡 '+PugNet.message(err));if(NET.reenable)NET.reenable()});
+  return true;
+}
+function netOnAct(a){
+  if(!a||a.kind!=='in'||typeof a.value!=='string')return;
+  const m=/^(\d{1,5})\|(say|turn|ami)\|([a-z0-9:]{1,20})$/.exec(a.value);if(!m)return;
+  let v=m[3];if(m[2]!=='turn'){if(!/^\d{1,2}$/.test(v))return;v=+v}
+  NET.acts[a.seat]={pos:+m[1],kind:m[2],v};netPump();
+}
+function netOnLog(x){
+  const e=x&&x.e;if(!e||!(x.n>=0)||NET.log[x.n]||!/^(say|turn|ami|rnd)$/.test(e.k)||typeof e.p!=='number')return;
+  NET.log[x.n]=e;netPump();
+}
+async function netTurn(p){
+  let first=true;
+  for(;;){
+    const mine=netMineP(p);
+    phase=mine?'await':'remote';setControls();renderHud();
+    if(mine&&first&&!NET.catchup)toast(`${esc(p.name)}のばん！サイコロを振ってね`);
+    first=false;
+    const e=await netDecide(p.id,'turn',v=>v==='roll'||(typeof v==='string'&&/^use:[a-z]{1,12}$/.test(v)&&!!ITEMS[v.slice(4)]&&!!ITEMS[v.slice(4)].use));
+    if(!state||state.over)return;
+    if(e.cpu){p.isCPU=true;phase='busy';setControls();renderHud();await cpuTurn(p);if(state&&!state.over)endTurn();return}
+    if(e.v==='roll'){phase='busy';setControls();await rollAndMove(p,0);if(state&&!state.over)endTurn();return}
+    phase='busy';setControls();
+    if(await useItem(e.v.slice(4),true))return;
+    if(!state||state.over)return;
+  }
+}
+function netDesync(){
+  const wasOn=NET.on;netReset();try{PugNet.leave()}catch(e){}
+  if(!wasOn)return;
+  state=null;phase='idle';closeModal();show('scrTitle');
+  setTimeout(()=>showModalHtml(`<div class="sheet"><h3>😵 通信のずれが起きました</h3><p>ゲームの進み方が端末ごとにずれてしまったため、対戦を終了しました。アプリを最新にして、もう一度部屋を作ってね。</p><button class="btn primary wide" id="dsOk">OK</button></div>`)||($('#dsOk').onclick=closeModal),400);
+}
+function netReset(){
+  Object.assign(NET,{on:false,started:false,host:false,mySeat:-1,seatOfPid:[],log:[],pos:0,pending:null,acts:{},catchup:0,sent:-1,reenable:null,wErr:0});
+  netBar();
+}
+function netBar(){
+  const el=$('#netBar');if(!el)return;
+  if(!NET.on||!state||state.over){el.hidden=true;el.innerHTML='';return}
+  const R=PugNet.room(),d=NET.pending;let h='',btn='';
+  if(NET.conn===false)h='📡 通信が切れています… 電波の良い所で待ってね';
+  else if(!R)h='🌐 部屋との接続が切れました';
+  else if(!NET.host&&!PugNet.isPresent(0))h='⏳ ホストの通信が切れています… 戻るのを待っています';
+  else if(d&&!NET.log[d.pos]&&d.kind!=='rnd'&&!netMine(d.owner)){
+    const seat=netOwnerSeat(d.owner),away=!PugNet.isPresent(seat);
+    h=`⏳ ${esc(netOwnerName(d.owner))}${away?'の通信が切れています…':'の操作を待っています'}`;
+    if(NET.host&&away&&d.owner>=0)btn='<button class="btn sm gold" id="netCpu" type="button">🤖 CPUに交代</button>';
+  }else if(NET.wErr)h='📡 送信をやり直しています…';
+  el.innerHTML=h?`<span>${h}</span>${btn}`:'';el.hidden=!h;
+  const b=$('#netCpu');if(b)b.onclick=netTakeover;
+}
+function netTakeover(){
+  const d=NET.pending;if(!NET.host||!d||NET.log[d.pos]||d.owner<0)return;
+  const seat=netOwnerSeat(d.owner),p=state.players[d.owner];
+  if(seat===NET.mySeat||PugNet.isPresent(seat)||!p)return;
+  if(!confirm(`${p.name}をCPUに交代しますか？（もどってきても参加できなくなります）`))return;
+  netAppend({p:d.owner,k:d.kind,cpu:1});
+  PugNet.setCpu(seat,p.name,String(Math.max(0,BREED_KEYS.indexOf(p.breed)))).catch(()=>{});
+  toast(`🤖 ${esc(p.name)}をCPUに交代したバウ`);
+}
+function netStartCfg(){
+  const R=PugNet.room(),pl=R.players,hum=[];let cpu=0;
+  for(let s=0;s<4;s++){const p=pl[s];if(!p)continue;if(p.cpu)cpu++;else hum.push({s,n:p.name,b:BREED_KEYS[+p.breed]||'white'})}
+  return {v:GAMEVER,seed:PugNet.trueRand(4294967296)|0,isle:!!S.isle,laps:Math.max(1,Math.min(3,+S.laps||1)),
+    rules:{cpuLevel:['easy','normal','hard'].includes(S.cpuLevel)?S.cpuLevel:'normal',exactGoal:!!S.exactGoal,randomEvents:S.randomEvents!==false,ticketMode:S.ticketMode==='random'?'random':'choose',underdog:S.underdog!==false},hum,cpu};
+}
+function netCfgOk(c){
+  if(!c||typeof c!=='object'||!Array.isArray(c.hum)||c.hum.length<1||c.hum.length>4)return false;
+  if(!Number.isInteger(c.cpu)||c.cpu<0||c.hum.length+c.cpu>4||!Number.isInteger(c.seed))return false;
+  if(!c.hum.every(h=>h&&Number.isInteger(h.s)&&h.s>=0&&h.s<4&&typeof h.n==='string'&&h.n.length<=12&&BREEDS[h.b]))return false;
+  return !!(c.rules&&typeof c.rules==='object');
+}
+async function netHostStart(btn){
+  const cfg=netStartCfg();
+  if(cfg.hum.length+cfg.cpu<2){toast('2匹以上そろったらスタートできるバウ');return}
+  const away=cfg.hum.filter(h=>h.s!==0&&!PugNet.isPresent(h.s));
+  if(away.length){toast(`📡 ${esc(away[0].n)}の通信が切れています`);return}
+  if(btn)btn.disabled=true;
+  try{await PugNet.publish(cfg);await PugNet.setStatus('playing')}catch(e){toast('📡 '+PugNet.message(e));if(btn)btn.disabled=false;return}
+  netBegin(cfg,[]);
+}
+function netBegin(cfg,log){
+  if(NET.started)return;
+  const R=PugNet.room();if(!R)return;
+  if(!cfg||cfg.v!==GAMEVER){
+    showModalHtml(`<div class="sheet"><h3>🔄 アプリの更新が必要です</h3><p>ホストとゲームのバージョンが違います（${esc(String(cfg&&cfg.v||'?'))} / ${GAMEVER}）。両方の端末でページを再読み込みしてから、もう一度入ってね。</p><button class="btn primary wide" id="vOk">OK</button></div>`);
+    $('#vOk').onclick=()=>{closeModal();netLeave()};return;
+  }
+  if(!netCfgOk(cfg)){toast('🌐 部屋のデータが正しくありません');netLeave();return}
+  NET.on=true;NET.started=true;NET.host=R.host;NET.mySeat=R.seat;NET.pos=0;NET.pending=null;NET.sent=-1;
+  (log||[]).forEach((e,i)=>{if(e&&!NET.log[i])NET.log[i]=e});
+  NET.seatOfPid=cfg.hum.map(h=>h.s);
+  NET.catchup=NET.log.length;
+  closeModal();
+  startNewGame(cfg.hum.map(h=>({name:h.n,breed:h.b})),cfg.cpu,{seed:cfg.seed,rules:cfg.rules,laps:cfg.laps,isle:!!cfg.isle,net:true});
+  if(NET.catchup)toast('🌐 対戦にもどったバウ！ 追いかけ中…');
+  netBar();
+}
+function netLeave(){
+  try{store.del(KEY_NET)}catch(e){}
+  try{PugNet.leave().catch(()=>{})}catch(e){}
+  netReset();state=null;phase='idle';closeModal();show('scrTitle');
+}
+function openNetMenu(){
+  showModalHtml(`<div class="sheet"><h3>⚙️ メニュー</h3>
+  <div class="setRow" style="margin-top:10px"><label>BGM</label>${seg('bgm',[[true,'ON'],[false,'OFF']],S.bgm)}</div>
+  <div class="setRow"><label>効果音</label>${seg('sound',[[true,'ON'],[false,'OFF']],S.sound)}</div>
+  <div class="setRow"><label>ゲームスピード</label>${seg('speed',[['slow','ゆっくり'],['normal','ふつう'],['fast','はやい']],S.speed)}</div>
+  <div class="setRow"><label>メッセージ送り</label>${seg('msgMode',[['normal','ふつう'],['slow','じっくり'],['tap','タップで進む']],S.msgMode)}</div>
+  <p class="muted" style="font-size:12px;margin:0 0 8px">🌐 部屋番号 ${esc((PugNet.room()||{}).code||'')}${NET.host?'（あなたがホスト）':''}</p>
+  <div style="display:grid;gap:8px"><button class="btn" id="mHow">📖 説明書を見る</button>
+  <button class="btn ghost" id="mNetLeave">🚪 オンライン対戦をぬける</button>
+  <button class="btn" id="mClose">とじる</button></div></div>`);
+  bindSegs($('#modalCard'),()=>{openNetMenu();renderHud()});
+  $('#mClose').onclick=closeModal;
+  $('#mHow').onclick=()=>{closeModal();openManual()};
+  $('#mNetLeave').onclick=()=>{if(confirm(NET.host?'ホストがぬけると、部屋が閉じて全員の対戦が終わります。ぬけますか？':'対戦をぬけますか？（あなたのパグはホストがCPUに交代できます）'))netLeave()};
+}
+
+/* ----- ロビー画面 ----- */
+const netForm={name:'',breed:0,code:'',busy:false};
+function netLast(){try{const v=store.get(KEY_NET);if(v&&/^[0-9]{6}$/.test(v.code)&&Date.now()-(v.t||0)<6*3600*1000)return v}catch(e){}return null}
+function netCfgText(c){c=c||{};return `🏝️ 離島 ${c.isle?'ON':'OFF'}・${Math.max(1,Math.min(3,+c.laps||1))}周・CPU「${{easy:'やさしい',normal:'ふつう',hard:'むずかしい'}[c.cpu]||'ふつう'}」`}
+function renderOnline(){
+  const body=$('#onlineBody');if(!body)return;
+  const R=window.PugNet&&PugNet.room();
+  if(!netForm.name)netForm.name=PugNet.safeName((setup.humans[0]||{}).name||'パグ');
+  if(!R){
+    const last=netLast();
+    body.innerHTML=`<div class="${netForm.busy?'netBusy':''}">
+    <div class="card netCard"><h3>🐶 あなたのパグ</h3><label class="netLbl" for="netName">なまえ（12文字まで）</label><input id="netName" class="netIn" maxlength="12" autocomplete="off" value="${esc(netForm.name)}">
+      <div class="netBreeds">${BREED_KEYS.map((k,i)=>`<button type="button" data-nb="${i}" class="${i===netForm.breed?'on':''}" aria-pressed="${i===netForm.breed}">${pugSVG(k,'smile',44)}<small>${BREEDS[k].name}</small></button>`).join('')}</div></div>
+    <div class="card netCard"><h3>🏠 部屋を作る</h3><p class="muted" style="margin:0 0 8px;font-size:13px">あなたがホスト（進行役）になります。表示される6けたの番号を友だちに教えてね。</p><button class="btn primary wide" id="netCreate" type="button">部屋を作る</button></div>
+    <div class="card netCard"><h3>🚪 部屋に入る</h3><input id="netCode" class="netIn netCodeIn" inputmode="numeric" autocomplete="off" maxlength="7" placeholder="000000" aria-label="6けたの部屋番号" value="${esc(netForm.code)}"><button class="btn sea wide" id="netJoin" type="button">部屋に入る</button>${last?`<button class="btn wide" id="netRe" type="button" style="margin-top:8px">↩️ 前回の部屋（${last.code}）にもどる</button>`:''}</div>
+    <p class="muted netNote">※ インターネットが必要です。ログインは匿名で、部屋の人に見えるのは「なまえ」と「パグの種類」だけです。部屋番号は知っている人だけが入れます。</p></div>`;
+    $('#netName').addEventListener('input',e=>{netForm.name=e.target.value});
+    $('#netCode').addEventListener('input',e=>{netForm.code=e.target.value.replace(/[^0-9]/g,'').slice(0,6);if(e.target.value!==netForm.code)e.target.value=netForm.code});
+    body.querySelectorAll('[data-nb]').forEach(b=>b.onclick=()=>{SFX.click();netForm.breed=+b.dataset.nb;renderOnline()});
+    $('#netCreate').onclick=()=>netGo('create');
+    $('#netJoin').onclick=()=>netGo('join',netForm.code);
+    const re=$('#netRe');if(re)re.onclick=()=>netGo('join',last.code);
+    return;
+  }
+  const me=R.seat,c=(R.meta&&R.meta.cfg)||{};
+  const seatRow=s=>{const p=R.players[s];
+    if(!p)return `<div class="netSeat empty"><span>空き席</span>${R.host?`<button class="btn sm" type="button" data-ns="cpu" data-s="${s}">🤖 CPUを入れる</button>`:''}</div>`;
+    const on=p.cpu||(R.pres&&R.pres[p.uid]);
+    const tag=[s===0?'👑 ホスト':'',p.cpu?'🤖 CPU':'',s===me?'あなた':''].filter(Boolean).join('・');
+    const ctl=R.host&&s!==me?(p.cpu?`<button class="btn sm ghost" type="button" data-ns="clear" data-s="${s}">はずす</button>`:`<button class="btn sm ghost" type="button" data-ns="kick" data-s="${s}">退出させる</button>`):'';
+    return `<div class="netSeat"><span class="netDot${on?' on':''}" title="${on?'接続中':'切断中'}"></span>${pugSVG(BREED_KEYS[+p.breed]||'white','smile',40)}<span class="nm">${esc(p.name)}<small>${tag||(on?'接続中':'通信が切れています')}</small></span>${ctl}</div>`};
+  body.innerHTML=`<div class="card netCard netRoom"><div class="muted" style="font-weight:800">部屋番号</div><div class="netCodeBig">${R.code.slice(0,3)} ${R.code.slice(3)}</div><button class="btn sm" id="netCopy" type="button">📋 番号をコピー</button><p class="muted" style="margin:8px 0 0;font-size:12px">友だちにこの番号を教えてね（4匹まで）</p></div>
+  <div class="card netCard"><h3>👥 メンバー</h3>${[0,1,2,3].map(seatRow).join('')}</div>
+  <div class="card netCard"><h3>⚙️ ルール</h3>${R.host?`<div class="setRow"><label>離島追加モード</label>${seg('isle',[[false,'OFF'],[true,'ON']],!!S.isle)}</div><div class="setRow"><label>ゲームの長さ</label>${seg('laps',[[1,'1周'],[2,'2周'],[3,'3周']],S.laps||1)}</div><div class="setRow"><label>CPUの強さ</label>${seg('cpuLevel',[['easy','やさしい'],['normal','ふつう'],['hard','むずかしい']],S.cpuLevel)}</div>`:`<p style="margin:0;font-weight:800">${netCfgText(c)}</p><p class="muted" style="margin:4px 0 0;font-size:12px">ルールはホストが決めます</p>`}</div>
+  ${R.host?'<button class="btn primary wide" id="netStart" type="button">🎲 このメンバーでスタート！</button>':'<p class="netWait">⏳ ホストがスタートするのを待っています…</p>'}
+  <button class="btn ghost wide" id="netLeaveBtn" type="button" style="margin-top:10px">部屋を出る</button>`;
+  $('#netCopy').onclick=()=>{try{navigator.clipboard.writeText(R.code).then(()=>toast('📋 部屋番号をコピーしたバウ'),()=>toast('部屋番号：'+R.code))}catch(e){toast('部屋番号：'+R.code)}};
+  if(R.host){
+    bindSegs(body,()=>{saveSet();PugNet.setCfg({isle:!!S.isle,laps:+S.laps||1,cpu:S.cpuLevel}).catch(()=>{});renderOnline()});
+    $('#netStart').onclick=e=>{SFX.click();netHostStart(e.currentTarget)};
+    body.querySelectorAll('[data-ns]').forEach(b=>b.onclick=()=>{SFX.click();const s=+b.dataset.s,k=b.dataset.ns;
+      const pr=k==='cpu'?PugNet.setCpu(s,'CPUパグ',String(s%BREED_KEYS.length)):PugNet.clearSeat(s);
+      pr.catch(e=>toast('📡 '+PugNet.message(e)))});
+  }
+  $('#netLeaveBtn').onclick=()=>{if(!R.host||confirm('部屋を閉じますか？（入っている人も出ることになります）'))netLeave()};
+}
+async function netGo(kind,code){
+  if(netForm.busy)return;
+  const name=PugNet.safeName(netForm.name);netForm.name=name;
+  netForm.busy=true;renderOnline();
+  try{
+    if(kind==='create')await PugNet.createRoom({name,breed:String(netForm.breed),cfg:{isle:!!S.isle,laps:+S.laps||1,cpu:S.cpuLevel}});
+    else await PugNet.joinRoom(code,{name,breed:String(netForm.breed)});
+    SFX.good();
+  }catch(e){toast('📡 '+PugNet.message(e))}
+  netForm.busy=false;renderOnline();
+}
+function netWire(){
+  if(NET.wired||!netAvail())return;NET.wired=true;
+  const lobby=()=>{if(document.querySelector('#scrOnline.active'))renderOnline()};
+  PugNet.on('joined',r=>{try{store.set(KEY_NET,{code:r.code,t:Date.now()})}catch(e){}lobby()});
+  PugNet.on('players',()=>{lobby();netBar()});
+  PugNet.on('meta',()=>lobby());
+  PugNet.on('pres',()=>{lobby();netBar()});
+  PugNet.on('conn',c=>{NET.conn=c;netBar()});
+  PugNet.on('act',netOnAct);
+  PugNet.on('log',netOnLog);
+  PugNet.on('error',x=>{if(x&&x.where!=='log')console.warn('[net]',x)});
+  PugNet.on('state',x=>{
+    if(NET.started||!x||!x.state||!x.state.v)return;
+    PugNet.fetchLog().then(l=>netBegin(x.state,l),()=>netBegin(x.state,[]));
+  });
+  PugNet.on('closed',x=>{
+    const why=x&&x.reason;if(why==='left')return;
+    const inGame=NET.on&&state&&!state.over;
+    try{store.del(KEY_NET)}catch(e){}
+    netReset();
+    const m=why==='kicked'?'部屋から外れました（CPUに交代されたか、ホストが退出させました）':why==='deleted'?'ホストが部屋を閉じました':'部屋との接続が切れました';
+    if(inGame){state=null;phase='idle';closeModal();show('scrTitle')}
+    lobby();toast('🌐 '+m);
+  });
+  setInterval(()=>{if(NET.on)netBar()},4000);
+}
+$('#tOnline').onclick=()=>{SFX.click();netWire();renderOnline();show('scrOnline')};
+$('#netBackBtn').onclick=()=>{const R=window.PugNet&&PugNet.room();if(R){if(confirm(R.host?'部屋を閉じてもどりますか？':'部屋を出てもどりますか？'))netLeave();return}show('scrTitle')};
+if(netAvail())netWire();
+
 /* ---------- wiring ---------- */
 $('#tStart').onclick=()=>{SFX.click();renderSetup();show('scrSetup')};
 $('#tIsle').onclick=()=>{SFX.click();S.isle=!S.isle;saveSet();renderTitle();toast(S.isle?'🏝️ 離島追加モード ON！<br>沖縄本島のあと、宮古島→石垣島→西表島をめざすバウ':'離島追加モード OFF<br>沖縄本島一周でゴールバウ')};
@@ -2657,6 +3066,7 @@ document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=
   }else show(g);
 }));
 $('#btnRoll').onclick=async()=>{
+  if(NET.on){if(state&&phase==='await'&&netChoose('turn','roll')){phase='busy';setControls();NET.reenable=()=>{if(state&&phase==='busy'){phase='await';setControls()}}}return}
   if(!state||phase!=='await')return;
   const p=cur();if(p.isCPU)return;
   phase='busy';setControls();
