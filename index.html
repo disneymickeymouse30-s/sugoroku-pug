@@ -337,6 +337,10 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
 .chip .num{font-style:normal;font-size:10px;font-weight:900;background:var(--pc);color:#fff;border-radius:9px;min-width:16px;line-height:15px;text-align:center}
 .chip .loc{font-size:11px;line-height:1;margin-left:-1px}
 .iriBox{display:flex;flex-direction:column;align-items:center;gap:2px;margin:6px 0 2px;font-size:13px}
+.wScore{display:flex;align-items:center;justify-content:center;gap:8px;margin:4px 0 6px;font-weight:800;font-size:13px}
+.wScore b{display:inline-grid;place-items:center;min-width:30px;height:30px;border-radius:10px;background:#7c5cff;color:#fff;font-size:18px}
+.wScore b+i+b{background:#ffb02e}
+.wScore i{font-style:normal;font-weight:900}
 .jkVs{display:flex;align-items:center;justify-content:center;gap:14px;margin:8px 0 4px}
 .jkVs>div{display:flex;flex-direction:column;align-items:center}
 .jkVs span{font-size:34px;line-height:1.1}
@@ -345,6 +349,10 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
 .isleT{justify-self:center;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 8px 0 16px;border-radius:999px;font:inherit;font-weight:800;font-size:14px;background:rgba(255,255,255,.9);color:#0f4c66;border:2px solid #18a6c9;box-shadow:0 3px 0 rgba(0,0,0,.06)}
 .isleT b{background:#cfd8de;color:#41535e;border-radius:999px;padding:1px 10px;font-size:13px}
 .isleT.on{background:linear-gradient(180deg,#e9fbff,#c8f1fb)}
+.tCourse{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.spaceT{border-color:#7c5cff;color:#3b2a6b}
+.spaceT.on{background:linear-gradient(180deg,#f3eeff,#ddd1ff)}
+.spaceT.on b{background:#7c5cff!important;color:#fff!important}
 .isleT.on b{background:#18a6c9;color:#fff}
 .chuB .ico{vertical-align:-3px}
 @media (max-height:760px){.titlePug{width:104px;height:104px}.titlePug svg{width:100%;height:100%}.menu{gap:8px}.menu .btn{min-height:48px;font-size:16px}.menu .tMain{min-height:56px;font-size:18px}.menu .tCont{min-height:42px}.isleT{min-height:36px}.tDock button{min-height:50px}.logo h1 .t2{margin-top:6px}}
@@ -377,7 +385,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
         <button class="btn primary tMain" id="tStart" type="button">🎲 ゲームスタート<small>1台でみんなと・CPUと</small></button>
         <button class="btn netT tMain" id="tOnline" type="button" hidden>🌐 オンライン対戦<small>それぞれのスマホで2〜4匹</small></button>
         <button class="btn sea tCont" id="tContinue" type="button" hidden>▶ 続きから</button>
-        <button class="isleT" id="tIsle" type="button" aria-pressed="false">🏝️ 離島追加モード <b>OFF</b></button>
+        <div class="tCourse"><button class="isleT" id="tIsle" type="button" aria-pressed="false">🏝️ 離島追加 <b>OFF</b></button><button class="isleT spaceT" id="tSpace" type="button" aria-pressed="false">🚀 宇宙追加 <b>OFF</b></button></div>
         <nav class="tDock" aria-label="そのほかのメニュー">
           <button id="tHow" type="button"><span aria-hidden="true">📖</span>説明書</button>
           <button id="tYari" type="button"><span aria-hidden="true">🏅</span>やり込み</button>
@@ -625,6 +633,7 @@ ol.order li:nth-child(6) b{background:var(--pink)}
   <a href="#items">🎒 アイテム</a>
   <a href="#goal">🏁 ゴール</a>
   <a href="#isle">🏝️ 離島モード</a>
+  <a href="#space">🚀 宇宙モード</a>
   <a href="#online">🌐 オンライン</a>
   <a href="#extras">🏅 もっと</a>
   <a href="#qa">💬 困ったら</a>
@@ -648,8 +657,10 @@ ol.order li:nth-child(6) b{background:var(--pink)}
           <text x="90" y="111" text-anchor="middle" font-size="12.5" font-weight="900" fill="#fff">🎲 ゲームスタート</text>
           <rect x="22" y="128" width="136" height="28" rx="14" fill="#8b6dff" stroke="#2b2140" stroke-width="2.5"/>
           <text x="90" y="147" text-anchor="middle" font-size="11.5" font-weight="900" fill="#fff">🌐 オンライン対戦</text>
-          <rect x="50" y="162" width="80" height="18" rx="9" fill="#fff" stroke="#43c6f0" stroke-width="2"/>
-          <text x="90" y="175" text-anchor="middle" font-size="9" font-weight="900" fill="#2b2140">🏝️ 離島 OFF</text>
+          <rect x="22" y="162" width="66" height="18" rx="9" fill="#fff" stroke="#43c6f0" stroke-width="2"/>
+          <text x="55" y="175" text-anchor="middle" font-size="9" font-weight="900" fill="#2b2140">🏝️ 離島 OFF</text>
+          <rect x="92" y="162" width="66" height="18" rx="9" fill="#fff" stroke="#7c5cff" stroke-width="2"/>
+          <text x="125" y="175" text-anchor="middle" font-size="9" font-weight="900" fill="#2b2140">🚀 宇宙 OFF</text>
           <rect x="14" y="188" width="152" height="32" rx="12" fill="#fff" stroke="#2b2140" stroke-width="2.5"/>
           <text x="35" y="209" text-anchor="middle" font-size="13">📖</text>
           <text x="62" y="209" text-anchor="middle" font-size="13">🏅</text>
@@ -783,6 +794,7 @@ ol.order li:nth-child(6) b{background:var(--pink)}
     <div class="item"><span class="ic">🚝</span><span><b>パグレール</b><span class="t">次の観光スポットまで直行！</span></span></div>
     <div class="item"><span class="ic">🧂</span><span><b>天然塩</b><span class="t">悪いできごとを1回、自動でふせぐ</span></span></div>
     <div class="item"><span class="ic">🧶</span><span><b>味付けのり</b><span class="t">3枚で出目+1、5枚で次のターン2回振り、10枚で「のり神パグ」！</span></span></div>
+    <div class="item"><span class="ic">🍗</span><span><b>唐揚げ（宇宙追加モード）</b><span class="t">パグの滝でイリオモテパグに勝つと、10,000バウで買えるよ。ワンダー星の王子ワンダにわたすと、じゃんけんなしでゴール！</span></span></div>
     <div class="item"><span class="ic">🍡</span><span><b>ちゅ〜る（レア）</b><span class="t">大逆転アイテム！最下位で1位と大きく離れていると、緑マスやパグ神マス、みんなの応援でもらえることがあるよ。1位のパグに食べさせると、あみだくじで勝負！ 選び終わるまで答えはヒミツで、毎回ランダムだよ。勝ったら「1位をゆずってあげるバウ！」と場所を入れかわってくれる！</span></span></div>
   </div>
   <p class="tip" style="margin-top:14px">💡 アイテムを使うと、そのときの説明が画面に出るよ。迷ったら読んでね。</p>
@@ -811,6 +823,22 @@ ol.order li:nth-child(6) b{background:var(--pink)}
   </ol>
   <p class="tip" style="margin-top:14px">🏞️ パグの滝では「イリオモテパグ」とじゃんけん対決！ イリオモテパグは手をうしろにかくしているから、出す手はキミの運しだい。<b>勝ったらゴール</b>。負けたら次のターンにもう一度挑戦できるよ。</p>
   <p class="tip" style="margin-top:12px">📅 「やり込み」のデイリーチャレンジでも、離島追加モードをONにして挑戦できるよ。自己ベストはモードごとに記録されるよ。</p>
+  <p class="tip" style="margin-top:12px">🚀 「宇宙追加モード」もONのときは、パグの滝で勝ってもゴールではなく、パグロケットで宇宙へ！ くわしくは次の章を見てね。</p>
+</section>
+
+<section id="space" class="c3">
+  <div class="chapter"><span class="badge">🚀</span><h2>宇宙追加モード</h2></div>
+  <p class="lead">タイトル画面の「🚀 宇宙追加」をONにすると、離島モードのゴールのその先、宇宙まで旅が続くよ！（離島モードも自動でONになるよ）</p>
+  <ol class="order">
+    <li><b>1</b>西表島「パグの滝」でイリオモテパグとじゃんけん。勝つとパグロケットに乗れる！</li>
+    <li><b>2</b>そのとき10,000バウ持っていたら、イリオモテパグから「🍗 唐揚げ」を買えるよ</li>
+    <li><b>3</b>次のターンにロケット発射！（台風の日は発射できずに足止め）</li>
+    <li><b>4</b>宇宙の道には、パグ宇宙ステーション・銀河温泉「天の川の湯」・パグ月の「月のり屋」・流れ星ドッグランがあるよ</li>
+    <li><b>5</b>ワンダー星に到着！ パグそっくりな宇宙人たちは「ワンダは犬じゃないケン！」と言いはるよ</li>
+    <li><b>6</b>王子「ワンダ」とじゃんけん3本勝負。先に3回勝ったらゴール！</li>
+  </ol>
+  <p class="tip" style="margin-top:14px">🍗 唐揚げを持っていると、ワンダとのじゃんけんの前に「わたす？」と聞かれるよ。わたすと、じゃんけんなしでゴールできる！</p>
+  <p class="tip" style="margin-top:12px">💪 ワンダに先に3回勝たれても大丈夫。次のターンにまた挑戦できるよ。オンライン対戦でも、ホストが「宇宙追加モード」をONにすれば遊べるよ。</p>
 </section>
 
 <section id="online" class="c5">
@@ -1187,7 +1215,8 @@ const ITEMS={
  pagki:{name:'ぱぐーきチケット',icon:'✈️',desc:'3～8マス先へひとっ飛び（サイコロの代わり）',use:true},
  onsenken:{name:'温泉券',icon:'♨️',desc:'前方の温泉マスへ行って入浴（サイコロの代わり）',use:true},
  rail:{name:'パグレール',icon:'🚝',desc:'パグ専用のモノレール。次の観光スポットまで乗りかえなしで直行（サイコロの代わり）',use:true},
- chu:{name:'ちゅ〜る',icon:CHURU,desc:'大逆転のレアアイテム！1位のパグに食べさせて、あみだくじで勝負。勝ったら1位と場所を入れかわれる（サイコロの代わり）',use:true,rare:true}
+ chu:{name:'ちゅ〜る',icon:CHURU,desc:'大逆転のレアアイテム！1位のパグに食べさせて、あみだくじで勝負。勝ったら1位と場所を入れかわれる（サイコロの代わり）',use:true,rare:true},
+ karaage:{name:'唐揚げ',icon:'🍗',desc:'イリオモテパグの特製唐揚げ。ワンダー星の王子ワンダとのじゃんけんの前にわたすと、勝負なしでゴールできる（宇宙追加モード）',use:false,rare:true}
 };
 const ITEM_KEYS=Object.keys(ITEMS);
 const STORES={shimapan:{price:1500,fee:300},kabo:{price:1500,fee:300},raipug:{price:2500,fee:500},cafe:{price:2000,fee:400},kingpugs:{price:1800,fee:350},ou:{price:1600,fee:300}};
@@ -1284,7 +1313,9 @@ const PHOTOS=[
  {id:'miyakoblue',e:'🌊',name:'宮古ブルーの海',hint:'宮古島に降り立とう'},
  {id:'chocchune',e:'🥊',name:'ちょっちゅね〜と記念撮影',hint:'石垣島の港で'},
  {id:'mangrove',e:'🛶',name:'マングローブツアー',hint:'西表島の川で'},
- {id:'iriwin',e:'🏞️',name:'イリオモテパグに勝利',hint:'パグの滝でじゃんけん'}
+ {id:'iriwin',e:'🏞️',name:'イリオモテパグに勝利',hint:'パグの滝でじゃんけん'},
+ {id:'rocket',e:'🚀',name:'パグロケット発射！',hint:'宇宙追加モードで西表島から'},
+ {id:'wanda',e:'👑',name:'ワンダ王子に勝利',hint:'ワンダー星でじゃんけん3本勝負'}
 ];
 const BREEDS={
  white:{name:'白パグ',skill:'温泉マスター：温泉の効果がさらに+1',body:'#f7f2ea',ear:'#4a3f39',muzzle:'#3a312c'},
@@ -1410,27 +1441,32 @@ function buildIsle(){
   M=ISLE.length;
 }
 const isleOn=()=>!!(state&&state.isle);
-const GOAL=()=>isleOn()?N+M:N;
-const totalLen=()=>LAPS()*N+(isleOn()?M:0);
+const spaceOn=()=>!!(state&&state.isle&&state.space);
+const FALLS=()=>N+M;
+const GOAL=()=>spaceOn()?N+M+K:isleOn()?N+M:N;
+const totalLen=()=>LAPS()*N+(isleOn()?M:0)+(spaceOn()?K:0);
 const isleAt=i=>ISLE[Math.max(0,Math.min(M-1,i-N-1))];
-function sqAt(i){if(i<N)return BOARD[i];if(i===N||!isleOn())return BOARD[0];return isleAt(i)}
+const spaceAt=i=>SPACE[Math.max(0,Math.min(K-1,i-N-M-1))];
+function sqAt(i){if(i<N)return BOARD[i];if(i===N||!isleOn())return BOARD[0];if(i>N+M&&spaceOn())return spaceAt(i);return isleAt(i)}
 const ipos=key=>N+1+ISLE.findIndex(s=>s.isp===key);
 const TERM=()=>ipos('iport'),IRIPORT=()=>ipos('iriport');
-function majorAt(i){return i<N?BOARD[i].major>=0:i===N?true:!!isleAt(i).isp}
-function spotNameAt(i,p){if(i<N)return SPOTS[BOARD[i].major].name;if(i===N)return isFinalLap(p)?(isleOn()?'那覇空港（離島へ出発）':'那覇空港（ゴール）'):'那覇空港（次の周へ）';return ISLE_SP[isleAt(i).isp].name}
-function isleName(pos){const s=isleAt(pos);if(s.isp)return ISLE_SP[s.isp].name;return `${s.lbl}・${SQ_TYPES[s.type].name}`}
+function majorAt(i){if(i<N)return BOARD[i].major>=0;if(i===N)return true;const s=sqAt(i);return !!(s.isp||s.ssp)}
+function spotNameAt(i,p){if(i<N)return SPOTS[BOARD[i].major].name;if(i===N)return isFinalLap(p)?(isleOn()?'那覇空港（離島へ出発）':'那覇空港（ゴール）'):'那覇空港（次の周へ）';const s=sqAt(i);return s.ssp?SPACE_SP[s.ssp].name:ISLE_SP[s.isp].name}
+function isleName(pos){const s=sqAt(pos);if(s.ssp)return SPACE_SP[s.ssp].name;if(s.isp)return ISLE_SP[s.isp].name;return `${s.lbl}・${SQ_TYPES[s.type].name}`}
 function clampTarget(p,t){
   if(!isleOn()){if(t>N)t=RULE('exactGoal')?Math.max(0,N-(t-N)):N;return t}
   if(p.pos<N&&t>N)t=N;
   if(p.pos>N&&t<=N)t=N+1;
   const T=TERM();if(p.pos<T&&t>T&&p.pos>=N)t=T;
+  if(spaceOn()){const F=FALLS();if(p.pos<F&&t>F)t=F;if(p.pos>F&&t<=F)t=F+1;if(p.pos===F&&!p.rocket&&t>F)t=F}
   return Math.min(t,GOAL());
 }
 async function afterArrive(p){
   if(p.finished||!state||state.over)return;
   if(!isleOn()){if(p.pos>=N)await reachGoal(p);return}
   if(isFinalLap(p)&&p.pos===N&&!p.departed)await isleDepart(p);
-  else if(p.pos===GOAL())await fallsBattle(p);
+  else if(p.pos===FALLS()&&!(spaceOn()&&p.rocket))await fallsBattle(p);
+  else if(spaceOn()&&p.pos===GOAL())await wandaBattle(p);
 }
 async function isleDepart(p){
   p.departed=true;
@@ -1441,7 +1477,7 @@ async function isleDepart(p){
     if(p.firstClass){photo(p,'first');SFX.jackpot()}}}
   addBau(p,1000);SFX.jackpot();photo(p,'isletrip');
   commentate(`${p.name}が沖縄本島を一周！ ぱぐーきで宮古島へ飛び立った！`,6);
-  await say(p,{kicker:'✈️ 那覇空港',emoji:'🛫',title:'沖縄本島一周クリア！離島へ出発バウ！',text:'ボーナス1000バウ！ ここからはぱぐーきで宮古島→石垣島、そしてフェリーで西表島へ。ゴールは西表島の「パグの滝」バウ！',face:'joy',tone:'jackpot'});
+  await say(p,{kicker:'✈️ 那覇空港',emoji:'🛫',title:'沖縄本島一周クリア！離島へ出発バウ！',text:`ボーナス1000バウ！ ここからはぱぐーきで宮古島→石垣島、そしてフェリーで西表島へ。${spaceOn()?'パグの滝でイリオモテパグに勝てば、パグロケットで宇宙のワンダー星へ！':'ゴールは西表島の「パグの滝」バウ！'}`,face:'joy',tone:'jackpot'});
 }
 async function isleSpot(p,key,depth){
   const sp=ISLE_SP[key],k=`${sp.emoji} ${sp.name}`;
@@ -1470,7 +1506,7 @@ async function fallsBattle(p){
   const first=!p.metIri;p.metIri=true;
   if(first){
     commentate(`${p.name}がパグの滝に到着！ イリオモテパグとのじゃんけん対決だ！`,5);
-    await say(p,{kicker:'🏞️ パグの滝',emoji:'💦',title:'イリオモテパグがあらわれた！',text:'「ここまで来たか…。ゴールしたければ、じゃんけんで勝負するバウ！」',html:`<div class="iriBox">${iriPugSVG(92)}<b>イリオモテパグ</b></div>`,face:'proud',tone:'neutral'});
+    await say(p,{kicker:'🏞️ パグの滝',emoji:'💦',title:'イリオモテパグがあらわれた！',text:spaceOn()?'「ここまで来たか…。パグロケットに乗りたければ、じゃんけんで勝負するバウ！」':'「ここまで来たか…。ゴールしたければ、じゃんけんで勝負するバウ！」',html:`<div class="iriBox">${iriPugSVG(92)}<b>イリオモテパグ</b></div>`,face:'proud',tone:'neutral'});
   }
   for(let round=0;round<5;round++){
     const hide=`<div class="jkVs"><div>${pugP(p,'proud',64)}<span>❔</span></div><b>VS</b><div>${iriPugSVG(64)}<span class="jkHide">❓</span></div></div><p class="muted" style="margin:0;font-size:12px">イリオモテパグは手をうしろにかくしている…</p>`;
@@ -1480,6 +1516,7 @@ async function fallsBattle(p){
     if(res==='win'){
       SFX.jackpot();photo(p,'iriwin');
       await say(p,{kicker:'🏞️ じゃんけん対決',emoji:'🎉',title:'ポン！ 勝ったバウ！！',text:'「まいったバウ…！ パグの滝はキミのものだ！」 イリオモテパグが道をあけてくれた！',html:vs,face:'joy',tone:'jackpot'});
+      if(spaceOn()){await rocketBoard(p);return}
       await reachGoal(p);return;
     }
     if(res==='lose'){
@@ -1488,6 +1525,168 @@ async function fallsBattle(p){
     await say(p,{kicker:'🏞️ じゃんけん対決',emoji:'🤝',title:'ポン！ あいこ！',text:'もう一回勝負バウ！',html:vs,face:'normal',tone:'neutral',delay:1000});
   }
   await say(p,{kicker:'🏞️ じゃんけん対決',emoji:'😮‍💨',title:'あいこが続いて決着つかず…',text:'次のターンにもう一度挑戦するバウ。',face:'trouble',tone:'neutral'});
+}
+
+/* ---------- 🚀 宇宙追加モード：西表島 → パグロケット → ワンダー星 ---------- */
+const SPACE_VBH=2780,SPACE_Y=1860;
+const SPACE_SP={
+ station:{name:'パグ宇宙ステーション',emoji:'🛰️',side:'B',desc:'宇宙飛行士パグたちの基地。宇宙食の味付けのりをおすそわけしてもらえるバウ。'},
+ onsen:{name:'銀河温泉「天の川の湯」',emoji:'♨️',side:'L',desc:'天の川がそのまま湯船になった、宇宙一ながめのいい温泉。'},
+ moon:{name:'パグ月の「月のり屋」',emoji:'🌙',side:'R',desc:'月の石で焼いた味付けのりがおいしい名店。店主はパグそっくりな宇宙人。'},
+ meteor:{name:'流れ星ドッグラン',emoji:'🌠',side:'T',desc:'流れ星がたくさん見えるドッグラン。願いごとをすると…？'},
+ wonder:{name:'ワンダー星',emoji:'🪐',side:'T',desc:'パグそっくりな宇宙人が住む星。王子「ワンダ」とじゃんけん3本先取で勝てばゴール！'}
+};
+const SPACE_DEF=[
+ {lbl:'宇宙への道',pts:[[44,1676],[22,1744],[34,1820],[78,1878],[146,1916],[214,1936]],end:'station'},
+ {lbl:'天の川ルート',pts:[[214,1936],[300,1950],[384,1990],[436,2060],[440,2140],[406,2196]],end:'onsen'},
+ {lbl:'パグ月への道',pts:[[406,2196],[330,2226],[240,2246],[160,2276],[110,2330],[96,2380]],end:'moon'},
+ {lbl:'流れ星ルート',pts:[[96,2380],[104,2450],[160,2494],[240,2506],[320,2490],[372,2470]],end:'meteor'},
+ {lbl:'ワンダー星への道',pts:[[372,2470],[420,2520],[418,2580],[360,2620],[290,2624]],end:'wonder'}
+];
+const SPACE_POOL=['blue','nori','green','onsen','red','blue','nori','god','green','onsen','red','tada','blue','nori'];
+SEG_ICON.space='🚀';
+let SPACE=[],K=0;
+function buildSpace(){
+  const rng=mulberry32(20261015);SPACE=[];const GAP=SPACING*1.35;
+  SPACE_DEF.forEach(sg=>{
+    const pts=sg.pts,seg=[];let L=0;
+    for(let k=0;k<pts.length-1;k++){const d=Math.hypot(pts[k+1][0]-pts[k][0],pts[k+1][1]-pts[k][1]);seg.push(d);L+=d}
+    const n=Math.max(1,Math.round(L/GAP)-1);
+    const pool=SPACE_POOL.slice();for(let i=pool.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}
+    for(let j=1;j<=n;j++){
+      let t=L*j/(n+1),k=0;while(k<seg.length-1&&t>seg[k]){t-=seg[k];k++}
+      const r=seg[k]?t/seg[k]:0;
+      SPACE.push({x:pts[k][0]+(pts[k+1][0]-pts[k][0])*r,y:pts[k][1]+(pts[k+1][1]-pts[k][1])*r,type:pool[(j-1)%pool.length],major:-1,seg:'space',lbl:sg.lbl});
+    }
+    const e=pts[pts.length-1];SPACE.push({x:e[0],y:e[1],type:'major',major:-1,ssp:sg.end,seg:'space',lbl:sg.lbl});
+  });
+  K=SPACE.length;
+}
+function alienSVG(size,x,y,face='smile'){return `<svg viewBox="0 0 100 112" width="${size}" height="${(size*1.12).toFixed(1)}" class="pug" aria-hidden="true"${x!=null?` x="${x}" y="${y}"`:''}><path d="M32 30 L24 8 M68 30 L76 8" stroke="#2f7d45" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="8" r="5" fill="#ff8fb1" stroke="#2f7d45" stroke-width="2"/><circle cx="76" cy="8" r="5" fill="#ff8fb1" stroke="#2f7d45" stroke-width="2"/>${pugSVG('fawn',face,100,{x:0,y:12,colors:{body:'#a8e6bf',ear:'#2f7d45',muzzle:'#24543a'}})}</svg>`}
+function wandaSVG(size,face='proud'){return `<svg viewBox="0 0 100 112" width="${size}" height="${(size*1.12).toFixed(1)}" class="pug" aria-hidden="true"><path d="M32 30 L24 8 M68 30 L76 8" stroke="#5b3fa8" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="8" r="5" fill="#ffd34d" stroke="#5b3fa8" stroke-width="2"/><circle cx="76" cy="8" r="5" fill="#ffd34d" stroke="#5b3fa8" stroke-width="2"/>${pugSVG('fawn',face,100,{x:0,y:12,colors:{body:'#cdbdff',ear:'#5b3fa8',muzzle:'#3b2a6b'}})}<path d="M35 26 L39 12 L45 21 L50 8 L55 21 L61 12 L65 26Z" fill="#ffd34d" stroke="#b8860b" stroke-width="1.6" stroke-linejoin="round"/><circle cx="50" cy="18" r="2.4" fill="#ff6fa5"/></svg>`}
+const WANDA_BOX=()=>`<div class="iriBox">${wandaSVG(96)}<b>ワンダー星の王子・ワンダ</b></div>`;
+async function rocketBoard(p){
+  p.rocket=true;SFX.jackpot();
+  commentate(`${p.name}がイリオモテパグに勝利！ パグロケットでワンダー星へ向かうぞ！`,7);
+  await say(p,{kicker:'🏞️ パグの滝',emoji:'🚀',title:'パグロケットに乗れるバウ！',text:'イリオモテパグ「見事だバウ！ 滝のうらのひみつ基地にパグロケットがあるバウ。宇宙のかなたの『ワンダー星』へ行ってくるバウ！」',html:`<div class="iriBox">${iriPugSVG(80)}<b>イリオモテパグ</b></div>`,face:'joy',tone:'jackpot'});
+  if(!((p.items.karaage||0)>0)){
+    if(p.bau>=10000){
+      const cp=p.isCPU?(RULE('cpuLevel')==='easy'?rand()<.5:true):undefined;
+      const v=await say(p,{kicker:'🍗 イリオモテパグの唐揚げ',emoji:'🍗',title:'唐揚げを買っていくバウ？',text:`「ワンダー星の王子ワンダは、唐揚げに目がないらしいバウ。じゃんけんの前にわたせば、勝負なしでゴールさせてくれるかも…？」 1個10,000バウ（いま${p.bau.toLocaleString()}バウ）`,face:'smile',tone:'neutral',buttons:[{label:'🍗 買う（10,000バウ）',value:true,cls:'gold'},{label:'買わない',value:false,cls:'ghost'}],cpuPick:cp});
+      if(v){p.bau-=10000;giveItem(p,'karaage',1);SFX.jackpot();commentate(`${p.name}が伝説の唐揚げを手に入れた！`,4);
+        await say(p,{kicker:'🍗 イリオモテパグの唐揚げ',emoji:'🍗',title:'唐揚げを手に入れた！',text:'アツアツの唐揚げをロケットに積みこんだバウ。ワンダ王子に会ったら、じゃんけんの前にわたそう！',face:'joy',tone:'jackpot',delay:1200})}
+    }else{
+      await say(p,{kicker:'🍗 イリオモテパグの唐揚げ',emoji:'🍗',title:'唐揚げは10,000バウ…',text:`「宇宙に持っていく唐揚げは10,000バウだバウ」 いまは${p.bau.toLocaleString()}バウ。お金が足りなくて買えなかったバウ…。`,face:'trouble',tone:'neutral',delay:1200});
+    }
+  }
+  await say(p,{kicker:'🚀 パグロケット',emoji:'🚀',title:'次のターンに発射バウ！',text:'ロケットの準備ができたバウ。台風の日は発射できないので気をつけて！',face:'proud',tone:'neutral',delay:1200});
+}
+async function launchRocket(p){
+  p.launched=true;SFX.jackpot();photo(p,'rocket');
+  commentate(`${p.name}を乗せたパグロケットが西表島から発射！ 目指すはワンダー星！`,7);
+  await say(p,{kicker:'🚀 パグロケット発射場',emoji:'🚀',title:'3・2・1…発射バウ！！',text:'ゴゴゴゴ……！ パグロケットが西表島から宇宙へ飛び立った！ ここからは宇宙の旅。ゴールはワンダー星バウ！',face:'joy',tone:'jackpot'});
+}
+async function rocketCheck(p){
+  if(!spaceOn()||!isFinalLap(p)||p.pos!==FALLS()||!p.rocket||p.launched)return false;
+  if(state.weather==='typhoon'){
+    commentate(`台風でパグロケットが発射できない！ ${p.name}は西表島で足止め…`,2);
+    await say(p,{kicker:'🚀 パグロケット発射場',emoji:'🌀',title:'台風でロケットが発射できない！',text:'強い風でパグロケットは発射中止…。台風が去るまで西表島で待つバウ。',face:'trouble',tone:'bad'});
+    return true;
+  }
+  await launchRocket(p);
+  return false;
+}
+async function spaceSpot(p,key,depth){
+  const sp=SPACE_SP[key],k=`${sp.emoji} ${sp.name}`;
+  switch(key){
+  case 'station':addNori(p,2);addBau(p,500);SFX.good();
+    await say(p,{kicker:k,emoji:'🛰️',title:'パグ宇宙ステーションに到着！',text:'宇宙飛行士パグ「ようこそ！ 宇宙食の味付けのりをどうぞ！」 のり+2、500バウGET！',face:'joy'});break;
+  case 'onsen':await say(p,{kicker:k,emoji:'♨️',title:'銀河温泉「天の川の湯」！',text:'星がキラキラ流れる宇宙一の温泉バウ。ゆったりつかろう…。',face:'smile',delay:1000});await onsenBath(p,k);break;
+  case 'moon':addNori(p,3);p.nextBonus+=1;SFX.jackpot();
+    await say(p,{kicker:k,emoji:'🌙',title:'「月のり屋」で試食タイム！',text:'店主「いらっしゃいケン！ ……犬？ ワンダは犬じゃないケン！」 どう見てもパグの店主から、月の石で焼いたのりをもらったバウ。のり+3、次の出目+1！',html:`<div class="iriBox">${alienSVG(80)}<b>月のり屋の店主</b></div>`,face:'joy',tone:'jackpot'});break;
+  case 'meteor':{const r=rint(3);SFX.jackpot();
+    if(r===0){giveItem(p,'dice',1);await say(p,{kicker:k,emoji:'🌠',title:'流れ星に願いごと！',text:'「もっと進みたい！」…サイコロ+1をもらったバウ！',face:'joy',tone:'jackpot'})}
+    else if(r===1){p.nextBonus+=2;await say(p,{kicker:k,emoji:'🌠',title:'流れ星に願いごと！',text:'「はやくワンダー星に着きたい！」…次の出目+2バウ！',face:'joy',tone:'jackpot'})}
+    else{addBau(p,1500);await say(p,{kicker:k,emoji:'🌠',title:'流れ星に願いごと！',text:'「おこづかいがほしい！」…1500バウGET！',face:'joy',tone:'jackpot'})}
+    break}
+  }
+}
+async function wandaBattle(p){
+  if(p.finished||!state||state.over)return;
+  if(!p.metWanda){p.metWanda=true;
+    commentate(`${p.name}がワンダー星に到着！ 王子ワンダとのじゃんけん3本勝負だ！`,6);
+    await say(p,{kicker:'🪐 ワンダー星',emoji:'👽',title:'パグそっくりな宇宙人がいっぱい！',text:'「ようこそワンダー星へだケン！ ……え？ 犬？ ワンダは犬じゃないケン！」 どこから見てもパグなのに、みんな犬じゃないと言いはっているバウ…。',html:`<div class="iriBox">${alienSVG(84)}<b>ワンダー星の住人</b></div>`,face:'smile',tone:'neutral'});
+    await say(p,{kicker:'👑 ワンダ王子',emoji:'✊',title:'王子ワンダがあらわれた！',text:'「ゴールしたければ、ワンダとじゃんけん勝負だケン！ 先に3回勝ったほうの勝ちだケン！ あと、ワンダは犬じゃないケン！」',html:WANDA_BOX(),face:'proud',tone:'neutral'});
+  }
+  if((p.items.karaage||0)>0){
+    const v=await say(p,{kicker:'🍗 唐揚げ',emoji:'🍗',title:'唐揚げをワンダにあげる？',text:'イリオモテパグの唐揚げをわたせば、じゃんけんなしでゴールできるかも！',html:WANDA_BOX(),face:'smile',tone:'neutral',buttons:[{label:'🍗 唐揚げをあげる',value:true,cls:'gold'},{label:'じゃんけんで勝負する',value:false,cls:'ghost'}],cpuPick:true});
+    if(v){
+      p.items.karaage--;p.usedItems=(p.usedItems||0)+1;SFX.jackpot();photo(p,'wanda');
+      commentate(`${p.name}の唐揚げにワンダ王子がメロメロ！ じゃんけんなしでゴール！`,8);
+      await say(p,{kicker:'🍗 唐揚げ',emoji:'😋',title:'「うまいケン～～！！」',text:'「こ、これは伝説の唐揚げだケン！ しっぽが止まらないケン！ ……でもワンダは犬じゃないケン！ ゴールはゆずるケン！」',html:`<div class="iriBox">${wandaSVG(96,'joy')}<b>ワンダー星の王子・ワンダ</b></div>`,face:'joy',tone:'jackpot'});
+      await reachGoal(p);return;
+    }
+  }
+  let me=0,op=0;
+  const score=()=>`<p class="wScore"><span>${esc(p.name)}</span><b>${me}</b><i>−</i><b>${op}</b><span>ワンダ</span></p>`;
+  for(let round=0;round<30&&me<3&&op<3;round++){
+    const hide=`<div class="jkVs"><div>${pugP(p,'proud',60)}<span>❔</span></div><b>VS</b><div>${wandaSVG(60)}<span class="jkHide">❓</span></div></div>${score()}<p class="muted" style="margin:0;font-size:12px">ワンダは手をマントにかくしている…</p>`;
+    const h=await say(p,{kicker:'👑 ワンダ王子と3本勝負（3勝でゴール）',title:'じゃんけん…',text:'出す手を選ぶバウ！',html:hide,face:'proud',tone:'neutral',buttons:JK.map(x=>({label:`${x[1]} ${x[2]}`,value:x[0],cls:''})),cpuPick:pick(['g','c','p']),delay:900});
+    const w=NET.on?['g','c','p'][(await netRnd())%3]:pick(['g','c','p']),res=h===w?'draw':JK_WIN[h]===w?'win':'lose';
+    if(res==='win')me++;else if(res==='lose')op++;
+    const vs=`<div class="jkVs"><div>${pugP(p,res==='win'?'joy':res==='lose'?'trouble':'normal',60)}<span>${jkHand(h)[1]}</span></div><b>VS</b><div>${wandaSVG(60,res==='lose'?'joy':'proud')}<span>${jkHand(w)[1]}</span></div></div>${score()}`;
+    if(me>=3||op>=3)break;
+    if(res==='win')SFX.good();
+    await say(p,{kicker:'👑 ワンダ王子と3本勝負',emoji:res==='win'?'⭕':res==='lose'?'❌':'🤝',title:res==='win'?'ポン！ 1本とったバウ！':res==='lose'?'ポン！ ワンダの1本…':'ポン！ あいこ！',text:res==='lose'?'「ふふん、王子は強いケン！」':res==='win'?'「むむっ、やるケン…！」':'もう一回だケン！',html:vs,face:res==='win'?'joy':res==='lose'?'trouble':'normal',tone:res==='lose'?'bad':'neutral',delay:900});
+  }
+  if(me>=3){
+    SFX.jackpot();photo(p,'wanda');commentate(`${p.name}がワンダ王子に3勝！ ワンダー星でゴール！`,9);
+    await say(p,{kicker:'👑 ワンダ王子と3本勝負',emoji:'🎉',title:`${me}対${op}で勝ったバウ！！`,text:'「ま、まいったケン…！ キミはワンダー星の英雄だケン！ ……でもワンダは犬じゃないケン！」',html:`<div class="iriBox">${wandaSVG(96,'trouble')}<b>ワンダー星の王子・ワンダ</b></div>${score()}`,face:'joy',tone:'jackpot'});
+    await reachGoal(p);return;
+  }
+  if(op>=3){
+    await say(p,{kicker:'👑 ワンダ王子と3本勝負',emoji:'💫',title:`${me}対${op}でワンダの勝ち…`,text:'「まだまだだケン！ また挑戦しに来るケン！」 次のターンにもう一度勝負するバウ。',html:`<div class="iriBox">${wandaSVG(96,'joy')}<b>ワンダー星の王子・ワンダ</b></div>${score()}`,face:'trouble',tone:'bad'});return;
+  }
+  await say(p,{kicker:'👑 ワンダ王子と3本勝負',emoji:'😮‍💨',title:'あいこが続いて決着つかず…',text:'次のターンにもう一度挑戦するバウ。',face:'trouble',tone:'neutral'});
+}
+function spaceSvg(){
+  const rnd=mulberry32(4242);let stars='';
+  for(let i=0;i<120;i++){const x=(rnd()*480).toFixed(1),y=(SPACE_Y+40+rnd()*(SPACE_VBH-SPACE_Y-40)).toFixed(1),r=(rnd()*1.5+.4).toFixed(2),o=(.35+rnd()*.65).toFixed(2);stars+=`<circle cx="${x}" cy="${y}" r="${r}" fill="#fff" opacity="${o}"/>`}
+  const lab=(x,y,t,a='middle',fs=16)=>`<text x="${x}" y="${y}" font-size="${fs}" font-weight="900" text-anchor="${a}" fill="#fff" stroke="#2a1b5a" stroke-width="4" paint-order="stroke" stroke-linejoin="round">${t}</text>`;
+  let h=`<defs><linearGradient id="spG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c2b6b" stop-opacity="0"/><stop offset=".045" stop-color="#1c2b6b"/><stop offset=".5" stop-color="#140d38"/><stop offset="1" stop-color="#2a1150"/></linearGradient>
+  <radialGradient id="wpG" cx=".38" cy=".3"><stop offset="0" stop-color="#efe4ff"/><stop offset=".55" stop-color="#a68bff"/><stop offset="1" stop-color="#5b3fa8"/></radialGradient>
+  <radialGradient id="moonG" cx=".4" cy=".35"><stop offset="0" stop-color="#fffbe8"/><stop offset="1" stop-color="#c9c6d8"/></radialGradient>
+  <linearGradient id="mwG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#bfe0ff" stop-opacity="0"/><stop offset=".5" stop-color="#d9ecff" stop-opacity=".32"/><stop offset="1" stop-color="#bfe0ff" stop-opacity="0"/></linearGradient></defs>
+  <rect x="0" y="${SPACE_Y}" width="${VB.w}" height="${SPACE_VBH-SPACE_Y}" fill="url(#spG)"/>${stars}
+  <path d="M0 2040 Q160 2110 300 2080 T480 2040 L480 2120 Q330 2180 210 2160 T0 2120Z" fill="url(#mwG)"/>
+  <g transform="translate(150 1990)"><rect x="-14" y="-7" width="28" height="14" rx="3" fill="#e8ecf5" stroke="#8fa2c9" stroke-width="1.5"/><rect x="-44" y="-5" width="26" height="10" fill="#3b6fd8" stroke="#a9c3ff"/><rect x="18" y="-5" width="26" height="10" fill="#3b6fd8" stroke="#a9c3ff"/><circle r="3.5" fill="#ffd34d"/></g>
+  <g transform="translate(372 1940) rotate(35)"><path d="M0 -26 Q11 -12 10 12 L-10 12 Q-11 -12 0 -26Z" fill="#fff" stroke="#e8336d" stroke-width="2"/><circle cy="-6" r="5" fill="#8fd8ef" stroke="#1597c4" stroke-width="1.5"/><path d="M-10 6 L-17 18 L-10 15Z M10 6 L17 18 L10 15Z" fill="#e8336d"/><path d="M-6 13 Q0 30 6 13Z" fill="#ffb02e"/></g>
+  <circle cx="44" cy="2452" r="34" fill="url(#moonG)"/><g fill="#b8b4ca" opacity=".8"><circle cx="34" cy="2440" r="6"/><circle cx="56" cy="2462" r="5"/><circle cx="40" cy="2472" r="3"/></g>
+  <g stroke="#fff" stroke-linecap="round" opacity=".85"><path d="M300 2420 l-40 18" stroke-width="2"/><path d="M420 2410 l-30 13" stroke-width="1.5"/><path d="M220 2440 l-26 12" stroke-width="1.4"/></g>
+  <ellipse cx="240" cy="2735" rx="180" ry="30" fill="none" stroke="#ffd34d" stroke-width="5" opacity=".75" transform="rotate(-10 240 2735)"/>
+  <circle cx="240" cy="2735" r="108" fill="url(#wpG)"/>
+  <g fill="#7b5fe0" opacity=".45"><ellipse cx="200" cy="2700" rx="20" ry="9"/><ellipse cx="282" cy="2752" rx="26" ry="10"/><ellipse cx="226" cy="2770" rx="14" ry="6"/></g>
+  <g transform="translate(206 2640)"><rect x="-22" y="-6" width="44" height="26" fill="#fff5d6" stroke="#5b3fa8" stroke-width="2"/><rect x="-30" y="-20" width="12" height="40" fill="#fff5d6" stroke="#5b3fa8" stroke-width="2"/><rect x="18" y="-20" width="12" height="40" fill="#fff5d6" stroke="#5b3fa8" stroke-width="2"/><path d="M-32 -20 L-24 -32 L-16 -20Z M16 -20 L24 -32 L32 -20Z" fill="#ff6fa5" stroke="#5b3fa8" stroke-width="1.5"/><path d="M-6 20 V8 Q0 2 6 8 V20" fill="#5b3fa8"/></g>
+  ${alienSVG(30,150,2672)}${alienSVG(26,312,2684,'joy')}`;
+  h+=SPACE_DEF.map(d=>`<path d="${smoothOpen(d.pts)}" fill="none" stroke="#ffe58a" stroke-width="2.6" stroke-dasharray="2 7" stroke-linecap="round" opacity=".9"/>`).join('');
+  h+=lab(240,2770,'ワンダー星','middle',20)+lab(44,2504,'パグ月','middle',13)+lab(300,2120,'天の川','middle',12);
+  h+=`<text x="466" y="1886" font-size="12" font-weight="800" fill="#fff" opacity=".92" text-anchor="end">🚀 ここから宇宙ルート</text><text x="466" y="1902" font-size="11" font-weight="800" fill="#fff" opacity=".85" text-anchor="end">（西表島 → ワンダー星）</text>`;
+  return h;
+}
+function spaceSquaresSvg(){
+  let h='',labels='';
+  SPACE.forEach((s,k)=>{
+    const ii=N+M+1+k;
+    if(s.ssp){const sp=SPACE_SP[s.ssp],fin=s.ssp==='wonder',r=fin?18:15,col=fin?'#f5b301':'#9b7bff';
+      h+=`<g class="sq" data-ii="${ii}"><circle cx="${s.x}" cy="${s.y}" r="${r}" fill="#fff" stroke="${col}" stroke-width="3.5"/><text x="${s.x}" y="${s.y+5.5}" font-size="${fin?17:15}" text-anchor="middle">${sp.emoji}</text></g>`;
+      const name=fin?'🏁 ワンダー星':sp.name,fs=12,w=labelW(name,fs);let lx,ly;
+      if(sp.side==='L'){lx=s.x-r-5-w;ly=s.y-10}else if(sp.side==='R'){lx=s.x+r+5;ly=s.y-10}else if(sp.side==='T'){lx=s.x-w/2;ly=s.y-r-24}else{lx=s.x-w/2;ly=s.y+r+5}
+      lx=Math.max(2,Math.min(VB.w-w-2,lx));
+      labels+=`<g class="sq" data-ii="${ii}"><rect x="${lx.toFixed(1)}" y="${ly}" width="${w.toFixed(1)}" height="19" rx="9.5" fill="#fff" fill-opacity=".95" stroke="${col}" stroke-width="1.4"/><text x="${(lx+w/2).toFixed(1)}" y="${ly+14}" font-size="${fs}" font-weight="800" text-anchor="middle" fill="#24343f">${name}</text></g>`;
+    }else{const t=SQ_TYPES[s.type];
+      h+=`<g class="sq" data-ii="${ii}"><circle cx="${s.x.toFixed(1)}" cy="${s.y.toFixed(1)}" r="8.5" fill="${t.color}" stroke="#d8ccff" stroke-width="2"/><text x="${s.x.toFixed(1)}" y="${(s.y+3.4).toFixed(1)}" font-size="9" font-weight="800" text-anchor="middle" fill="#fff">${t.icon}</text></g>`;}
+  });
+  return {h,labels};
 }
 async function ferryCheck(p){
   if(!isleOn()||!isFinalLap(p)||p.pos<TERM()||p.pos>=IRIPORT())return false;
@@ -1544,7 +1743,7 @@ function isleSquaresSvg(){
     const ii=N+1+k;
     if(s.isp){const sp=ISLE_SP[s.isp],r=s.isp==='falls'?18:15,col=s.isp==='falls'?'#f5b301':'#18a6c9';
       h+=`<g class="sq" data-ii="${ii}"><circle cx="${s.x}" cy="${s.y}" r="${r}" fill="#fff" stroke="${col}" stroke-width="3.5"/><text x="${s.x}" y="${s.y+5.5}" font-size="${s.isp==='falls'?17:15}" text-anchor="middle">${sp.emoji}</text></g>`;
-      const name=s.isp==='falls'?'🏁 パグの滝':sp.name,fs=12,w=labelW(name,fs);let lx,ly;
+      const name=s.isp==='falls'?(spaceOn()?'🚀 パグの滝（発射場）':'🏁 パグの滝'):sp.name,fs=12,w=labelW(name,fs);let lx,ly;
       if(sp.side==='L'){lx=s.x-r-5-w;ly=s.y-10}else if(sp.side==='R'){lx=s.x+r+5;ly=s.y-10}else if(sp.side==='T'){lx=s.x-w/2;ly=s.y-r-24}else{lx=s.x-w/2;ly=s.y+r+5}
       lx=Math.max(2,Math.min(VB.w-w-2,lx));
       labels+=`<g class="sq" data-ii="${ii}"><rect x="${lx.toFixed(1)}" y="${ly}" width="${w.toFixed(1)}" height="19" rx="9.5" fill="#fff" fill-opacity=".95" stroke="${col}" stroke-width="1.4"/><text x="${(lx+w/2).toFixed(1)}" y="${ly+14}" font-size="${fs}" font-weight="800" text-anchor="middle" fill="#24343f">${name}</text></g>`;
@@ -1574,7 +1773,7 @@ function branchSvg(){
   return h;
 }
 const fromPos=p=>p.br!=null&&BRANCH?BRANCH.to-1:p.pos;
-const remainOf=p=>p.finished?0:(p.br!=null&&BRANCH?(BRANCH.sq.length-p.br)+(N-BRANCH.to)+(isleOn()?M:0):Math.max(0,GOAL()-p.pos))+(LAPS()-1-(p.lap||0))*N;
+const remainOf=p=>p.finished?0:(p.br!=null&&BRANCH?(BRANCH.sq.length-p.br)+(N-BRANCH.to)+(isleOn()?M:0)+(spaceOn()?K:0):Math.max(0,GOAL()-p.pos))+(LAPS()-1-(p.lap||0))*N;
 const LAPS=()=>(state&&state.laps)||1;
 const isFinalLap=p=>(p.lap||0)>=LAPS()-1;
 const prog=p=>(p.lap||0)*N+p.pos;
@@ -1608,10 +1807,10 @@ function renderOwners(){
   g.innerHTML=Object.entries(state.owners||{}).map(([k,id])=>{const sp=SPOTS[SPOT_IDX[k]],o=state.players.find(x=>x.id===id);if(!sp||!o)return '';
     return `<g transform="translate(${sp.x+10} ${sp.y-26})"><path d="M0 0V18" stroke="#5b3a1a" stroke-width="2.2"/><path d="M1 0L15 4.5L1 9Z" fill="${o.color}" stroke="#fff" stroke-width="1.2"/></g>`}).join('');
 }
-const coordOf=i=>{if(i>N&&M&&isleOn()){const s=isleAt(i);return {x:s.x,y:s.y}}const s=BOARD[((i%N)+N)%N];return {x:s.x,y:s.y}};
+const coordOf=i=>{if(i>N&&M&&isleOn()){const s=sqAt(i);return {x:s.x,y:s.y}}const s=BOARD[((i%N)+N)%N];return {x:s.x,y:s.y}};
 function labelW(t,fs){let w=0;for(const ch of t)w+=/[ -~]/.test(ch)?fs*.62:fs;return w+16}
 function renderBoard(){
-  VB.h=isleOn()?ISLE_VBH:1080;
+  VB.h=spaceOn()?SPACE_VBH:isleOn()?ISLE_VBH:1080;
   const svg=$('#board');svg.setAttribute('viewBox',`0 0 ${VB.w} ${VB.h}`);
   const pts=BOARD.map(s=>`${s.x.toFixed(1)},${s.y.toFixed(1)}`).join(' ');
   let h=`<defs><linearGradient id="seaG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3cc6e4"/><stop offset="1" stop-color="#138fc2"/></linearGradient>
@@ -1626,7 +1825,7 @@ function renderBoard(){
   <g fill="#88d07c"><path d="${ISLAND_PATH}"/>${Object.values(ISLETS).map(d=>`<path d="${d}"/>`).join('')}</g>
   <g fill="#5fb86a" opacity=".85"><ellipse cx="372" cy="176" rx="22" ry="34"/><ellipse cx="336" cy="236" rx="24" ry="34"/><ellipse cx="404" cy="108" rx="12" ry="18"/></g>
   
-  ${isleOn()?`<g><ellipse cx="372" cy="1116" rx="30" ry="12" fill="#c9b48a"/>${pugSVG('fawn','proud',44,{x:350,y:1066,mane:true})}<text x="404" y="1124" font-size="10" font-weight="800" fill="#fff">シーサーパグ</text></g>`:`<g><ellipse cx="46" cy="1046" rx="30" ry="12" fill="#c9b48a"/>${pugSVG('fawn','proud',44,{x:24,y:996,mane:true})}<text x="96" y="1052" font-size="10" font-weight="800" fill="#fff">シーサーパグ</text></g>`}${isleOn()?isleSvg():''}
+  ${isleOn()?`<g><ellipse cx="372" cy="1116" rx="30" ry="12" fill="#c9b48a"/>${pugSVG('fawn','proud',44,{x:350,y:1066,mane:true})}<text x="404" y="1124" font-size="10" font-weight="800" fill="#fff">シーサーパグ</text></g>`:`<g><ellipse cx="46" cy="1046" rx="30" ry="12" fill="#c9b48a"/>${pugSVG('fawn','proud',44,{x:24,y:996,mane:true})}<text x="96" y="1052" font-size="10" font-weight="800" fill="#fff">シーサーパグ</text></g>`}${isleOn()?isleSvg():''}${spaceOn()?spaceSvg():''}
   <text x="408" y="790" font-size="11" font-weight="800" fill="#fff" opacity=".9" text-anchor="middle">パグしか住んでいない島</text>
   <polygon points="${pts}" fill="none" stroke="#fff" stroke-width="6" stroke-opacity=".9" stroke-linejoin="round"/>
   <polygon points="${pts}" fill="none" stroke="#e8a25a" stroke-width="2" stroke-dasharray="4 6" stroke-linejoin="round"/>`;
@@ -1644,6 +1843,7 @@ function renderBoard(){
     }
   });
   if(isleOn()){const I=isleSquaresSvg();h+=I.h;labels+=I.labels}
+  if(spaceOn()){const P=spaceSquaresSvg();h+=P.h;labels+=P.labels}
   h+=branchSvg()+labels+'<g id="owners"></g><g id="pieces"></g>';
   svg.innerHTML=h;renderOwners();
 }
@@ -1731,7 +1931,8 @@ async function useChuru(p){
   const ea=$(`#pc${p.id}`),eb=$(`#pc${ld.id}`),ca=pieceXY(p),cb=pieceXY(ld);
   SFX.warp();showWalk('ぴゅ～ん！ いれかわり！');
   await Promise.all([ea?tween(ea,ca,cb,D(900),60):0,eb?tween(eb,cb,ca,D(900),60):0]);
-  p.pos=b.pos;p.lap=b.lap;p.br=b.br;ld.pos=a.pos;ld.lap=a.lap;ld.br=a.br;p.takeBranch=false;ld.takeBranch=false;
+  p.pos=b.pos;p.lap=b.lap;p.br=b.br;ld.pos=a.pos;ld.lap=a.lap;ld.br=a.br;
+  if(state.space){const ra=[p.rocket,p.launched];p.rocket=ld.rocket;p.launched=ld.launched;ld.rocket=ra[0];ld.launched=ra[1]}p.takeBranch=false;ld.takeBranch=false;
   if(state.isle){p.departed=p.pos>=N&&isFinalLap(p);ld.departed=ld.pos>=N&&isFinalLap(ld)}
   hideWalk();renderPieces();renderHud();focusXY(pieceXY(p),true);
   commentate(`大逆転！${p.name}がちゅ〜るで${ld.name}と入れかわった！`,9);
@@ -1827,7 +2028,7 @@ function renderRaceBar(){
   const cp=cur(),L=LAPS();
   const tot=totalLen(),KL=isleOn()?L:L-1;
   let h='<div class="rbTrack">';for(let k=1;k<=KL;k++)h+=`<span class="rbLap" style="left:calc(${(k*N/tot*100).toFixed(2)}% - 1.5px)" title="${k}周目の那覇空港"></span>`;
-  h+=`</div><span class="rbEnd s" aria-hidden="true">🛫</span><span class="rbEnd g" aria-hidden="true">${isleOn()?'🏞️':'🏁'}</span>`;
+  h+=`</div><span class="rbEnd s" aria-hidden="true">🛫</span><span class="rbEnd g" aria-hidden="true">${spaceOn()?'🪐':isleOn()?'🏞️':'🏁'}</span>`;
   const arr=state.players.map(p=>({p,f:progFrac(p)})).sort((a,b)=>a.f-b.f);
   const GAP=.085;arr.forEach((o,i)=>{o.d=i?Math.max(o.f,arr[i-1].d+GAP):o.f;o.top=4});
   const over=arr.length?arr[arr.length-1].d-1:0;
@@ -1957,6 +2158,7 @@ async function moveSteps(p,n,label,opt={}){
       else nx={pos:p.pos-1,br:null};
       if(nx.pos<0)break;
       if(isleOn()&&p.pos>N&&nx.pos<=N)break;
+      if(spaceOn()&&p.pos>FALLS()&&nx.pos<=FALLS())break;
     }
     const to=nx.br!=null?BRANCH.sq[nx.br]:coordOf(nx.pos);
     if(el)await tween(el,pieceXY(p),to,D(190));
@@ -1964,6 +2166,7 @@ async function moveSteps(p,n,label,opt={}){
     p.pos=nx.pos;p.br=nx.br;left--;SFX.step();focusXY(to,true,true);
     if(p.pos===N&&!isFinalLap(p)){p.pos=0;p.lap=(p.lap||0)+1;lapUp=true;p.lapLand=left===0}
     if(p.pos===GOAL()&&(isleOn()||!RULE('exactGoal')))break;
+    if(spaceOn()&&d>0&&p.pos===FALLS()&&!p.rocket)break;
     if(isleOn()&&d>0&&left>0&&isFinalLap(p)&&p.br==null&&((p.pos===N&&!p.departed)||p.pos===TERM()))break;
   }
   hideWalk();renderPieces();renderHud();
@@ -2430,7 +2633,8 @@ async function japagria(p,k,depth){
 async function landing(p,depth){
   if(p.finished||state.over)return;
   const s=sqAt(p.pos);p.stats.events++;
-  if(isleOn()&&isFinalLap(p)&&p.br==null&&(p.pos===N||p.pos===GOAL()))return;
+  if(isleOn()&&isFinalLap(p)&&p.br==null&&(p.pos===N||p.pos===GOAL()||p.pos===FALLS()))return;
+  if(s.ssp)return spaceSpot(p,s.ssp,depth);
   if(s.isp)return isleSpot(p,s.isp,depth);
   if(p.pos===0&&depth===0&&p.stats.dist===0)return;
   if(p.pos===0&&p.lapLand){p.lapLand=false;return}
@@ -2584,8 +2788,11 @@ async function startTurn(){
   bgmUpdate();
   if(!state||state.over)return;
   if(p.skip>0){p.skip--;await say(p,{emoji:'💤',title:`${esc(p.name)}はお休み中…`,text:'今回は1回休みバウ。zzz…',face:'sleep',tone:'neutral',delay:1200});return endTurn()}
-  if(isleOn()&&isFinalLap(p)&&p.pos===GOAL()){await fallsBattle(p);if(!state||state.over)return;return endTurn()}
+  if(isleOn()&&isFinalLap(p)&&p.pos===FALLS()&&!(spaceOn()&&p.rocket)){await fallsBattle(p);if(!state||state.over)return;return endTurn()}
+  if(spaceOn()&&isFinalLap(p)&&p.pos===GOAL()){await wandaBattle(p);if(!state||state.over)return;return endTurn()}
   if(await ferryCheck(p)){if(!state||state.over)return;return endTurn()}
+  if(await rocketCheck(p)){if(!state||state.over)return;return endTurn()}
+  if(!state||state.over)return;
   if(state.weather==='typhoon'&&rand()<.25&&!(isleOn()&&p.pos>N)){await typhoonGust(p);if(!state||state.over)return;if(p.finished)return endTurn()}
   if(RULE('underdog'))await maybeUnderdog(p);
   if(!state||state.over)return;
@@ -2614,10 +2821,10 @@ async function reachGoal(p){
     if(p.firstClass){photo(p,'first');SFX.jackpot()}}}
   p.goalWeather=state.weather;p.finished=true;p.pos=GOAL();p.br=null;state.finishCount++;p.finishOrder=state.finishCount;p.face='joy';
   if(p.finishOrder===1)photo(p,'win');
-  commentate(`ゴーール！${p.name}が${p.finishOrder}番乗りで${isleOn()?'西表島・パグの滝':'那覇空港'}に到着！${p.firstClass?'しかもファーストクラス！':''}`,p.finishOrder===1?7:0);
+  commentate(`ゴーール！${p.name}が${p.finishOrder}番乗りで${spaceOn()?'ワンダー星':isleOn()?'西表島・パグの滝':'那覇空港'}に到着！${p.firstClass?'しかもファーストクラス！':''}`,p.finishOrder===1?7:0);
   renderPieces();renderHud();SFX.goal();
   const pugs=[0,1,2].map(()=>`<span class="jumpPug" style="animation-delay:${Math.random()*.4}s">${pugP(p,'joy',p.finishOrder===1?110:86)}</span>`).join('');
-  showModalHtml(`<div class="goalWrap"><div style="font-size:15px;font-weight:800">${isleOn()?'🏞️ 西表島・パグの滝':'🏁 那覇空港'}</div><h3>${isleOn()?'離島めぐり達成バウ～～！！':'沖縄一周達成バウ～～！！'}</h3><div>${pugs}</div><p>${esc(p.name)}（${BREEDS[p.breed].name}）${p.finishOrder===1?'が一番乗り！':`が${p.finishOrder}位でゴール！`}</p><button class="btn gold wide" id="goalOk">やったー！</button></div>`);
+  showModalHtml(`<div class="goalWrap"><div style="font-size:15px;font-weight:800">${spaceOn()?'🪐 ワンダー星':isleOn()?'🏞️ 西表島・パグの滝':'🏁 那覇空港'}</div><h3>${spaceOn()?'宇宙の旅達成バウ～～！！':isleOn()?'離島めぐり達成バウ～～！！':'沖縄一周達成バウ～～！！'}</h3><div>${pugs}</div><p>${esc(p.name)}（${BREEDS[p.breed].name}）${p.finishOrder===1?'が一番乗り！':`が${p.finishOrder}位でゴール！`}</p><button class="btn gold wide" id="goalOk">やったー！</button></div>`);
   await new Promise(res=>{let done=false;const f=()=>{if(done)return;done=true;closeModal();res()};$('#goalOk').addEventListener('click',f);if(NET.catchup)setTimeout(f,5);else if((p.isCPU||!netMineP(p))&&S.msgMode!=='tap')setTimeout(f,Math.max(D(2600),RD(4200)))});
   const rest=state.players.filter(x=>!x.finished);
   if(rest.length<=1||!rest.some(x=>!x.isCPU)){endGame();return}
@@ -2647,6 +2854,7 @@ function show(id){
 function renderTitle(){
   setTimeout(renderMusicHint,0);
   {const b=$('#tIsle');if(b){b.classList.toggle('on',!!S.isle);b.setAttribute('aria-pressed',S.isle?'true':'false');b.querySelector('b').textContent=S.isle?'ON':'OFF'}}
+  {const b=$('#tSpace'),on=!!(S.isle&&S.space);if(b){b.classList.toggle('on',on);b.setAttribute('aria-pressed',on?'true':'false');b.querySelector('b').textContent=on?'ON':'OFF'}}
   {const sv=store.get(KEY_SAVE),has=!!(sv&&sv.v===3);$('#tContinue').disabled=!has;$('#tContinue').hidden=!has;}
   {const t=$('#tOnline');if(t)t.hidden=!netAvail();}
   $('#titlePug').innerHTML=pugSVG('fawn','joy',150);
@@ -2661,7 +2869,7 @@ function renderTitleArt(){
 }
 function seg(key,opts,cur,disabledFn){return `<div class="seg" data-k="${key}">${opts.map(o=>`<button data-val="${o[0]}" class="${String(o[0])===String(cur)?'on':''}"${disabledFn&&disabledFn(o[0])?' disabled':''}>${o[1]}</button>`).join('')}</div>`}
 function parseVal(v){return v==='true'?true:v==='false'?false:(/^\d+$/.test(v)?+v:v)}
-function bindSegs(root,onChange){root.querySelectorAll('.seg').forEach(sg=>sg.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled)return;SFX.click();S[sg.dataset.k]=parseVal(b.dataset.val);saveSet();onChange&&onChange(sg.dataset.k)}))}
+function bindSegs(root,onChange){root.querySelectorAll('.seg').forEach(sg=>sg.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled)return;SFX.click();S[sg.dataset.k]=parseVal(b.dataset.val);if(sg.dataset.k==='space'&&S.space)S.isle=true;if(sg.dataset.k==='isle'&&!S.isle)S.space=false;saveSet();onChange&&onChange(sg.dataset.k)}))}
 const setup={humans:[{name:'しろまる',breed:'white'},{name:'くろべえ',breed:'black'},{name:'きなこ',breed:'fawn'},{name:'おまかせ',breed:'random'}]};
 function renderSetup(){
   if(S.humans+S.cpus>4)S.cpus=4-S.humans;
@@ -2669,6 +2877,7 @@ function renderSetup(){
   <div class="setRow"><label>CPUパグ</label>${seg('cpus',[[0,'なし'],[1,'1匹'],[2,'2匹'],[3,'3匹']],S.cpus,v=>S.humans+v>4)}<div class="hint">ぜんぶで最大4匹まで。1人ならCPUと対戦できます。</div></div>
   <div class="setRow"><label>ゲームの長さ</label>${seg('laps',[[1,'1周'],[2,'2周'],[3,'3周']],S.laps)}<div class="hint">那覇空港スタート→沖縄本島を回って→那覇空港ゴール。目安：1周 約20〜30分／2周 約40〜60分／3周 約60〜90分</div></div>
   <div class="setRow"><label>離島追加モード</label>${seg('isle',[[false,'OFF'],[true,'ON']],!!S.isle)}<div class="hint">ONにすると、沖縄本島を回ったあと那覇空港からぱぐーきで宮古島→石垣島→フェリーで西表島へ。ゴールは西表島の「パグの滝」！</div></div>
+  <div class="setRow"><label>宇宙追加モード</label>${seg('space',[[false,'OFF'],[true,'ON']],!!(S.isle&&S.space))}<div class="hint">ONにすると離島モードもONに。パグの滝でイリオモテパグに勝つとパグロケットで宇宙へ！ ゴールはワンダー星（王子ワンダとじゃんけん3本先取）。</div></div>
   <div class="setRow" style="margin:0"><label>CPUの強さ</label>${seg('cpuLevel',[['easy','かんたん'],['normal','ふつう'],['hard','むずかしい']],S.cpuLevel)}</div></div>`;
   for(let i=0;i<S.humans;i++){
     const hu=setup.humans[i];
@@ -2788,12 +2997,12 @@ function startNewGame(humans,cpus,opt={}){
   humans.forEach((h,i)=>{players[i].costume=h.costume&&COSTUMES[h.costume]?h.costume:null;players[i].title=h.title||''});
   players.forEach(p=>{addBau(p,1000);giveItem(p,'dice',1);p.items.nori+=1;p.stats.noriTotal+=1;p.stats.items+=1});
   const lucky=pick(players);lucky.lucky=true;
-  state={v:3,N,players,turn:0,round:1,finishCount:0,over:false,owners:{},weather:rollWeather(),forecast:rollWeather(),wNews:true,spurt:false,hl:[],lastLeader:null,daily:opt.daily||null,rules:opt.rules||null,isle:(opt.daily||opt.net)?!!opt.isle:!!S.isle,laps:Math.max(1,Math.min(3,opt.laps||S.laps||1))};
+  state={v:3,N,players,turn:0,round:1,finishCount:0,over:false,owners:{},weather:rollWeather(),forecast:rollWeather(),wNews:true,spurt:false,hl:[],lastLeader:null,daily:opt.daily||null,rules:opt.rules||null,isle:(opt.daily||opt.net)?!!opt.isle:!!S.isle,space:(opt.daily||opt.net)?!!(opt.isle&&opt.space):!!(S.isle&&S.space),laps:Math.max(1,Math.min(3,opt.laps||S.laps||1))};
   players.forEach(dealMission);
   phase='busy';enterGame();
   (async()=>{
     SFX.jackpot();
-    await say(players[0],{kicker:'✈️ 那覇空港',emoji:'🛫',title:state.isle?'沖縄本島を一周して、離島の西表島をめざすバウ！':'ぱぐーきに乗って沖縄本島一周の旅へ出発バウ！',text:'全員に 1000バウ・サイコロ+1・味付けのり1枚 をプレゼント！',html:`<div class="luckyBox">🍀 今回のラッキーパグは <b>${esc(lucky.name)}</b>！ 小さなボーナスを受けやすいバウ。</div>`,face:'joy',auto:false,buttons:[{label:'出発！',value:'ok'}]});
+    await say(players[0],{kicker:'✈️ 那覇空港',emoji:'🛫',title:state.space?'沖縄本島→離島→宇宙！ ワンダー星をめざすバウ！':state.isle?'沖縄本島を一周して、離島の西表島をめざすバウ！':'ぱぐーきに乗って沖縄本島一周の旅へ出発バウ！',text:'全員に 1000バウ・サイコロ+1・味付けのり1枚 をプレゼント！',html:`<div class="luckyBox">🍀 今回のラッキーパグは <b>${esc(lucky.name)}</b>！ 小さなボーナスを受けやすいバウ。</div>`,face:'joy',auto:false,buttons:[{label:'出発！',value:'ok'}]});
     startTurn();
   })();
 }
@@ -2837,7 +3046,7 @@ function openInfo(focusId){
   if(!state)return;
   const R=ranks();
   const list=[...state.players].sort((a,b)=>R[a.id]-R[b.id]);
-  showModalHtml(`<div class="sheet"><h3>🐶 プレイヤー情報</h3><p class="muted" style="margin:2px 0 10px">ターン${state.round}・全${N}マス×${LAPS()}周${isleOn()?`＋離島${M}マス`:''}</p>${list.map(p=>`<div class="pInfo" style="--pc:${p.color}${p.id===focusId?';outline:3px solid '+p.color:''}"><div class="hd">${pugP(p,p.finished?'joy':p.face||'normal',36)}${esc(p.name)} <small class="muted">${BREEDS[p.breed].name}${p.isCPU?'・CPU':''}${p.lucky?'・🍀':''}</small><span class="rk">${p.finished?'🏁ゴール':R[p.id]+'位'}</span></div>
+  showModalHtml(`<div class="sheet"><h3>🐶 プレイヤー情報</h3><p class="muted" style="margin:2px 0 10px">ターン${state.round}・全${N}マス×${LAPS()}周${isleOn()?`＋離島${M}マス`:''}${spaceOn()?`＋宇宙${K}マス`:''}</p>${list.map(p=>`<div class="pInfo" style="--pc:${p.color}${p.id===focusId?';outline:3px solid '+p.color:''}"><div class="hd">${pugP(p,p.finished?'joy':p.face||'normal',36)}${esc(p.name)} <small class="muted">${BREEDS[p.breed].name}${p.isCPU?'・CPU':''}${p.lucky?'・🍀':''}</small><span class="rk">${p.finished?'🏁ゴール':R[p.id]+'位'}</span></div>
   <div class="bar"><i style="width:${Math.round((1-remainOf(p)/totalLen())*100)}%"></i></div>${LAPS()>1?`${Math.min(LAPS(),(p.lap||0)+1)}/${LAPS()}周目・`:''}${p.title?`<span class="ttl">${esc(p.title)}</span> `:''}あと${remainOf(p)}マス
   <div class="ln">📍 ${locNameP(p)}<br>💰${p.bau.toLocaleString()}バウ ${NORI}${p.items.nori} 🎫${p.items.ticket} 🧂${p.items.salt} 🧿${p.items.omamori} 🎲${p.items.dice} ✈️${p.items.pagki} ♨️${p.items.onsenken} 🚝${p.items.rail||0}<br>⭐ ${BREEDS[p.breed].skill}<br>📮スタンプ${Object.keys(p.stamps||{}).length}個・🃏ミッション達成${p.missionsDone||0}回・🏪${Object.values(state.owners||{}).filter(id=>id===p.id).length}軒${p.firstClass?'・✨ファーストクラス':''}<br><span class="muted">温泉${p.stats.onsen}回・散歩${p.stats.walks}回・タダ旅行${p.stats.freeTrips}回${p.skip?`・休み${p.skip}`:''}</span></div></div>`).join('')}<button class="btn wide" id="infoClose">とじる</button></div>`);
   $('#infoClose').onclick=closeModal;
@@ -2883,7 +3092,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#manualOv').hid
 
 
 /* ---------- 🌐 オンライン対戦（全員が同じゲームを動かし、選択だけを記録で共有） ---------- */
-const GAMEVER='v12';
+const GAMEVER='v13';
 const KEY_NET='pugtabi-net-room';
 function netAvail(){try{return !!(window.PugNet&&window.PugNet.available())}catch(e){return false}}
 function netOwnerSeat(owner){return owner<0?0:NET.seatOfPid[owner]}
@@ -2993,7 +3202,7 @@ function netTakeover(){
 function netStartCfg(){
   const R=PugNet.room(),pl=R.players,hum=[];let cpu=0;
   for(let s=0;s<4;s++){const p=pl[s];if(!p)continue;if(p.cpu)cpu++;else hum.push({s,n:p.name,b:BREED_KEYS[+p.breed]||'white'})}
-  return {v:GAMEVER,seed:PugNet.trueRand(4294967296)|0,isle:!!S.isle,laps:Math.max(1,Math.min(3,+S.laps||1)),
+  return {v:GAMEVER,seed:PugNet.trueRand(4294967296)|0,isle:!!S.isle,space:!!(S.isle&&S.space),laps:Math.max(1,Math.min(3,+S.laps||1)),
     rules:{cpuLevel:['easy','normal','hard'].includes(S.cpuLevel)?S.cpuLevel:'normal',exactGoal:!!S.exactGoal,randomEvents:S.randomEvents!==false,ticketMode:S.ticketMode==='random'?'random':'choose',underdog:S.underdog!==false},hum,cpu};
 }
 function netCfgOk(c){
@@ -3024,7 +3233,7 @@ function netBegin(cfg,log){
   NET.seatOfPid=cfg.hum.map(h=>h.s);
   NET.catchup=NET.log.length;
   closeModal();
-  startNewGame(cfg.hum.map(h=>({name:h.n,breed:h.b})),cfg.cpu,{seed:cfg.seed,rules:cfg.rules,laps:cfg.laps,isle:!!cfg.isle,net:true});
+  startNewGame(cfg.hum.map(h=>({name:h.n,breed:h.b})),cfg.cpu,{seed:cfg.seed,rules:cfg.rules,laps:cfg.laps,isle:!!cfg.isle,space:!!(cfg.isle&&cfg.space),net:true});
   if(NET.catchup)toast('🌐 対戦にもどったバウ！ 追いかけ中…');
   netBar();
 }
@@ -3052,7 +3261,7 @@ function openNetMenu(){
 /* ----- ロビー画面 ----- */
 const netForm={name:'',breed:0,code:'',busy:false};
 function netLast(){try{const v=store.get(KEY_NET);if(v&&/^[0-9]{6}$/.test(v.code)&&Date.now()-(v.t||0)<6*3600*1000)return v}catch(e){}return null}
-function netCfgText(c){c=c||{};return `🏝️ 離島 ${c.isle?'ON':'OFF'}・${Math.max(1,Math.min(3,+c.laps||1))}周・CPU「${{easy:'やさしい',normal:'ふつう',hard:'むずかしい'}[c.cpu]||'ふつう'}」`}
+function netCfgText(c){c=c||{};return `🏝️ 離島 ${c.isle?'ON':'OFF'}${c.isle&&c.space?'・🚀 宇宙 ON':''}・${Math.max(1,Math.min(3,+c.laps||1))}周・CPU「${{easy:'やさしい',normal:'ふつう',hard:'むずかしい'}[c.cpu]||'ふつう'}」`}
 function renderOnline(){
   const body=$('#onlineBody');if(!body)return;
   const R=window.PugNet&&PugNet.room();
@@ -3082,12 +3291,12 @@ function renderOnline(){
     return `<div class="netSeat"><span class="netDot${on?' on':''}" title="${on?'接続中':'切断中'}"></span>${pugSVG(BREED_KEYS[+p.breed]||'white','smile',40)}<span class="nm">${esc(p.name)}<small>${tag||(on?'接続中':'通信が切れています')}</small></span>${ctl}</div>`};
   body.innerHTML=`<div class="card netCard netRoom"><div class="muted" style="font-weight:800">部屋番号</div><div class="netCodeBig">${R.code.slice(0,3)} ${R.code.slice(3)}</div><button class="btn sm" id="netCopy" type="button">📋 番号をコピー</button><p class="muted" style="margin:8px 0 0;font-size:12px">友だちにこの番号を教えてね（4匹まで）</p></div>
   <div class="card netCard"><h3>👥 メンバー</h3>${[0,1,2,3].map(seatRow).join('')}</div>
-  <div class="card netCard"><h3>⚙️ ルール</h3>${R.host?`<div class="setRow"><label>離島追加モード</label>${seg('isle',[[false,'OFF'],[true,'ON']],!!S.isle)}</div><div class="setRow"><label>ゲームの長さ</label>${seg('laps',[[1,'1周'],[2,'2周'],[3,'3周']],S.laps||1)}</div><div class="setRow"><label>CPUの強さ</label>${seg('cpuLevel',[['easy','やさしい'],['normal','ふつう'],['hard','むずかしい']],S.cpuLevel)}</div>`:`<p style="margin:0;font-weight:800">${netCfgText(c)}</p><p class="muted" style="margin:4px 0 0;font-size:12px">ルールはホストが決めます</p>`}</div>
+  <div class="card netCard"><h3>⚙️ ルール</h3>${R.host?`<div class="setRow"><label>離島追加モード</label>${seg('isle',[[false,'OFF'],[true,'ON']],!!S.isle)}</div><div class="setRow"><label>宇宙追加モード</label>${seg('space',[[false,'OFF'],[true,'ON']],!!(S.isle&&S.space))}</div><div class="setRow"><label>ゲームの長さ</label>${seg('laps',[[1,'1周'],[2,'2周'],[3,'3周']],S.laps||1)}</div><div class="setRow"><label>CPUの強さ</label>${seg('cpuLevel',[['easy','やさしい'],['normal','ふつう'],['hard','むずかしい']],S.cpuLevel)}</div>`:`<p style="margin:0;font-weight:800">${netCfgText(c)}</p><p class="muted" style="margin:4px 0 0;font-size:12px">ルールはホストが決めます</p>`}</div>
   ${R.host?'<button class="btn primary wide" id="netStart" type="button">🎲 このメンバーでスタート！</button>':'<p class="netWait">⏳ ホストがスタートするのを待っています…</p>'}
   <button class="btn ghost wide" id="netLeaveBtn" type="button" style="margin-top:10px">部屋を出る</button>`;
   $('#netCopy').onclick=()=>{try{navigator.clipboard.writeText(R.code).then(()=>toast('📋 部屋番号をコピーしたバウ'),()=>toast('部屋番号：'+R.code))}catch(e){toast('部屋番号：'+R.code)}};
   if(R.host){
-    bindSegs(body,()=>{saveSet();PugNet.setCfg({isle:!!S.isle,laps:+S.laps||1,cpu:S.cpuLevel}).catch(()=>{});renderOnline()});
+    bindSegs(body,()=>{saveSet();PugNet.setCfg({isle:!!S.isle,space:!!(S.isle&&S.space),laps:+S.laps||1,cpu:S.cpuLevel}).catch(()=>{});renderOnline()});
     $('#netStart').onclick=e=>{SFX.click();netHostStart(e.currentTarget)};
     body.querySelectorAll('[data-ns]').forEach(b=>b.onclick=()=>{SFX.click();const s=+b.dataset.s,k=b.dataset.ns;
       const pr=k==='cpu'?PugNet.setCpu(s,'CPUパグ',String(s%BREED_KEYS.length)):PugNet.clearSeat(s);
@@ -3100,7 +3309,7 @@ async function netGo(kind,code){
   const name=PugNet.safeName(netForm.name);netForm.name=name;
   netForm.busy=true;renderOnline();
   try{
-    if(kind==='create')await PugNet.createRoom({name,breed:String(netForm.breed),cfg:{isle:!!S.isle,laps:+S.laps||1,cpu:S.cpuLevel}});
+    if(kind==='create')await PugNet.createRoom({name,breed:String(netForm.breed),cfg:{isle:!!S.isle,space:!!(S.isle&&S.space),laps:+S.laps||1,cpu:S.cpuLevel}});
     else await PugNet.joinRoom(code,{name,breed:String(netForm.breed)});
     SFX.good();
   }catch(e){toast('📡 '+PugNet.message(e))}
@@ -3138,7 +3347,8 @@ if(netAvail())netWire();
 
 /* ---------- wiring ---------- */
 $('#tStart').onclick=()=>{SFX.click();renderSetup();show('scrSetup')};
-$('#tIsle').onclick=()=>{SFX.click();S.isle=!S.isle;saveSet();renderTitle();toast(S.isle?'🏝️ 離島追加モード ON！<br>沖縄本島のあと、宮古島→石垣島→西表島をめざすバウ':'離島追加モード OFF<br>沖縄本島一周でゴールバウ')};
+$('#tIsle').onclick=()=>{SFX.click();S.isle=!S.isle;if(!S.isle)S.space=false;saveSet();renderTitle();toast(S.isle?'🏝️ 離島追加モード ON！<br>沖縄本島のあと、宮古島→石垣島→西表島をめざすバウ':'離島追加モード OFF<br>沖縄本島一周でゴールバウ')};
+$('#tSpace').onclick=()=>{SFX.click();S.space=!(S.isle&&S.space);if(S.space)S.isle=true;saveSet();renderTitle();toast(S.space?'🚀 宇宙追加モード ON！<br>離島の先、パグの滝で勝ったらパグロケットでワンダー星へ！':'宇宙追加モード OFF<br>西表島のパグの滝でゴールバウ')};
 $('#tContinue').onclick=()=>{SFX.click();continueGame()};
 $('#tHow').onclick=()=>{try{SFX.click()}catch(e){}openManual()};
 $('#tSet').onclick=()=>{renderSettings();show('scrSet')};
@@ -3176,14 +3386,14 @@ $('#board').addEventListener('click',e=>{
   const pc=e.target.closest('.piece');if(pc&&state){SFX.click();openInfo(+pc.id.slice(2));return}
   const g=e.target.closest('.sq');if(!g)return;
   if(g.dataset.b!=null&&BRANCH){const t=SQ_TYPES[BRANCH.types[+g.dataset.b]];toast(`⛰️ <b>山道の近道</b>・${t.icon} ${t.name}<br>${t.desc}`);return}
-  if(g.dataset.ii!=null&&isleOn()){const s=isleAt(+g.dataset.ii);if(s.isp){const sp=ISLE_SP[s.isp];toast(`${sp.emoji} <b>${sp.name}</b><br>${sp.desc}`)}else{const t=SQ_TYPES[s.type];toast(`${SEG_ICON[s.seg]} ${s.lbl}<br><b>${t.icon} ${t.name}</b>：${t.desc}`)}return}
+  if(g.dataset.ii!=null&&isleOn()){const s=sqAt(+g.dataset.ii);if(s.ssp){const sp=SPACE_SP[s.ssp];toast(`${sp.emoji} <b>${sp.name}</b><br>${sp.desc}`)}else if(s.isp){const sp=ISLE_SP[s.isp];toast(`${sp.emoji} <b>${sp.name}</b><br>${s.isp==='falls'&&spaceOn()?'西表島の名所。イリオモテパグとじゃんけん！勝てばパグロケットでワンダー星へ。台風の日は発射できない！':sp.desc}`)}else{const t=SQ_TYPES[s.type];toast(`${SEG_ICON[s.seg]} ${s.lbl}<br><b>${t.icon} ${t.name}</b>：${t.desc}`)}return}
   const i=+g.dataset.i,s=BOARD[i];if(!s)return;
   if(s.major>=0){const sp=SPOTS[s.major];toast(`${sp.emoji} <b>${sp.name}</b><br>${sp.desc}`)}
   else{const t=SQ_TYPES[s.type];toast(`<b>${t.icon} ${t.name}</b><br>${t.desc}`)}
 });
 
 $('#musicHint').addEventListener('click',e=>{e.stopPropagation();unlockAudio();setTimeout(renderMusicHint,300)});
-buildBoard();buildBranch();buildIsle();$('#ciPug').innerHTML=pugSVG('gray','proud',40);renderTitleArt();renderTitle();
+buildBoard();buildBranch();buildIsle();buildSpace();$('#ciPug').innerHTML=pugSVG('gray','proud',40);renderTitleArt();renderTitle();
 })();
 </script>
 <script>
