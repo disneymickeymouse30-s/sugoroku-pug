@@ -337,6 +337,11 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
 .chip .num{font-style:normal;font-size:10px;font-weight:900;background:var(--pc);color:#fff;border-radius:9px;min-width:16px;line-height:15px;text-align:center}
 .chip .loc{font-size:11px;line-height:1;margin-left:-1px}
 .iriBox{display:flex;flex-direction:column;align-items:center;gap:2px;margin:6px 0 2px;font-size:13px}
+.shopRow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0 4px;text-align:left}
+.shopRow:has(> div:only-child){grid-template-columns:1fr}
+.shopRow>div{background:#f3eeff;border:2px solid #b9a7ff;border-radius:12px;padding:8px 10px}
+.shopRow b{display:block;font-size:14px}
+.shopRow small{display:block;font-size:11.5px;line-height:1.45;color:#5b4a7a;font-weight:700;margin-top:2px}
 .wScore{display:flex;align-items:center;justify-content:center;gap:8px;margin:4px 0 6px;font-weight:800;font-size:13px}
 .wScore b{display:inline-grid;place-items:center;min-width:30px;height:30px;border-radius:10px;background:#7c5cff;color:#fff;font-size:18px}
 .wScore b+i+b{background:#ffb02e}
@@ -795,6 +800,7 @@ ol.order li:nth-child(6) b{background:var(--pink)}
     <div class="item"><span class="ic">🧂</span><span><b>天然塩</b><span class="t">悪いできごとを1回、自動でふせぐ</span></span></div>
     <div class="item"><span class="ic">🧶</span><span><b>味付けのり</b><span class="t">3枚で出目+1、5枚で次のターン2回振り、10枚で「のり神パグ」！</span></span></div>
     <div class="item"><span class="ic">🍗</span><span><b>唐揚げ（宇宙追加モード）</b><span class="t">パグの滝でイリオモテパグに勝つと、10,000バウで買えるよ。ワンダー星の王子ワンダにわたすと、じゃんけんなしでゴール！</span></span></div>
+    <div class="item"><span class="ic">🧑‍🚀</span><span><b>宇宙服（宇宙追加モード）</b><span class="t">唐揚げと同じお店で10,000バウ（両方なら20,000バウ）。宇宙に入ったら、ゴールまでサイコロの出目が2倍！</span></span></div>
     <div class="item"><span class="ic">🍡</span><span><b>ちゅ〜る（レア）</b><span class="t">大逆転アイテム！最下位で1位と大きく離れていると、緑マスやパグ神マス、みんなの応援でもらえることがあるよ。1位のパグに食べさせると、あみだくじで勝負！ 選び終わるまで答えはヒミツで、毎回ランダムだよ。勝ったら「1位をゆずってあげるバウ！」と場所を入れかわってくれる！</span></span></div>
   </div>
   <p class="tip" style="margin-top:14px">💡 アイテムを使うと、そのときの説明が画面に出るよ。迷ったら読んでね。</p>
@@ -831,13 +837,14 @@ ol.order li:nth-child(6) b{background:var(--pink)}
   <p class="lead">タイトル画面の「🚀 宇宙追加」をONにすると、離島モードのゴールのその先、宇宙まで旅が続くよ！（離島モードも自動でONになるよ）</p>
   <ol class="order">
     <li><b>1</b>西表島「パグの滝」でイリオモテパグとじゃんけん。勝つとパグロケットに乗れる！</li>
-    <li><b>2</b>そのとき10,000バウ持っていたら、イリオモテパグから「🍗 唐揚げ」を買えるよ</li>
+    <li><b>2</b>そのとき、イリオモテパグのお店で「🍗 唐揚げ」と「🧑‍🚀 宇宙服」が買えるよ（1つ10,000バウ、両方なら20,000バウ）</li>
     <li><b>3</b>次のターンにロケット発射！（台風の日は発射できずに足止め）</li>
     <li><b>4</b>宇宙の道には、パグ宇宙ステーション・銀河温泉「天の川の湯」・パグ月の「月のり屋」・流れ星ドッグランがあるよ</li>
     <li><b>5</b>ワンダー星に到着！ パグそっくりな宇宙人たちは「ワンダは犬じゃないケン！」と言いはるよ</li>
     <li><b>6</b>王子「ワンダ」とじゃんけん3本勝負。先に3回勝ったらゴール！</li>
   </ol>
   <p class="tip" style="margin-top:14px">🍗 唐揚げを持っていると、ワンダとのじゃんけんの前に「わたす？」と聞かれるよ。わたすと、じゃんけんなしでゴールできる！</p>
+  <p class="tip" style="margin-top:12px">🧑‍🚀 宇宙服を着ていると、ロケットで宇宙に入ったあとはゴールまでサイコロの出目が2倍！ ワンダー星まであっという間だよ。</p>
   <p class="tip" style="margin-top:12px">💪 ワンダに先に3回勝たれても大丈夫。次のターンにまた挑戦できるよ。オンライン対戦でも、ホストが「宇宙追加モード」をONにすれば遊べるよ。</p>
 </section>
 
@@ -1216,6 +1223,7 @@ const ITEMS={
  onsenken:{name:'温泉券',icon:'♨️',desc:'前方の温泉マスへ行って入浴（サイコロの代わり）',use:true},
  rail:{name:'パグレール',icon:'🚝',desc:'パグ専用のモノレール。次の観光スポットまで乗りかえなしで直行（サイコロの代わり）',use:true},
  chu:{name:'ちゅ〜る',icon:CHURU,desc:'大逆転のレアアイテム！1位のパグに食べさせて、あみだくじで勝負。勝ったら1位と場所を入れかわれる（サイコロの代わり）',use:true,rare:true},
+ suit:{name:'宇宙服',icon:'🧑‍🚀',desc:'イリオモテパグの宇宙服。ロケットで宇宙コースに入ったあとは、ゴールするまでサイコロの出目が2倍になる（宇宙追加モード）',use:false,rare:true},
  karaage:{name:'唐揚げ',icon:'🍗',desc:'イリオモテパグの特製唐揚げ。ワンダー星の王子ワンダとのじゃんけんの前にわたすと、勝負なしでゴールできる（宇宙追加モード）',use:false,rare:true}
 };
 const ITEM_KEYS=Object.keys(ITEMS);
@@ -1565,20 +1573,35 @@ function buildSpace(){
 function alienSVG(size,x,y,face='smile'){return `<svg viewBox="0 0 100 112" width="${size}" height="${(size*1.12).toFixed(1)}" class="pug" aria-hidden="true"${x!=null?` x="${x}" y="${y}"`:''}><path d="M32 30 L24 8 M68 30 L76 8" stroke="#2f7d45" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="8" r="5" fill="#ff8fb1" stroke="#2f7d45" stroke-width="2"/><circle cx="76" cy="8" r="5" fill="#ff8fb1" stroke="#2f7d45" stroke-width="2"/>${pugSVG('fawn',face,100,{x:0,y:12,colors:{body:'#a8e6bf',ear:'#2f7d45',muzzle:'#24543a'}})}</svg>`}
 function wandaSVG(size,face='proud'){ const W='#fbfbf8',G='#cfd2d8',S='#aeb3bb',E='#3a3f46',O='#ff8a2a',GR='#39b54a',GD='#1f6b2a'; const eye=(x)=>face==='joy' ?`<path d="M${x-8} 52 Q${x} 42 ${x+8} 52" stroke="${GD}" stroke-width="3.6" fill="none" stroke-linecap="round"/>` :face==='trouble' ?`<circle cx="${x}" cy="51" r="7.4" fill="#fff" stroke="${GR}" stroke-width="2.6"/><circle cx="${x}" cy="52.5" r="3.6" fill="${GD}"/><path d="M${x-8} 41 L${x+7} 44" stroke="${E}" stroke-width="2.2" stroke-linecap="round" transform="${x>50?`scale(-1 1) translate(${-2*x} 0)`:''}"/>` :`<circle cx="${x}" cy="50" r="9.2" fill="#fff" stroke="${GR}" stroke-width="3"/><circle cx="${x}" cy="51" r="5.4" fill="${GR}"/><circle cx="${x}" cy="51.6" r="3.2" fill="${GD}"/><circle cx="${x-2.6}" cy="47.2" r="2.3" fill="#fff"/>`; return `<svg viewBox="0 0 100 124" width="${size}" height="${(size*1.24).toFixed(1)}" class="pug wanda" aria-hidden="true">`+ `<path d="M30 86 Q26 108 34 116 L66 116 Q74 108 70 86Z" fill="${W}" stroke="${S}" stroke-width="1.4"/>`+ `<path d="M36 88 L46 112 M64 88 L54 112" stroke="${O}" stroke-width="4" stroke-linecap="round"/>`+ `<path d="M50 94 l2.6 5.4 5.9.8 -4.3 4.1 1 5.8 -5.2 -2.8 -5.2 2.8 1 -5.8 -4.3 -4.1 5.9 -.8z" fill="#ffd34d" stroke="#d69b00" stroke-width="1"/>`+ `<path d="M30 92 Q18 96 16 106 Q20 110 26 106 L32 100Z" fill="${W}" stroke="${S}" stroke-width="1.3"/><path d="M70 92 Q82 96 84 106 Q80 110 74 106 L68 100Z" fill="${W}" stroke="${S}" stroke-width="1.3"/>`+ `<ellipse cx="36" cy="117" rx="9" ry="6" fill="${E}"/><ellipse cx="64" cy="117" rx="9" ry="6" fill="${E}"/><path d="M28 112 h16 M56 112 h16" stroke="${O}" stroke-width="3"/>`+ `<path d="M38 86 Q50 90 62 86" stroke="${O}" stroke-width="3" fill="none"/>`+ `<path d="M16 32 Q4 30 6 50 Q10 60 18 54 Z" fill="${E}"/><path d="M84 32 Q96 30 94 50 Q90 60 82 54 Z" fill="${E}"/>`+ `<rect x="14" y="20" width="72" height="68" rx="26" fill="${W}" stroke="${S}" stroke-width="1.4"/>`+ `<path d="M50 20 V34 M38 22 Q50 18 62 22" stroke="${S}" stroke-width="1.2" fill="none"/>`+ `<path d="M18 52 Q18 40 30 38 Q40 36 44 42 Q50 38 56 42 Q60 36 70 38 Q82 40 82 52 Q84 78 66 84 Q50 89 34 84 Q16 78 18 52Z" fill="${G}" stroke="${S}" stroke-width="1.4"/>`+ eye(32)+eye(68)+ `<rect x="42" y="52" width="16" height="12" rx="3.5" fill="#2b2f36" stroke="${GR}" stroke-width="2"/><rect x="45" y="54.5" width="5" height="2" rx="1" fill="#6fe07a" opacity=".7"/>`+ `<path d="M50 64 V68 M30 70 Q40 77 50 68 Q60 77 70 70" stroke="${E}" stroke-width="1.8" fill="none" stroke-linecap="round"/>`+ (face==='trouble'?`<path d="M80 30 Q75 39 80 43 Q85 39 80 30Z" fill="#7cc8f2"/>`:`<path d="M58 70 Q64 68 68 73 Q68 80 61 79 Q56 77 58 70Z" fill="#ff7fa0"/><path d="M60 72 Q63 75 62 78" stroke="#e45a80" stroke-width="1" fill="none"/>`)+ `<path d="M36 22 L39 8 L45 16 L50 4 L55 16 L61 8 L64 22Z" fill="#ffd34d" stroke="#c48a00" stroke-width="1.4" stroke-linejoin="round"/><circle cx="50" cy="15" r="2.4" fill="#39b54a"/>`+ `</svg>`; }
 const WANDA_BOX=()=>`<div class="iriBox">${wandaSVG(96)}<b>ワンダー星の王子・ワンダ</b></div>`;
+async function iriShop(p){
+  const K0='🛒 イリオモテパグの宇宙ショップ',hasK=(p.items.karaage||0)>0,hasS=(p.items.suit||0)>0;
+  if(hasK&&hasS)return;
+  const shopBox=`<div class="shopRow">${hasK?'':'<div><b>🍗 唐揚げ</b><small>10,000バウ<br>ワンダ王子にわたすと、じゃんけんなしでゴール</small></div>'}${hasS?'':'<div><b>🧑‍🚀 宇宙服</b><small>10,000バウ<br>宇宙に入ったら、ゴールまで出目が2倍</small></div>'}</div>`;
+  if(p.bau<10000){
+    await say(p,{kicker:K0,emoji:'🛒',title:'宇宙のおみやげは10,000バウから…',text:`「唐揚げも宇宙服も1つ10,000バウだバウ」 いまは${p.bau.toLocaleString()}バウ。お金が足りなくて買えなかったバウ…。`,html:shopBox,face:'trouble',tone:'neutral',delay:1200});
+    return;
+  }
+  const btns=[];
+  if(!hasK&&!hasS&&p.bau>=20000)btns.push({label:'🍗＋🧑‍🚀 両方買う',sub:'20,000バウ',value:'both',cls:'gold'});
+  if(!hasK)btns.push({label:'🍗 唐揚げを買う',sub:'10,000バウ',value:'k',cls:''});
+  if(!hasS)btns.push({label:'🧑‍🚀 宇宙服を買う',sub:'10,000バウ',value:'s',cls:''});
+  btns.push({label:'買わない',value:'none',cls:'ghost'});
+  let cp;
+  if(p.isCPU){const lv=RULE('cpuLevel'),vs=btns.map(b=>b.value).filter(v=>v!=='none');cp=lv==='easy'?(rand()<.5?pick(vs):'none'):(vs.includes('both')?'both':vs.includes('s')?'s':vs[0])}
+  const v=await say(p,{kicker:K0,emoji:'🛒',title:'宇宙へ持っていくバウ？',text:`イリオモテパグ「宇宙の旅に役立つものを売ってるバウ！」 いま${p.bau.toLocaleString()}バウ${!hasK&&!hasS&&p.bau<20000?'（両方買うには20,000バウ必要）':''}`,html:shopBox,face:'smile',tone:'neutral',buttons:btns,cpuPick:cp,list:true});
+  const buyK=v==='both'||v==='k',buyS=v==='both'||v==='s';
+  if(!buyK&&!buyS)return;
+  if(buyK){p.bau-=10000;giveItem(p,'karaage',1)}
+  if(buyS){p.bau-=10000;giveItem(p,'suit',1)}
+  SFX.jackpot();renderHud();
+  commentate(`${p.name}が${buyK&&buyS?'唐揚げと宇宙服':buyK?'伝説の唐揚げ':'宇宙服'}を手に入れた！`,4);
+  await say(p,{kicker:K0,emoji:buyS?'🧑‍🚀':'🍗',title:buyK&&buyS?'唐揚げと宇宙服を手に入れた！':buyK?'唐揚げを手に入れた！':'宇宙服を手に入れた！',text:(buyS?'宇宙服を着こんだバウ！ 宇宙に入ったら、ゴールまでサイコロの出目が2倍！ ':'')+(buyK?'アツアツの唐揚げもロケットに積みこんだバウ。ワンダ王子に会ったら、じゃんけんの前にわたそう！':''),face:'joy',tone:'jackpot',delay:1200});
+}
 async function rocketBoard(p){
   p.rocket=true;SFX.jackpot();
   commentate(`${p.name}がイリオモテパグに勝利！ パグロケットでワンダー星へ向かうぞ！`,7);
   await say(p,{kicker:'🏞️ パグの滝',emoji:'🚀',title:'パグロケットに乗れるバウ！',text:'イリオモテパグ「見事だバウ！ 滝のうらのひみつ基地にパグロケットがあるバウ。宇宙のかなたの『ワンダー星』へ行ってくるバウ！」',html:`<div class="iriBox">${iriPugSVG(80)}<b>イリオモテパグ</b></div>`,face:'joy',tone:'jackpot'});
-  if(!((p.items.karaage||0)>0)){
-    if(p.bau>=10000){
-      const cp=p.isCPU?(RULE('cpuLevel')==='easy'?rand()<.5:true):undefined;
-      const v=await say(p,{kicker:'🍗 イリオモテパグの唐揚げ',emoji:'🍗',title:'唐揚げを買っていくバウ？',text:`「ワンダー星の王子ワンダは、唐揚げに目がないらしいバウ。じゃんけんの前にわたせば、勝負なしでゴールさせてくれるかも…？」 1個10,000バウ（いま${p.bau.toLocaleString()}バウ）`,face:'smile',tone:'neutral',buttons:[{label:'🍗 買う（10,000バウ）',value:true,cls:'gold'},{label:'買わない',value:false,cls:'ghost'}],cpuPick:cp});
-      if(v){p.bau-=10000;giveItem(p,'karaage',1);SFX.jackpot();commentate(`${p.name}が伝説の唐揚げを手に入れた！`,4);
-        await say(p,{kicker:'🍗 イリオモテパグの唐揚げ',emoji:'🍗',title:'唐揚げを手に入れた！',text:'アツアツの唐揚げをロケットに積みこんだバウ。ワンダ王子に会ったら、じゃんけんの前にわたそう！',face:'joy',tone:'jackpot',delay:1200})}
-    }else{
-      await say(p,{kicker:'🍗 イリオモテパグの唐揚げ',emoji:'🍗',title:'唐揚げは10,000バウ…',text:`「宇宙に持っていく唐揚げは10,000バウだバウ」 いまは${p.bau.toLocaleString()}バウ。お金が足りなくて買えなかったバウ…。`,face:'trouble',tone:'neutral',delay:1200});
-    }
-  }
+  await iriShop(p);
   await say(p,{kicker:'🚀 パグロケット',emoji:'🚀',title:'次のターンに発射バウ！',text:'ロケットの準備ができたバウ。台風の日は発射できないので気をつけて！',face:'proud',tone:'neutral',delay:1200});
 }
 async function launchRocket(p){
@@ -2055,6 +2078,7 @@ function renderHud(){
   if(state.spurt)mods.push('🔥ラストスパート');
   if(!p.isCPU&&p.mission)mods.push('🃏ミッションあり');
   if(p.lucky)mods.push('🍀 ラッキーパグ');
+  if((p.items.suit||0)>0)mods.push(spaceOn()&&p.launched?'🧑‍🚀 宇宙服（出目×2）':'🧑‍🚀 宇宙服');
   if(p.nextBonus)mods.push(`次の出目+${p.nextBonus}`);
   p.buffs.forEach(b=>mods.push(`${b.label}+${b.add}（あと${b.turns}回）`));
   if(p.extraDie)mods.push(`サイコロ+${p.extraDie}個`);
@@ -2721,6 +2745,7 @@ async function rollAndMove(p,depth){
     p.nextBonus=0;p.buffs.forEach(b=>b.turns--);p.buffs=p.buffs.filter(b=>b.turns>0);
     p.stats.turns++;
   }
+  if(spaceOn()&&(p.items.suit||0)>0&&p.launched&&p.pos>=FALLS()){const base=vals.reduce((a,b)=>a+b,0);mods.unshift(['🧑‍🚀 宇宙服で出目×2',base])}
   const total=vals.reduce((a,b)=>a+b,0)+mods.reduce((a,m)=>a+m[1],0);
   renderHud();
   await showDice(vals,mods,total);
