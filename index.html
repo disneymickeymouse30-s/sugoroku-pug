@@ -234,6 +234,10 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
 .diceBox{background:var(--surface);border-radius:28px;padding:22px 26px;box-shadow:0 20px 50px rgba(0,0,0,.35);text-align:center;min-width:220px;animation:pop .25s cubic-bezier(.2,1.45,.4,1)}
 #diceRow{display:flex;gap:12px;justify-content:center}
 #diceRow.spin .die{animation:tumble .18s linear infinite}
+#diceRow.many{gap:7px;flex-wrap:wrap}
+#diceRow.many .die{width:54px;height:54px;padding:6px;border-radius:13px;gap:1px}
+#diceRow.many .die i{margin:2px}
+#diceLayer.many #diceRes{font-size:32px}
 @keyframes tumble{0%{transform:rotate(0) scale(1)}50%{transform:rotate(14deg) scale(.92)}100%{transform:rotate(0) scale(1)}}
 .die{width:84px;height:84px;background:#fff;border-radius:18px;box-shadow:inset 0 -5px 0 #dbe4ea,0 4px 10px rgba(0,0,0,.2);display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);padding:11px;gap:2px;border:2px solid #e7eef2}
 .die i{border-radius:50%;margin:3px}
@@ -805,7 +809,7 @@ ol.order li:nth-child(6) b{background:var(--pink)}
     <div class="item"><span class="ic">🧶</span><span><b>味付けのり</b><span class="t">3枚で出目+1、5枚で次のターン2回振り、10枚で「のり神パグ」！</span></span></div>
     <div class="item"><span class="ic">🍗</span><span><b>唐揚げ（宇宙追加モード）</b><span class="t">パグの滝でイリオモテパグに勝つと、10,000バウで買えるよ。ワンダー星の王子ワンダにわたすと、じゃんけんなしでゴール！</span></span></div>
     <div class="item"><span class="ic">🧑‍🚀</span><span><b>宇宙服（宇宙追加モード）</b><span class="t">唐揚げと同じお店で10,000バウ（両方なら20,000バウ）。宇宙に入ったら、ゴールまでサイコロの出目が2倍！</span></span></div>
-    <div class="item"><span class="ic">😇</span><span><b>天使のパグ（救済イベント）</b><span class="t">ちゅ〜ると同じように、最下位でがんばっていると舞いおりることがあるよ。2〜3回のあいだ最下位のパグについて、ばんが来るたびにおくりもの！ 1位と入れかわり・10,000バウ・出目5倍・ちゅ〜る2本（宇宙モードでは唐揚げ・宇宙服も）。最下位が入れかわると、天使は新しい最下位のパグへ飛んでいくよ。「⚙️ 設定」の「😇 天使のパグ」で、ON/OFFを切りかえられるよ（オンライン対戦ではホストが決めるよ）</span></span></div>
+    <div class="item"><span class="ic">😇</span><span><b>天使のパグ（救済イベント）</b><span class="t">ちゅ〜ると同じように、最下位でがんばっていると舞いおりることがあるよ。2〜3回のあいだ最下位のパグについて、ばんが来るたびにおくりもの！ 1位と入れかわり・10,000バウ・出目5倍・サイコロ5個同時・ちゅ〜る2本（宇宙モードでは唐揚げ・宇宙服も）。最下位が入れかわると、天使は新しい最下位のパグへ飛んでいくよ。「⚙️ 設定」の「😇 天使のパグ」で、ON/OFFを切りかえられるよ（オンライン対戦ではホストが決めるよ）</span></span></div>
     <div class="item"><span class="ic">🍡</span><span><b>ちゅ〜る（レア）</b><span class="t">大逆転アイテム！最下位で1位と大きく離れていると、緑マスやパグ神マス、みんなの応援でもらえることがあるよ。1位のパグに食べさせると、あみだくじで勝負！ 選び終わるまで答えはヒミツで、毎回ランダムだよ。勝ったら「1位をゆずってあげるバウ！」と場所を入れかわってくれる！</span></span></div>
   </div>
   <p class="tip" style="margin-top:14px">💡 アイテムを使うと、そのときの説明が画面に出るよ。迷ったら読んでね。</p>
@@ -1982,7 +1986,7 @@ async function angelSwap(p,ld){
 }
 async function angelTurn(p){
   const A=state.angel;if(!A||A.pid!==p.id||p.finished)return;
-  const ev=['bau','x5','churu'],ld=churuTarget(p);
+  const ev=['bau','x5','dice5','churu'],ld=churuTarget(p);
   if(ld)ev.push('swap');
   if(spaceOn()){if(!((p.items.karaage||0)>0))ev.push('karaage');if(!((p.items.suit||0)>0))ev.push('suit')}
   const e=pick(ev);A.turns--;
@@ -1996,6 +2000,8 @@ async function angelTurn(p){
     await say(p,{kicker:K0,emoji:'💰',title:'10,000バウもらった！',text:'天使のパグ「お金にこまらないように、おこづかいパグ～！」',html:ANGEL_BOX(),face:'joy',tone:'jackpot'});
   }else if(e==='x5'){p.angelX5=true;
     await say(p,{kicker:K0,emoji:'🎲',title:'次のサイコロの出目が5倍！',text:'天使のパグ「つぎに振るサイコロの目を、5倍にしてあげるパグ～！」',html:ANGEL_BOX(),face:'joy',tone:'jackpot'});
+  }else if(e==='dice5'){p.angelDice5=true;
+    await say(p,{kicker:K0,emoji:'🎲',title:'サイコロを5個同時に投げられる！',text:'天使のパグ「つぎはサイコロを5個いっぺんに振らせてあげるパグ～！」 出た目の合計だけ進めるバウ！',html:ANGEL_BOX(),face:'joy',tone:'jackpot'});
   }else if(e==='churu'){giveItem(p,'chu',2);commentate(`天使のパグが${p.name}にちゅ〜るを2本プレゼント！`,5);
     await say(p,{kicker:K0,emoji:CHURU,title:'ちゅ〜るを2本もらった！',text:'天使のパグ「1位のパグに食べさせて、あみだくじで勝負パグ～！」',html:ANGEL_BOX(),face:'joy',tone:'jackpot'});
   }else if(e==='karaage'){giveItem(p,'karaage',1);
@@ -2151,6 +2157,7 @@ function renderHud(){
   if(p.lucky)mods.push('🍀 ラッキーパグ');
   if(state.angel&&state.angel.pid===p.id)mods.push(`😇 天使のパグ（あと${state.angel.turns}回）`);
   if(p.angelX5)mods.push('😇 次の出目×5');
+  if(p.angelDice5)mods.push('😇 次はサイコロ5個');
   if((p.items.suit||0)>0)mods.push(spaceOn()&&p.launched?'🧑‍🚀 宇宙服（出目×2）':'🧑‍🚀 宇宙服');
   if(p.nextBonus)mods.push(`次の出目+${p.nextBonus}`);
   p.buffs.forEach(b=>mods.push(`${b.label}+${b.add}（あと${b.turns}回）`));
@@ -2225,6 +2232,7 @@ function say(p,o){
 /* ---------- dice ---------- */
 async function showDice(vals,mods,total){
   const L=$('#diceLayer'),row=$('#diceRow');$('#diceRes').textContent='';$('#diceMod').innerHTML='';
+  const many=vals.length>=4;row.classList.toggle('many',many);L.classList.toggle('many',many);
   L.classList.remove('hidden');SFX.dice();row.classList.add('spin');
   const t0=performance.now(),dur=D(850);
   while(performance.now()-t0<dur){row.innerHTML=vals.map(()=>dieHtml(1+Math.floor(Math.random()*6))).join('');await wait(75)}
@@ -2820,7 +2828,8 @@ async function maybeUnderdog(p){
 
 /* ---------- turn flow ---------- */
 async function rollAndMove(p,depth){
-  const nd=1+(p.extraDie||0)+(p.doubleRoll&&depth===0?1:0);
+  let nd=1+(p.extraDie||0)+(p.doubleRoll&&depth===0?1:0);
+  if(p.angelDice5&&depth===0){p.angelDice5=false;nd=Math.max(nd,5)}
   if(depth===0)p.doubleRoll=false;
   p.extraDie=0;
   const vals=[];for(let i=0;i<nd;i++)vals.push(i===0&&p.omamoriActive?rr(4,6):rr(1,6));
@@ -3215,7 +3224,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#manualOv').hid
 
 
 /* ---------- 🌐 オンライン対戦（全員が同じゲームを動かし、選択だけを記録で共有） ---------- */
-const GAMEVER='v14';
+const GAMEVER='v15';
 const KEY_NET='pugtabi-net-room';
 function netAvail(){try{return !!(window.PugNet&&window.PugNet.available())}catch(e){return false}}
 function netOwnerSeat(owner){return owner<0?0:NET.seatOfPid[owner]}
