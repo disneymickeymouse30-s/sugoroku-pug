@@ -317,6 +317,10 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
 #manualOv .mBar button.alt{background:#fff;color:#2b2140}
 #manualOv iframe{flex:1;width:100%;border:0;background:#fff6e0;padding-bottom:env(safe-area-inset-bottom,0px)}
 .piece{cursor:pointer}
+.piece .angelFloat{animation:angelFloat 2.4s ease-in-out infinite}
+@keyframes angelFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+#raceBar .rbP .rbAng{position:absolute;left:50%;top:-17px;transform:translateX(-50%);pointer-events:none;animation:rbAngel 2.4s ease-in-out infinite;line-height:0}
+@keyframes rbAngel{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-3px)}}
 .piece .actRing{animation:actPulse 1.3s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
 @keyframes actPulse{0%,100%{transform:scale(1);opacity:.95}50%{transform:scale(1.18);opacity:.55}}
 .piece .actTag{animation:tagBob 1.1s ease-in-out infinite}
@@ -356,6 +360,9 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
 .isleT.on{background:linear-gradient(180deg,#e9fbff,#c8f1fb)}
 .tCourse{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 .spaceT{border-color:#7c5cff;color:#3b2a6b}
+.angelT{border-color:#f0b400;color:#6b4a00}
+.angelT.on{background:linear-gradient(180deg,#fffbe6,#ffefb0)}
+.angelT.on b{background:#f0b400!important;color:#fff!important}
 .spaceT.on{background:linear-gradient(180deg,#f3eeff,#ddd1ff)}
 .spaceT.on b{background:#7c5cff!important;color:#fff!important}
 .isleT.on b{background:#18a6c9;color:#fff}
@@ -390,7 +397,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
         <button class="btn primary tMain" id="tStart" type="button">🎲 ゲームスタート<small>1台でみんなと・CPUと</small></button>
         <button class="btn netT tMain" id="tOnline" type="button" hidden>🌐 オンライン対戦<small>それぞれのスマホで2〜4匹</small></button>
         <button class="btn sea tCont" id="tContinue" type="button" hidden>▶ 続きから</button>
-        <div class="tCourse"><button class="isleT" id="tIsle" type="button" aria-pressed="false">🏝️ 離島追加 <b>OFF</b></button><button class="isleT spaceT" id="tSpace" type="button" aria-pressed="false">🚀 宇宙追加 <b>OFF</b></button></div>
+        <div class="tCourse"><button class="isleT" id="tIsle" type="button" aria-pressed="false">🏝️ 離島追加 <b>OFF</b></button><button class="isleT spaceT" id="tSpace" type="button" aria-pressed="false">🚀 宇宙追加 <b>OFF</b></button><button class="isleT angelT" id="tAngel" type="button" aria-pressed="true">😇 天使のパグ <b>ON</b></button></div>
         <nav class="tDock" aria-label="そのほかのメニュー">
           <button id="tHow" type="button"><span aria-hidden="true">📖</span>説明書</button>
           <button id="tYari" type="button"><span aria-hidden="true">🏅</span>やり込み</button>
@@ -791,7 +798,7 @@ ol.order li:nth-child(6) b{background:var(--pink)}
   <div class="chapter"><span class="badge">5</span><h2>アイテムを使う</h2></div>
   <p class="lead">画面下の🎒「アイテム」ボタンから使えるよ！</p>
   <div class="grid2">
-    <div class="item"><span class="ic">🎫</span><span><b>タダ旅行券</b><span class="t">好きな観光地へワープ！ゴールの那覇空港と瀬パグ島へは行けないよ</span></span></div>
+    <div class="item"><span class="ic">🎫</span><span><b>タダ旅行券</b><span class="t">好きな観光地へワープ！ 離島や宇宙など、どのコースでも使えるよ。ゴールと瀬パグ島、止まらないといけない場所（空港・港・滝など）の先へは行けないよ</span></span></div>
     <div class="item"><span class="ic">🧿</span><span><b>パグのお守り</b><span class="t">次の出目が必ず4〜6になる</span></span></div>
     <div class="item"><span class="ic">🎲</span><span><b>サイコロ+1</b><span class="t">このターンだけサイコロが1個増える</span></span></div>
     <div class="item"><span class="ic">✈️</span><span><b>ぱぐーきチケット</b><span class="t">3〜8マス先へひとっ飛び</span></span></div>
@@ -801,6 +808,7 @@ ol.order li:nth-child(6) b{background:var(--pink)}
     <div class="item"><span class="ic">🧶</span><span><b>味付けのり</b><span class="t">3枚で出目+1、5枚で次のターン2回振り、10枚で「のり神パグ」！</span></span></div>
     <div class="item"><span class="ic">🍗</span><span><b>唐揚げ（宇宙追加モード）</b><span class="t">パグの滝でイリオモテパグに勝つと、10,000バウで買えるよ。ワンダー星の王子ワンダにわたすと、じゃんけんなしでゴール！</span></span></div>
     <div class="item"><span class="ic">🧑‍🚀</span><span><b>宇宙服（宇宙追加モード）</b><span class="t">唐揚げと同じお店で10,000バウ（両方なら20,000バウ）。宇宙に入ったら、ゴールまでサイコロの出目が2倍！</span></span></div>
+    <div class="item"><span class="ic">😇</span><span><b>天使のパグ（救済イベント）</b><span class="t">ちゅ〜ると同じように、最下位でがんばっていると舞いおりることがあるよ。2〜3回のあいだ最下位のパグについて、ばんが来るたびにおくりもの！ 1位と入れかわり・10,000バウ・出目5倍・ちゅ〜る2本（宇宙モードでは唐揚げ・宇宙服も）。最下位が入れかわると、天使は新しい最下位のパグへ飛んでいくよ。タイトル画面の「😇 天使のパグ」ボタンで、スタート前にON/OFFを切りかえられるよ（オンライン対戦ではホストが決めるよ）</span></span></div>
     <div class="item"><span class="ic">🍡</span><span><b>ちゅ〜る（レア）</b><span class="t">大逆転アイテム！最下位で1位と大きく離れていると、緑マスやパグ神マス、みんなの応援でもらえることがあるよ。1位のパグに食べさせると、あみだくじで勝負！ 選び終わるまで答えはヒミツで、毎回ランダムだよ。勝ったら「1位をゆずってあげるバウ！」と場所を入れかわってくれる！</span></span></div>
   </div>
   <p class="tip" style="margin-top:14px">💡 アイテムを使うと、そのときの説明が画面に出るよ。迷ったら読んでね。</p>
@@ -977,7 +985,7 @@ const store={
   del(k){try{localStorage.removeItem(k)}catch(e){}}
 };
 const KEY_SAVE='pugSugoroku.save.v1',KEY_SET='pugSugoroku.settings.v1',KEY_RANK='pugSugoroku.rank.v1';
-const DEFAULT_SET={laps:1,bgm:true,bgmVol:'mid',msgMode:'normal',speed:'normal',sound:true,randomEvents:true,underdog:true,ticketMode:'choose',exactGoal:false,cpuLevel:'normal',humans:1,cpus:2};
+const DEFAULT_SET={laps:1,bgm:true,bgmVol:'mid',msgMode:'normal',speed:'normal',sound:true,randomEvents:true,underdog:true,angel:true,ticketMode:'choose',exactGoal:false,cpuLevel:'normal',humans:1,cpus:2};
 let S=Object.assign({},DEFAULT_SET,store.get(KEY_SET)||{});
 const saveSet=()=>{store.set(KEY_SET,S);bgmUpdate()};
 const SPEED={slow:1.45,normal:1,fast:.55};
@@ -1215,7 +1223,7 @@ const NORI='<svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><rect x="3" 
 const CHURU='<svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 1.5h6l-.6 2.2H7.6z" fill="#e8336d"/><rect x="6.2" y="3.5" width="7.6" height="14.5" rx="2.4" fill="#ff8fb1" stroke="#c2185b" stroke-width="1"/><rect x="7.4" y="7" width="5.2" height="5.5" rx="1.2" fill="#fff"/><path d="M8.6 9.6 q1.4 -1.6 2.8 0" stroke="#e8336d" stroke-width="1" fill="none"/><circle cx="9.1" cy="8.6" r=".45" fill="#2b2140"/><circle cx="10.9" cy="8.6" r=".45" fill="#2b2140"/></svg>';
 const ITEMS={
  nori:{name:'味付けのり',icon:NORI,desc:'3枚で出目+1／5枚で次のターン2回振り／10枚で「のり神パグ」！',use:false},
- ticket:{name:'タダ旅行券',icon:'🎫',desc:'好きな観光地へワープ（サイコロの代わり）。ゴールの那覇空港と瀬パグ島へは行けない',use:true},
+ ticket:{name:'タダ旅行券',icon:'🎫',desc:'好きな観光地へワープ（サイコロの代わり）。沖縄本島・離島・宇宙など、どのコースでも使える。ゴールと瀬パグ島へは行けない',use:true},
  salt:{name:'天然塩',icon:'🧂',desc:'悪いイベントを1回、自動で無効化',use:false},
  omamori:{name:'パグのお守り',icon:'🧿',desc:'使うと次の出目が必ず4～6',use:true},
  dice:{name:'サイコロ+1',icon:'🎲',desc:'使うとこのターンはサイコロが1個増える',use:true},
@@ -1323,6 +1331,7 @@ const PHOTOS=[
  {id:'mangrove',e:'🛶',name:'マングローブツアー',hint:'西表島の川で'},
  {id:'iriwin',e:'🏞️',name:'イリオモテパグに勝利',hint:'パグの滝でじゃんけん'},
  {id:'rocket',e:'🚀',name:'パグロケット発射！',hint:'宇宙追加モードで西表島から'},
+ {id:'angel',e:'😇',name:'天使のパグがやってきた',hint:'最下位でもがんばっていると…'},
  {id:'wanda',e:'👑',name:'ワンダ王子に勝利',hint:'ワンダー星でじゃんけん3本勝負'}
 ];
 const BREEDS={
@@ -1882,6 +1891,7 @@ function renderPieces(){
       `<circle class="pingRing" r="15" fill="none" stroke="${p.color}" stroke-width="4"/>`+
       (act?`<circle class="actRing" r="19.5" fill="#ffd34d" fill-opacity=".28" stroke="#ffd34d" stroke-width="3.5"/>`:'')+
       `<g class="bob">${pieceInner(p)}</g>`+
+      (state.angel&&state.angel.pid===p.id?`<g class="angelFloat">${angelSVG(32,-20.5,act?-80:-50)}</g>`:'')+
       `<g transform="translate(11.5 -11.5)"><circle r="7" fill="${p.color}" stroke="#fff" stroke-width="2"/><text y="3.4" font-size="9.5" font-weight="900" text-anchor="middle" fill="#fff">${pNum(p)}</text></g>`+
       (act?`<g class="actTag"><rect x="${(-tw/2).toFixed(1)}" y="-46" width="${tw.toFixed(1)}" height="17" rx="8.5" fill="${p.color}" stroke="#fff" stroke-width="2"/><text y="-34" font-size="10" font-weight="900" text-anchor="middle" fill="#fff">${esc(nm)}</text><path d="M-5 -29.5 L5 -29.5 L0 -22 Z" fill="${p.color}" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></g>`:'')+
       `</g>`;
@@ -1936,6 +1946,70 @@ function churuChance(p,base){
 async function grantChuru(p,kick){
   giveItem(p,'chu',1);photo(p,'churu');SFX.jackpot();commentate(`${p.name}が大逆転のレアアイテム「ちゅ〜る」をGET！`,6);
   await say(p,{kicker:kick||'✨ 大逆転チャンス',emoji:CHURU,title:'レアアイテム「ちゅ〜る」をGET！',text:'最下位のがんばりにごほうび！1位のパグに食べさせて、あみだくじで勝負！ 勝てば場所を入れかわれるバウ！',face:'joy',tone:'jackpot'});
+}
+
+/* ---------- 😇 天使のパグ（最下位の救済。ちゅ〜ると同じ条件・確率で登場、2〜3回つづく。スタート前にON/OFFできる） ---------- */
+function angelSVG(size,x,y){const W='M30 50 C24 34 12 26 4 30 C-1 33 1 40 6 42 C0 45 0 52 7 53 C2 57 4 63 11 62 C9 67 14 71 20 68 C25 66 29 61 31 56 Z';return `<svg viewBox="-4 0 128 112" width="${(size*1.28).toFixed(1)}" height="${(size*1.12).toFixed(1)}" class="pug angel" aria-hidden="true"${x!=null?` x="${x}" y="${y}"`:''}><g fill="#fff" stroke="#8fc1ff" stroke-width="3" stroke-linejoin="round"><path d="${W}"/><path d="${W}" transform="translate(120 0) scale(-1 1)"/></g><g stroke="#cfe4ff" stroke-width="2" stroke-linecap="round" fill="none"><path d="M24 44 L10 38 M25 50 L9 49 M26 56 L13 59 M96 44 L110 38 M95 50 L111 49 M94 56 L107 59"/></g>${pugSVG('white','smile',80,{x:20,y:28})}<ellipse cx="60" cy="18" rx="23" ry="7" fill="none" stroke="#ffc928" stroke-width="5.5"/><ellipse cx="60" cy="18" rx="23" ry="7" fill="none" stroke="#fff7c8" stroke-width="1.6"/></svg>`}
+const ANGEL_BOX=()=>`<div class="iriBox">${angelSVG(96)}<b>天使のパグ</b></div>`;
+function lastPlacePug(){const act=state.players.filter(x=>!x.finished);if(act.length<2)return null;const m=Math.min(...act.map(prog));return act.find(x=>prog(x)===m)}
+function angelChance(p,base){
+  if(!state||state.angel||!RULE('angel'))return false;
+  const act=state.players.filter(x=>!x.finished);if(act.length<2)return false;
+  const minP=Math.min(...act.map(prog)),ld=leaderOf(p);
+  if(prog(p)!==minP||!ld||prog(ld)-prog(p)<10)return false;
+  return rand()<base;
+}
+async function summonAngel(p,kick){
+  const n=rr(2,3);state.angel={pid:p.id,turns:n};photo(p,'angel');SFX.jackpot();
+  commentate(`最下位の${p.name}のもとに「天使のパグ」が舞いおりた！`,6);
+  renderPieces();renderRaceBar();renderHud();
+  await say(p,{kicker:kick||'😇 救済イベント',emoji:'😇',title:'「天使のパグ」があらわれた！',text:`「がんばっているキミを、${n}回のあいだ応援するパグ～！」 天使のパグは、いちばん後ろのパグについて、ばんが来るたびにおくりものをくれるバウ！`,html:ANGEL_BOX(),face:'joy',tone:'jackpot'});
+}
+function angelFollow(){
+  const A=state&&state.angel;if(!A)return;
+  const lp=lastPlacePug();
+  if(!lp){state.angel=null;renderPieces();renderRaceBar();return}
+  const cur=state.players[A.pid];
+  if(!cur||cur.finished||prog(cur)>prog(lp)){A.pid=lp.id;commentate(`天使のパグが、新しく最下位になった${lp.name}のところへ飛んでいった！`,3);toast(`😇 天使のパグが <b>${esc(lp.name)}</b> のところへ！`);renderPieces();renderRaceBar()}
+}
+async function angelSwap(p,ld){
+  const a={pos:p.pos,lap:p.lap||0,br:p.br},b={pos:ld.pos,lap:ld.lap||0,br:ld.br};
+  const ea=$(`#pc${p.id}`),eb=$(`#pc${ld.id}`),ca=pieceXY(p),cb=pieceXY(ld);
+  SFX.warp();showWalk('ぴゅ～ん！ いれかわり！');
+  await Promise.all([ea?tween(ea,ca,cb,D(900),60):0,eb?tween(eb,cb,ca,D(900),60):0]);
+  p.pos=b.pos;p.lap=b.lap;p.br=b.br;ld.pos=a.pos;ld.lap=a.lap;ld.br=a.br;
+  if(state.space){const ra=[p.rocket,p.launched];p.rocket=ld.rocket;p.launched=ld.launched;ld.rocket=ra[0];ld.launched=ra[1]}
+  p.takeBranch=false;ld.takeBranch=false;
+  if(state.isle){p.departed=p.pos>=N&&isFinalLap(p);ld.departed=ld.pos>=N&&isFinalLap(ld)}
+  hideWalk();renderPieces();renderHud();focusXY(pieceXY(p),true);
+}
+async function angelTurn(p){
+  const A=state.angel;if(!A||A.pid!==p.id||p.finished)return;
+  const ev=['bau','x5','churu'],ld=churuTarget(p);
+  if(ld)ev.push('swap');
+  if(spaceOn()){if(!((p.items.karaage||0)>0))ev.push('karaage');if(!((p.items.suit||0)>0))ev.push('suit')}
+  const e=pick(ev);A.turns--;
+  const K0=`😇 天使のパグのおくりもの（のこり${A.turns}回）`;
+  SFX.jackpot();
+  if(e==='swap'){
+    await say(p,{kicker:K0,emoji:'🔄',title:'1位と入れかわり！',text:`天使のパグ「えいっ！ ${esc(ld.name)}と場所を入れかえてあげるパグ～！」`,html:ANGEL_BOX(),face:'joy',tone:'jackpot'});
+    await angelSwap(p,ld);commentate(`天使のパグの力で、${p.name}が${ld.name}と入れかわった！`,9);
+    await say(p,{kicker:K0,emoji:'🏆',title:'大逆転バウ～～！！',text:`${esc(p.name)}がトップに！ いまは「${locNameP(p)}」バウ。`,face:'joy',tone:'jackpot'});
+  }else if(e==='bau'){addBau(p,10000);commentate(`天使のパグが${p.name}に10,000バウをプレゼント！`,5);
+    await say(p,{kicker:K0,emoji:'💰',title:'10,000バウもらった！',text:'天使のパグ「お金にこまらないように、おこづかいパグ～！」',html:ANGEL_BOX(),face:'joy',tone:'jackpot'});
+  }else if(e==='x5'){p.angelX5=true;
+    await say(p,{kicker:K0,emoji:'🎲',title:'次のサイコロの出目が5倍！',text:'天使のパグ「つぎに振るサイコロの目を、5倍にしてあげるパグ～！」',html:ANGEL_BOX(),face:'joy',tone:'jackpot'});
+  }else if(e==='churu'){giveItem(p,'chu',2);commentate(`天使のパグが${p.name}にちゅ〜るを2本プレゼント！`,5);
+    await say(p,{kicker:K0,emoji:CHURU,title:'ちゅ〜るを2本もらった！',text:'天使のパグ「1位のパグに食べさせて、あみだくじで勝負パグ～！」',html:ANGEL_BOX(),face:'joy',tone:'jackpot'});
+  }else if(e==='karaage'){giveItem(p,'karaage',1);
+    await say(p,{kicker:K0,emoji:'🍗',title:'唐揚げをもらった！',text:'天使のパグ「ワンダ王子にわたせば、じゃんけんなしでゴールできるパグ～！」',html:ANGEL_BOX(),face:'joy',tone:'jackpot'});
+  }else if(e==='suit'){giveItem(p,'suit',1);
+    await say(p,{kicker:K0,emoji:'🧑‍🚀',title:'宇宙服をもらった！',text:'天使のパグ「宇宙に入ったら、ゴールまで出目が2倍になるパグ～！」',html:ANGEL_BOX(),face:'joy',tone:'jackpot'});
+  }
+  renderHud();
+  if(A.turns<=0){state.angel=null;renderPieces();renderRaceBar();
+    await say(p,{kicker:'😇 天使のパグ',emoji:'👋',title:'天使のパグは空へ帰っていった…',text:'「おうえんしてるパグ～！ がんばってね～！」',face:'smile',tone:'neutral',delay:1300});
+  }
 }
 async function useChuru(p){
   const ld=churuTarget(p);if(!ld){p.items.chu=(p.items.chu||0)+1;return}
@@ -2058,7 +2132,7 @@ function renderRaceBar(){
   if(over>0)for(let i=arr.length-1;i>=0;i--){const lim=i===arr.length-1?1:arr[i+1].d-GAP;arr[i].d=Math.min(arr[i].d,lim)}
   arr.forEach(o=>o.f=Math.max(0,o.d));
   arr.sort((a,b)=>(a.p===cp)-(b.p===cp)).forEach(({p,f,top})=>{
-    h+=`<button class="rbP${p===cp?' on':''}${p.finished?' fin':''}" data-pid="${p.id}" style="--pc:${p.color};left:calc(16px + (100% - 32px) * ${f.toFixed(4)});top:${top}px" aria-label="${esc(p.name)}の場所を見る">${pugP(p,p.finished?'joy':(p.face||'normal'),22)}<i>${pNum(p)}</i></button>`;
+    h+=`<button class="rbP${p===cp?' on':''}${p.finished?' fin':''}" data-pid="${p.id}" style="--pc:${p.color};left:calc(16px + (100% - 32px) * ${f.toFixed(4)});top:${top}px" aria-label="${esc(p.name)}の場所を見る">${pugP(p,p.finished?'joy':(p.face||'normal'),22)}<i>${pNum(p)}</i>${state.angel&&state.angel.pid===p.id?`<span class="rbAng">${angelSVG(16)}</span>`:''}</button>`;
   });
   el.innerHTML=h;
 }
@@ -2078,6 +2152,8 @@ function renderHud(){
   if(state.spurt)mods.push('🔥ラストスパート');
   if(!p.isCPU&&p.mission)mods.push('🃏ミッションあり');
   if(p.lucky)mods.push('🍀 ラッキーパグ');
+  if(state.angel&&state.angel.pid===p.id)mods.push(`😇 天使のパグ（あと${state.angel.turns}回）`);
+  if(p.angelX5)mods.push('😇 次の出目×5');
   if((p.items.suit||0)>0)mods.push(spaceOn()&&p.launched?'🧑‍🚀 宇宙服（出目×2）':'🧑‍🚀 宇宙服');
   if(p.nextBonus)mods.push(`次の出目+${p.nextBonus}`);
   p.buffs.forEach(b=>mods.push(`${b.label}+${b.add}（あと${b.turns}回）`));
@@ -2234,9 +2310,24 @@ async function warpTo(p,target){
   await afterArrive(p);
 }
 function warpTargets(p,noGoal){const RANGE=20,b=fromPos(p),list=[];for(let i=b+1;i<N&&i<=b+RANGE;i++)if(BOARD[i].major>=0&&!(noGoal&&BOARD[i].major===SPOT_IDX.senaga))list.push(i);if(!noGoal&&N-b<=RANGE&&isFinalLap(p))list.push(N);return list}
-const ticketUsable=p=>!isFinalLap(p)||fromPos(p)<N-1;
+/* タダ旅行券の行き先：そのマスへ直接行ってよいか(=止まらないといけない場所の先でない)をゲーム全体のきまり(clampTarget)で判断。
+   コースが増えても、clampTargetとmajorAtがそのコースに対応していれば自動で使える */
+function ticketOk(p,i){
+  if(i<=fromPos(p)||i===GOAL()||clampTarget(p,i)!==i)return false;
+  if(i<N)return BOARD[i].major!==SPOT_IDX.senaga;
+  if(i===N)return isleOn()&&isFinalLap(p);
+  return isFinalLap(p);
+}
+function ticketTargets(p){
+  const b=fromPos(p),RANGE=20,list=[];let far=-1;
+  for(let i=b+1;i<=b+RANGE;i++){if(!ticketOk(p,i))continue;far=i;if(i<N?BOARD[i].major>=0:majorAt(i))list.push(i)}
+  if(!list.length&&far>b)list.push(far);
+  return list;
+}
+function ticketRandomTarget(p){const b=fromPos(p);for(let i=b+rr(4,14);i>b;i--)if(ticketOk(p,i))return i;const L=ticketTargets(p);return L.length?L[0]:b}
+const ticketUsable=p=>ticketTargets(p).length>0;
 async function warpChoose(p,title,depth,fromTicket){
-  let list=warpTargets(p,!!fromTicket);if(!list.length)list=fromTicket?[isFinalLap(p)?Math.min(N-1,fromPos(p)+20):Math.min(N-1,fromPos(p)+6)]:[clampTarget(p,p.pos+6)];
+  let list=fromTicket?ticketTargets(p):warpTargets(p,false);if(!list.length)list=fromTicket?[fromPos(p)]:[clampTarget(p,p.pos+6)];
   let target;
   if(p.isCPU){
     if(RULE('cpuLevel')==='hard')target=list[list.length-1];
@@ -2247,7 +2338,7 @@ async function warpChoose(p,title,depth,fromTicket){
   }else{
     for(;;){
       const btns=list.map(i=>i>N?{label:`📍 ${locName(i)}`,sub:`${i-p.pos}マス先`,value:i,cls:''}:i===N?{label:isleOn()?'🛫 那覇空港（離島へ出発）':'🏁 那覇空港（ゴール！）',sub:`${N-p.pos}マス先`,value:N,cls:'gold'}:BOARD[i].major<0?{label:`📍 ${locName(i)}`,sub:`${i-p.pos}マス先`,value:i,cls:''}:{label:`${SPOTS[BOARD[i].major].emoji} ${SPOTS[BOARD[i].major].name}`,sub:`${i-p.pos}マス先`,value:i,cls:''});
-      const v=await say(p,{emoji:'🎫',title,text:fromTicket?'行き先を選ぶバウ！（20マス先まで・ゴールの那覇空港と瀬パグ島へは行けない）':'行き先を選ぶバウ！（20マス先まで）',face:'joy',buttons:btns,list:true});
+      const v=await say(p,{emoji:'🎫',title,text:fromTicket?'行き先を選ぶバウ！（20マス先まで・ゴールと瀬パグ島、止まらないといけない場所の先へは行けない）':'行き先を選ぶバウ！（20マス先まで）',face:'joy',buttons:btns,list:true});
       if(v===N&&!isleOn()){
         const ok=await say(p,{emoji:'🏁',title:fromTicket?'タダ旅行券を使ってゴールへ行きますか？':'ゴールへ行きますか？',text:'このワープで那覇空港にゴールできるバウ！',face:'joy',buttons:[{label:'ゴールへ行く！',value:true,cls:'gold'},{label:'選び直す',value:false,cls:'ghost'}]});
         if(!ok)continue;
@@ -2398,7 +2489,7 @@ function memHtml(){
 }
 function dailyConf(key){
   const seed=seedOf('pug-daily-'+key);
-  return {seed,breed:BREED_KEYS[Math.abs(seed)%BREED_KEYS.length],rules:{cpuLevel:'normal',randomEvents:true,underdog:true,exactGoal:false,ticketMode:'choose'}};
+  return {seed,breed:BREED_KEYS[Math.abs(seed)%BREED_KEYS.length],rules:{cpuLevel:'normal',randomEvents:true,underdog:true,angel:true,exactGoal:false,ticketMode:'choose'}};
 }
 const KEY_DNAME='pugSugoroku.dailyName.v1';
 function dailyName(){const v=store.get(KEY_DNAME);return (typeof v==='string'&&v.trim())?v:(setup.humans[0].name||'パグ1')}
@@ -2492,6 +2583,7 @@ async function pagkiFly(p,n,depth){
 async function moveOrWarp(p,n){await warpTo(p,Math.max(0,p.pos+n))}
 async function godBonus(p,title,kicker,depth){
   if(churuChance(p,.35)){photo(p,'god');await grantChuru(p,kicker);return}
+  if(angelChance(p,.35)){await summonAngel(p,kicker);return}
   SFX.jackpot();const r=rint(6);photo(p,'god');commentate(`${p.name}にパグ神が降臨！`,8);
   const base={kicker,emoji:'✨',title,face:'joy',tone:'jackpot'};
   if(r===0){await say(p,{...base,text:'パグ神の追い風！10マス進むバウ！'});await moveSteps(p,10,'びゅーん！')}
@@ -2680,7 +2772,7 @@ async function landing(p,depth){
     else if(r===1){await say(p,{kicker:kick,emoji:'💤',title:'木陰でうっかり昼寝…',text:'1ターン休みバウ。',face:'sleep',tone:'bad'});if(await badGuard(p,'1回休み'))p.skip++}
     else{const n=rr(1,3);await say(p,{kicker:kick,emoji:'❓',title:'道に迷った！',text:`${n}マス後退バウ…`,face:'trouble',tone:'bad'});if(await badGuard(p,'後退'))await moveSteps(p,-n)}
     break}
-  case 'green':{if(churuChance(p,.12)){await grantChuru(p,kick);break}const it=pick(['nori','salt','dice','omamori','pagki','onsenken','nori','dice','rail']);giveItem(p,it,1);SFX.good();await say(p,{kicker:kick,emoji:it==='nori'?NORI:ITEMS[it].icon,title:`${ITEMS[it].name}をGET！`,text:ITEMS[it].desc,face:'smile'});break}
+  case 'green':{if(churuChance(p,.12)){await grantChuru(p,kick);break}if(angelChance(p,.12)){await summonAngel(p,kick);break}const it=pick(['nori','salt','dice','omamori','pagki','onsenken','nori','dice','rail']);giveItem(p,it,1);SFX.good();await say(p,{kicker:kick,emoji:it==='nori'?NORI:ITEMS[it].icon,title:`${ITEMS[it].name}をGET！`,text:ITEMS[it].desc,face:'smile'});break}
   case 'onsen':await say(p,{kicker:kick,emoji:'♨️',title:'パグ、温泉を発見！',text:'これは入るしかないバウ！',face:'smile',delay:1000});await onsenBath(p,kick);break;
   case 'walk':await doWalk(p);break;
   case 'pagki':await pagkiEvent(p,depth);break;
@@ -2717,6 +2809,7 @@ async function maybeUnderdog(p){
   const minPos=Math.min(...act.map(prog)),maxPos=Math.max(...act.map(prog));
   if(prog(p)!==minPos||maxPos-prog(p)<8||rand()>=.22)return;
   if(churuChance(p,.3)){await grantChuru(p,'📣 みんなの応援');return}
+  if(angelChance(p,.3)){await summonAngel(p,'📣 みんなの応援');return}
   const r=rand();let text;
   if(r<.35){p.nextBonus+=3;text='応援パワーで次の出目+3バウ！'}
   else if(r<.6)text='応援ぱぐーきで5マスワープ！';
@@ -2745,7 +2838,9 @@ async function rollAndMove(p,depth){
     p.nextBonus=0;p.buffs.forEach(b=>b.turns--);p.buffs=p.buffs.filter(b=>b.turns>0);
     p.stats.turns++;
   }
-  if(spaceOn()&&(p.items.suit||0)>0&&p.launched&&p.pos>=FALLS()){const base=vals.reduce((a,b)=>a+b,0);mods.unshift(['🧑‍🚀 宇宙服で出目×2',base])}
+  {const base=vals.reduce((a,b)=>a+b,0);
+   if(p.angelX5){p.angelX5=false;mods.unshift(['😇 天使のパグで出目×5',base*4])}
+   if(spaceOn()&&(p.items.suit||0)>0&&p.launched&&p.pos>=FALLS())mods.unshift(['🧑‍🚀 宇宙服で出目×2',mods.some(m=>m[0].startsWith('😇'))?base*5:base])}
   const total=vals.reduce((a,b)=>a+b,0)+mods.reduce((a,m)=>a+m[1],0);
   renderHud();
   await showDice(vals,mods,total);
@@ -2762,7 +2857,7 @@ async function rollAndMove(p,depth){
 async function useTicket(p){
   SFX.jackpot();
   await say(p,{kicker:'🎫 タダ旅行券',emoji:'🎫',title:'タダ旅行券を使った！',text:RULE('ticketMode')==='random'?'行き先はおまかせ！どこへ行くかな？':'好きなマスへワープできるバウ！',face:'joy',delay:1100});
-  if(RULE('ticketMode')==='random'){let t=p.pos+rr(4,14);if(isFinalLap(p))t=Math.min(N-1,t);if(t<N&&BOARD[t].major===SPOT_IDX.senaga)t--;await warpTo(p,t);if(!p.finished)await landing(p,1)}
+  if(RULE('ticketMode')==='random'){const t=ticketRandomTarget(p);await warpTo(p,t);if(!p.finished)await landing(p,1)}
   else await warpChoose(p,'タダ旅行！どこへ行く？',0,true);
 }
 async function useOnsenken(p){
@@ -2807,6 +2902,7 @@ async function startTurn(){
   saveGame();renderPieces();renderHud();setControls();focusPos(pieceXY(p),true);
   await wait(D(300));
   p.prevRank=ranks()[p.id];
+  angelFollow();
   if(state.wNews){state.wNews=false;const W=WEATHER[state.weather],FW=WEATHER[state.forecast];commentate(`${state.round}日目の天気は${W.i}${W.n}！${W.d}。明日は${FW.i}${FW.n}の予報バウ。`)}
   if(state.weather==='rainbow')photo(p,'rainbow');
   await checkSpurt();
@@ -2820,6 +2916,9 @@ async function startTurn(){
   if(!state||state.over)return;
   if(state.weather==='typhoon'&&rand()<.25&&!(isleOn()&&p.pos>N)){await typhoonGust(p);if(!state||state.over)return;if(p.finished)return endTurn()}
   if(RULE('underdog'))await maybeUnderdog(p);
+  if(!state||state.over)return;
+  if(p.finished)return endTurn();
+  await angelTurn(p);
   if(!state||state.over)return;
   if(p.finished)return endTurn();
   if(p.isCPU){await cpuTurn(p);endTurn()}
@@ -2879,6 +2978,7 @@ function show(id){
 function renderTitle(){
   setTimeout(renderMusicHint,0);
   {const b=$('#tIsle');if(b){b.classList.toggle('on',!!S.isle);b.setAttribute('aria-pressed',S.isle?'true':'false');b.querySelector('b').textContent=S.isle?'ON':'OFF'}}
+  {const b=$('#tAngel'),on=S.angel!==false;if(b){b.classList.toggle('on',on);b.setAttribute('aria-pressed',on?'true':'false');b.querySelector('b').textContent=on?'ON':'OFF'}}
   {const b=$('#tSpace'),on=!!(S.isle&&S.space);if(b){b.classList.toggle('on',on);b.setAttribute('aria-pressed',on?'true':'false');b.querySelector('b').textContent=on?'ON':'OFF'}}
   {const sv=store.get(KEY_SAVE),has=!!(sv&&sv.v===3);$('#tContinue').disabled=!has;$('#tContinue').hidden=!has;}
   {const t=$('#tOnline');if(t)t.hidden=!netAvail();}
@@ -2903,13 +3003,14 @@ function renderSetup(){
   <div class="setRow"><label>ゲームの長さ</label>${seg('laps',[[1,'1周'],[2,'2周'],[3,'3周']],S.laps)}<div class="hint">那覇空港スタート→沖縄本島を回って→那覇空港ゴール。目安：1周 約20〜30分／2周 約40〜60分／3周 約60〜90分</div></div>
   <div class="setRow"><label>離島追加モード</label>${seg('isle',[[false,'OFF'],[true,'ON']],!!S.isle)}<div class="hint">ONにすると、沖縄本島を回ったあと那覇空港からぱぐーきで宮古島→石垣島→フェリーで西表島へ。ゴールは西表島の「パグの滝」！</div></div>
   <div class="setRow"><label>宇宙追加モード</label>${seg('space',[[false,'OFF'],[true,'ON']],!!(S.isle&&S.space))}<div class="hint">ONにすると離島モードもONに。パグの滝でイリオモテパグに勝つとパグロケットで宇宙へ！ ゴールはワンダー星（王子ワンダとじゃんけん3本先取）。</div></div>
+  <div class="setRow"><label>天使のパグ</label>${seg('angel',[[false,'OFF'],[true,'ON']],S.angel!==false)}<div class="hint">ONにすると、最下位のパグのところに「天使のパグ」が来ることがあるよ（2〜3回おくりもの）。</div></div>
   <div class="setRow" style="margin:0"><label>CPUの強さ</label>${seg('cpuLevel',[['easy','かんたん'],['normal','ふつう'],['hard','むずかしい']],S.cpuLevel)}</div></div>`;
   for(let i=0;i<S.humans;i++){
     const hu=setup.humans[i];
     h+=`<div class="card pCard" style="--pc:${P_COLORS[i]}"><h3>プレイヤー${i+1}</h3><input maxlength="8" data-name="${i}" value="${esc(hu.name)}" aria-label="プレイヤー${i+1}の名前">
     <div class="breeds">${BREED_KEYS.map(b=>`<button data-breed="${i}" data-b="${b}" class="${hu.breed===b?'on':''}">${pugSVG(b,'normal',44)}${BREEDS[b].name.replace('パグ','')}</button>`).join('')}<button data-breed="${i}" data-b="random" class="${hu.breed==='random'?'on':''}"><div style="font-size:30px;height:44px;line-height:44px">❓</div>ランダム</button></div><div class="hint" style="margin-top:6px;font-size:13px">${hu.breed==='random'?'🎲 どの得意技になるかはお楽しみ':'⭐ 得意技：'+BREEDS[hu.breed].skill}</div>${setupExtras(i,hu)}</div>`;
   }
-  h+=`<div class="card"><div class="muted" style="font-size:13px;line-height:1.6">設定：${S.laps||1}周・スピード「${{slow:'ゆっくり',normal:'ふつう',fast:'はやい'}[S.speed]}」・ランダムイベント${S.randomEvents?'ON':'OFF'}・逆転イベント${S.underdog?'ON':'OFF'}</div><button class="btn sm ghost" id="toSet" style="margin-top:8px">設定を変える</button></div>
+  h+=`<div class="card"><div class="muted" style="font-size:13px;line-height:1.6">設定：${S.laps||1}周・スピード「${{slow:'ゆっくり',normal:'ふつう',fast:'はやい'}[S.speed]}」・ランダムイベント${S.randomEvents?'ON':'OFF'}・逆転イベント${S.underdog?'ON':'OFF'}・天使のパグ${S.angel!==false?'ON':'OFF'}</div><button class="btn sm ghost" id="toSet" style="margin-top:8px">設定を変える</button></div>
   <button class="btn primary wide" id="goStart" style="min-height:60px;font-size:19px">✈️ 那覇空港から出発バウ！</button>`;
   const body=$('#setupBody');body.innerHTML=h;
   bindSegs(body,()=>renderSetup());
@@ -3051,7 +3152,7 @@ function openItems(){
 }
 async function useItem(k,net){
   const p=cur();if(!net&&(phase!=='await'||p.isCPU))return false;if(!(p.items[k]>0))return false;
-  if(k==='ticket'&&!ticketUsable(p)){toast(state.isle&&fromPos(p)>=N?'🎫 離島ではタダ旅行券は使えないバウ':'🎫 ゴールの那覇空港は目の前！タダ旅行券はここでは使えないバウ');return}
+  if(k==='ticket'&&!ticketUsable(p)){toast('🎫 この先はゴールか、止まらないといけない場所（空港・港・滝など）！ いまはタダ旅行券を使えないバウ');return}
   if(k==='chu'&&!churuTarget(p)){toast('🍡 いまは入れかわれる1位のパグがいないバウ');return}
   SFX.click();p.usedItems=(p.usedItems||0)+1;
   if(k==='dice'){p.items.dice--;p.extraDie=(p.extraDie||0)+1;toast('🎲 このターンはサイコロが1個増える！');renderHud();return}
@@ -3117,7 +3218,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#manualOv').hid
 
 
 /* ---------- 🌐 オンライン対戦（全員が同じゲームを動かし、選択だけを記録で共有） ---------- */
-const GAMEVER='v13';
+const GAMEVER='v14';
 const KEY_NET='pugtabi-net-room';
 function netAvail(){try{return !!(window.PugNet&&window.PugNet.available())}catch(e){return false}}
 function netOwnerSeat(owner){return owner<0?0:NET.seatOfPid[owner]}
@@ -3228,7 +3329,7 @@ function netStartCfg(){
   const R=PugNet.room(),pl=R.players,hum=[];let cpu=0;
   for(let s=0;s<4;s++){const p=pl[s];if(!p)continue;if(p.cpu)cpu++;else hum.push({s,n:p.name,b:BREED_KEYS[+p.breed]||'white'})}
   return {v:GAMEVER,seed:PugNet.trueRand(4294967296)|0,isle:!!S.isle,space:!!(S.isle&&S.space),laps:Math.max(1,Math.min(3,+S.laps||1)),
-    rules:{cpuLevel:['easy','normal','hard'].includes(S.cpuLevel)?S.cpuLevel:'normal',exactGoal:!!S.exactGoal,randomEvents:S.randomEvents!==false,ticketMode:S.ticketMode==='random'?'random':'choose',underdog:S.underdog!==false},hum,cpu};
+    rules:{cpuLevel:['easy','normal','hard'].includes(S.cpuLevel)?S.cpuLevel:'normal',exactGoal:!!S.exactGoal,randomEvents:S.randomEvents!==false,ticketMode:S.ticketMode==='random'?'random':'choose',underdog:S.underdog!==false,angel:S.angel!==false},hum,cpu};
 }
 function netCfgOk(c){
   if(!c||typeof c!=='object'||!Array.isArray(c.hum)||c.hum.length<1||c.hum.length>4)return false;
@@ -3286,7 +3387,7 @@ function openNetMenu(){
 /* ----- ロビー画面 ----- */
 const netForm={name:'',breed:0,code:'',busy:false};
 function netLast(){try{const v=store.get(KEY_NET);if(v&&/^[0-9]{6}$/.test(v.code)&&Date.now()-(v.t||0)<6*3600*1000)return v}catch(e){}return null}
-function netCfgText(c){c=c||{};return `🏝️ 離島 ${c.isle?'ON':'OFF'}${c.isle&&c.space?'・🚀 宇宙 ON':''}・${Math.max(1,Math.min(3,+c.laps||1))}周・CPU「${{easy:'やさしい',normal:'ふつう',hard:'むずかしい'}[c.cpu]||'ふつう'}」`}
+function netCfgText(c){c=c||{};return `🏝️ 離島 ${c.isle?'ON':'OFF'}${c.isle&&c.space?'・🚀 宇宙 ON':''}・😇 天使 ${c.angel===false?'OFF':'ON'}・${Math.max(1,Math.min(3,+c.laps||1))}周・CPU「${{easy:'やさしい',normal:'ふつう',hard:'むずかしい'}[c.cpu]||'ふつう'}」`}
 function renderOnline(){
   const body=$('#onlineBody');if(!body)return;
   const R=window.PugNet&&PugNet.room();
@@ -3316,12 +3417,12 @@ function renderOnline(){
     return `<div class="netSeat"><span class="netDot${on?' on':''}" title="${on?'接続中':'切断中'}"></span>${pugSVG(BREED_KEYS[+p.breed]||'white','smile',40)}<span class="nm">${esc(p.name)}<small>${tag||(on?'接続中':'通信が切れています')}</small></span>${ctl}</div>`};
   body.innerHTML=`<div class="card netCard netRoom"><div class="muted" style="font-weight:800">部屋番号</div><div class="netCodeBig">${R.code.slice(0,3)} ${R.code.slice(3)}</div><button class="btn sm" id="netCopy" type="button">📋 番号をコピー</button><p class="muted" style="margin:8px 0 0;font-size:12px">友だちにこの番号を教えてね（4匹まで）</p></div>
   <div class="card netCard"><h3>👥 メンバー</h3>${[0,1,2,3].map(seatRow).join('')}</div>
-  <div class="card netCard"><h3>⚙️ ルール</h3>${R.host?`<div class="setRow"><label>離島追加モード</label>${seg('isle',[[false,'OFF'],[true,'ON']],!!S.isle)}</div><div class="setRow"><label>宇宙追加モード</label>${seg('space',[[false,'OFF'],[true,'ON']],!!(S.isle&&S.space))}</div><div class="setRow"><label>ゲームの長さ</label>${seg('laps',[[1,'1周'],[2,'2周'],[3,'3周']],S.laps||1)}</div><div class="setRow"><label>CPUの強さ</label>${seg('cpuLevel',[['easy','やさしい'],['normal','ふつう'],['hard','むずかしい']],S.cpuLevel)}</div>`:`<p style="margin:0;font-weight:800">${netCfgText(c)}</p><p class="muted" style="margin:4px 0 0;font-size:12px">ルールはホストが決めます</p>`}</div>
+  <div class="card netCard"><h3>⚙️ ルール</h3>${R.host?`<div class="setRow"><label>離島追加モード</label>${seg('isle',[[false,'OFF'],[true,'ON']],!!S.isle)}</div><div class="setRow"><label>宇宙追加モード</label>${seg('space',[[false,'OFF'],[true,'ON']],!!(S.isle&&S.space))}</div><div class="setRow"><label>天使のパグ</label>${seg('angel',[[false,'OFF'],[true,'ON']],S.angel!==false)}</div><div class="setRow"><label>ゲームの長さ</label>${seg('laps',[[1,'1周'],[2,'2周'],[3,'3周']],S.laps||1)}</div><div class="setRow"><label>CPUの強さ</label>${seg('cpuLevel',[['easy','やさしい'],['normal','ふつう'],['hard','むずかしい']],S.cpuLevel)}</div>`:`<p style="margin:0;font-weight:800">${netCfgText(c)}</p><p class="muted" style="margin:4px 0 0;font-size:12px">ルールはホストが決めます</p>`}</div>
   ${R.host?'<button class="btn primary wide" id="netStart" type="button">🎲 このメンバーでスタート！</button>':'<p class="netWait">⏳ ホストがスタートするのを待っています…</p>'}
   <button class="btn ghost wide" id="netLeaveBtn" type="button" style="margin-top:10px">部屋を出る</button>`;
   $('#netCopy').onclick=()=>{try{navigator.clipboard.writeText(R.code).then(()=>toast('📋 部屋番号をコピーしたバウ'),()=>toast('部屋番号：'+R.code))}catch(e){toast('部屋番号：'+R.code)}};
   if(R.host){
-    bindSegs(body,()=>{saveSet();PugNet.setCfg({isle:!!S.isle,space:!!(S.isle&&S.space),laps:+S.laps||1,cpu:S.cpuLevel}).catch(()=>{});renderOnline()});
+    bindSegs(body,()=>{saveSet();PugNet.setCfg({isle:!!S.isle,space:!!(S.isle&&S.space),angel:S.angel!==false,laps:+S.laps||1,cpu:S.cpuLevel}).catch(()=>{});renderOnline()});
     $('#netStart').onclick=e=>{SFX.click();netHostStart(e.currentTarget)};
     body.querySelectorAll('[data-ns]').forEach(b=>b.onclick=()=>{SFX.click();const s=+b.dataset.s,k=b.dataset.ns;
       const pr=k==='cpu'?PugNet.setCpu(s,'CPUパグ',String(s%BREED_KEYS.length)):PugNet.clearSeat(s);
@@ -3334,7 +3435,7 @@ async function netGo(kind,code){
   const name=PugNet.safeName(netForm.name);netForm.name=name;
   netForm.busy=true;renderOnline();
   try{
-    if(kind==='create')await PugNet.createRoom({name,breed:String(netForm.breed),cfg:{isle:!!S.isle,space:!!(S.isle&&S.space),laps:+S.laps||1,cpu:S.cpuLevel}});
+    if(kind==='create')await PugNet.createRoom({name,breed:String(netForm.breed),cfg:{isle:!!S.isle,space:!!(S.isle&&S.space),angel:S.angel!==false,laps:+S.laps||1,cpu:S.cpuLevel}});
     else await PugNet.joinRoom(code,{name,breed:String(netForm.breed)});
     SFX.good();
   }catch(e){toast('📡 '+PugNet.message(e))}
@@ -3373,6 +3474,7 @@ if(netAvail())netWire();
 /* ---------- wiring ---------- */
 $('#tStart').onclick=()=>{SFX.click();renderSetup();show('scrSetup')};
 $('#tIsle').onclick=()=>{SFX.click();S.isle=!S.isle;if(!S.isle)S.space=false;saveSet();renderTitle();toast(S.isle?'🏝️ 離島追加モード ON！<br>沖縄本島のあと、宮古島→石垣島→西表島をめざすバウ':'離島追加モード OFF<br>沖縄本島一周でゴールバウ')};
+$('#tAngel').onclick=()=>{SFX.click();S.angel=S.angel===false;saveSet();renderTitle();toast(S.angel?'😇 天使のパグ ON！<br>最下位のパグを2〜3回おうえんしてくれるバウ':'天使のパグ OFF<br>天使は登場しないバウ')};
 $('#tSpace').onclick=()=>{SFX.click();S.space=!(S.isle&&S.space);if(S.space)S.isle=true;saveSet();renderTitle();toast(S.space?'🚀 宇宙追加モード ON！<br>離島の先、パグの滝で勝ったらパグロケットでワンダー星へ！':'宇宙追加モード OFF<br>西表島のパグの滝でゴールバウ')};
 $('#tContinue').onclick=()=>{SFX.click();continueGame()};
 $('#tHow').onclick=()=>{try{SFX.click()}catch(e){}openManual()};
