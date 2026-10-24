@@ -360,9 +360,6 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
 .isleT.on{background:linear-gradient(180deg,#e9fbff,#c8f1fb)}
 .tCourse{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 .spaceT{border-color:#7c5cff;color:#3b2a6b}
-.angelT{border-color:#f0b400;color:#6b4a00}
-.angelT.on{background:linear-gradient(180deg,#fffbe6,#ffefb0)}
-.angelT.on b{background:#f0b400!important;color:#fff!important}
 .spaceT.on{background:linear-gradient(180deg,#f3eeff,#ddd1ff)}
 .spaceT.on b{background:#7c5cff!important;color:#fff!important}
 .isleT.on b{background:#18a6c9;color:#fff}
@@ -397,7 +394,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
         <button class="btn primary tMain" id="tStart" type="button">🎲 ゲームスタート<small>1台でみんなと・CPUと</small></button>
         <button class="btn netT tMain" id="tOnline" type="button" hidden>🌐 オンライン対戦<small>それぞれのスマホで2〜4匹</small></button>
         <button class="btn sea tCont" id="tContinue" type="button" hidden>▶ 続きから</button>
-        <div class="tCourse"><button class="isleT" id="tIsle" type="button" aria-pressed="false">🏝️ 離島追加 <b>OFF</b></button><button class="isleT spaceT" id="tSpace" type="button" aria-pressed="false">🚀 宇宙追加 <b>OFF</b></button><button class="isleT angelT" id="tAngel" type="button" aria-pressed="true">😇 天使のパグ <b>ON</b></button></div>
+        <div class="tCourse"><button class="isleT" id="tIsle" type="button" aria-pressed="false">🏝️ 離島追加 <b>OFF</b></button><button class="isleT spaceT" id="tSpace" type="button" aria-pressed="false">🚀 宇宙追加 <b>OFF</b></button></div>
         <nav class="tDock" aria-label="そのほかのメニュー">
           <button id="tHow" type="button"><span aria-hidden="true">📖</span>説明書</button>
           <button id="tYari" type="button"><span aria-hidden="true">🏅</span>やり込み</button>
@@ -808,7 +805,7 @@ ol.order li:nth-child(6) b{background:var(--pink)}
     <div class="item"><span class="ic">🧶</span><span><b>味付けのり</b><span class="t">3枚で出目+1、5枚で次のターン2回振り、10枚で「のり神パグ」！</span></span></div>
     <div class="item"><span class="ic">🍗</span><span><b>唐揚げ（宇宙追加モード）</b><span class="t">パグの滝でイリオモテパグに勝つと、10,000バウで買えるよ。ワンダー星の王子ワンダにわたすと、じゃんけんなしでゴール！</span></span></div>
     <div class="item"><span class="ic">🧑‍🚀</span><span><b>宇宙服（宇宙追加モード）</b><span class="t">唐揚げと同じお店で10,000バウ（両方なら20,000バウ）。宇宙に入ったら、ゴールまでサイコロの出目が2倍！</span></span></div>
-    <div class="item"><span class="ic">😇</span><span><b>天使のパグ（救済イベント）</b><span class="t">ちゅ〜ると同じように、最下位でがんばっていると舞いおりることがあるよ。2〜3回のあいだ最下位のパグについて、ばんが来るたびにおくりもの！ 1位と入れかわり・10,000バウ・出目5倍・ちゅ〜る2本（宇宙モードでは唐揚げ・宇宙服も）。最下位が入れかわると、天使は新しい最下位のパグへ飛んでいくよ。タイトル画面の「😇 天使のパグ」ボタンで、スタート前にON/OFFを切りかえられるよ（オンライン対戦ではホストが決めるよ）</span></span></div>
+    <div class="item"><span class="ic">😇</span><span><b>天使のパグ（救済イベント）</b><span class="t">ちゅ〜ると同じように、最下位でがんばっていると舞いおりることがあるよ。2〜3回のあいだ最下位のパグについて、ばんが来るたびにおくりもの！ 1位と入れかわり・10,000バウ・出目5倍・ちゅ〜る2本（宇宙モードでは唐揚げ・宇宙服も）。最下位が入れかわると、天使は新しい最下位のパグへ飛んでいくよ。「⚙️ 設定」の「😇 天使のパグ」で、ON/OFFを切りかえられるよ（オンライン対戦ではホストが決めるよ）</span></span></div>
     <div class="item"><span class="ic">🍡</span><span><b>ちゅ〜る（レア）</b><span class="t">大逆転アイテム！最下位で1位と大きく離れていると、緑マスやパグ神マス、みんなの応援でもらえることがあるよ。1位のパグに食べさせると、あみだくじで勝負！ 選び終わるまで答えはヒミツで、毎回ランダムだよ。勝ったら「1位をゆずってあげるバウ！」と場所を入れかわってくれる！</span></span></div>
   </div>
   <p class="tip" style="margin-top:14px">💡 アイテムを使うと、そのときの説明が画面に出るよ。迷ったら読んでね。</p>
@@ -2978,7 +2975,6 @@ function show(id){
 function renderTitle(){
   setTimeout(renderMusicHint,0);
   {const b=$('#tIsle');if(b){b.classList.toggle('on',!!S.isle);b.setAttribute('aria-pressed',S.isle?'true':'false');b.querySelector('b').textContent=S.isle?'ON':'OFF'}}
-  {const b=$('#tAngel'),on=S.angel!==false;if(b){b.classList.toggle('on',on);b.setAttribute('aria-pressed',on?'true':'false');b.querySelector('b').textContent=on?'ON':'OFF'}}
   {const b=$('#tSpace'),on=!!(S.isle&&S.space);if(b){b.classList.toggle('on',on);b.setAttribute('aria-pressed',on?'true':'false');b.querySelector('b').textContent=on?'ON':'OFF'}}
   {const sv=store.get(KEY_SAVE),has=!!(sv&&sv.v===3);$('#tContinue').disabled=!has;$('#tContinue').hidden=!has;}
   {const t=$('#tOnline');if(t)t.hidden=!netAvail();}
@@ -3043,6 +3039,7 @@ function renderSettings(){
   <div class="setRow"><label>効果音</label>${seg('sound',[[true,'ON'],[false,'OFF']],S.sound)}</div>
   <div class="setRow"><label>ランダムイベント</label>${seg('randomEvents',[[true,'ON'],[false,'OFF']],S.randomEvents)}</div>
   <div class="setRow"><label>逆転イベント（最下位救済）</label>${seg('underdog',[[true,'ON'],[false,'OFF']],S.underdog)}</div>
+  <div class="setRow"><label>😇 天使のパグ</label>${seg('angel',[[true,'ON'],[false,'OFF']],S.angel!==false)}<div class="hint">ONにすると、最下位のパグのところに「天使のパグ」が来ることがあるよ（2〜3回おくりもの）。</div></div>
   <div class="setRow"><label>タダ旅行券のワープ先</label>${seg('ticketMode',[['choose','自分で選ぶ'],['random','ランダム']],S.ticketMode)}</div>
   <div class="setRow" style="margin:0"><label>ゴールのルール</label>${seg('exactGoal',[[false,'通過でOK'],[true,'ぴったり']],S.exactGoal)}<div class="hint">「ぴったり」は出目が多すぎると戻ります。</div></div></div>
   <div class="card"><h3>CPUの強さ</h3>${seg('cpuLevel',[['easy','かんたん'],['normal','ふつう'],['hard','むずかしい']],S.cpuLevel)}</div>`;
@@ -3474,7 +3471,6 @@ if(netAvail())netWire();
 /* ---------- wiring ---------- */
 $('#tStart').onclick=()=>{SFX.click();renderSetup();show('scrSetup')};
 $('#tIsle').onclick=()=>{SFX.click();S.isle=!S.isle;if(!S.isle)S.space=false;saveSet();renderTitle();toast(S.isle?'🏝️ 離島追加モード ON！<br>沖縄本島のあと、宮古島→石垣島→西表島をめざすバウ':'離島追加モード OFF<br>沖縄本島一周でゴールバウ')};
-$('#tAngel').onclick=()=>{SFX.click();S.angel=S.angel===false;saveSet();renderTitle();toast(S.angel?'😇 天使のパグ ON！<br>最下位のパグを2〜3回おうえんしてくれるバウ':'天使のパグ OFF<br>天使は登場しないバウ')};
 $('#tSpace').onclick=()=>{SFX.click();S.space=!(S.isle&&S.space);if(S.space)S.isle=true;saveSet();renderTitle();toast(S.space?'🚀 宇宙追加モード ON！<br>離島の先、パグの滝で勝ったらパグロケットでワンダー星へ！':'宇宙追加モード OFF<br>西表島のパグの滝でゴールバウ')};
 $('#tContinue').onclick=()=>{SFX.click();continueGame()};
 $('#tHow').onclick=()=>{try{SFX.click()}catch(e){}openManual()};
