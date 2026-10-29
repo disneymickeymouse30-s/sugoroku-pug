@@ -360,6 +360,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
 .jkVs b{font-size:18px;color:#e8336d}
 .jkHide{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:12px;background:#5b4a3a;color:#fff;font-size:26px!important}
 .isleT{justify-self:center;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 8px 0 16px;border-radius:999px;font:inherit;font-weight:800;font-size:14px;background:rgba(255,255,255,.9);color:#0f4c66;border:2px solid #18a6c9;box-shadow:0 3px 0 rgba(0,0,0,.06)}
+.tMain.netNg{filter:saturate(.45);opacity:.85}
 .isleT b{background:#cfd8de;color:#41535e;border-radius:999px;padding:1px 10px;font-size:13px}
 .isleT.on{background:linear-gradient(180deg,#e9fbff,#c8f1fb)}
 .tCourse{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
@@ -381,6 +382,19 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-
 @keyframes amiPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
 .amiSvg{display:block;width:100%;max-width:300px;height:auto;margin:0 auto}
 .amiMsg{min-height:40px;margin:6px 0 4px;font-size:14px;line-height:1.5}
+.amiWin{border:3px solid var(--pc);border-radius:16px;padding:8px 10px 10px;background:linear-gradient(180deg,#fffbe8,#fff3c4);box-shadow:0 3px 0 rgba(0,0,0,.08);animation:amiWinIn .45s cubic-bezier(.2,1.6,.4,1)}
+@keyframes amiWinIn{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+.amiWinT{display:flex;align-items:center;justify-content:center;gap:8px}
+.amiWinT b{font-size:24px;font-weight:900;color:var(--pc);line-height:1.2;text-shadow:0 2px 0 #fff}
+.amiWinS{font-size:13px;font-weight:800;color:#6b4a00;margin:2px 0 8px}
+.amiRes{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.amiRes>span{display:inline-flex;align-items:center;gap:4px;background:#fff;border:2px solid var(--pc);border-radius:999px;padding:2px 4px 2px 2px;font-size:13px;font-weight:800}
+.amiRes>span.w{box-shadow:0 0 0 3px #ffd23f}
+.amiRk{display:inline-block;border-radius:999px;padding:1px 9px;font-size:13px;font-weight:900;border:2px solid}
+.amiRk.r1{background:#ffd23f;border-color:#e0a800;color:#5c3d00}
+.amiRk.r2{background:#e4ebf1;border-color:#9fb0be;color:#34444f}
+.amiRk.r3{background:#f2b27a;border-color:#c97a3c;color:#5a2a08}
+.amiRk.r4{background:#f1e6d2;border-color:#c9b48e;color:#7a6446}
 </style>
 </head>
 <body>
@@ -2056,23 +2070,24 @@ function amidaTrace(A,s){
     else if(A.rungs.some(r=>r.l===l&&r.i===i-1)){pts.push([xs(i),y]);i--;pts.push([xs(i),y])}}
   pts.push([xs(i),232]);return {end:i,pts};
 }
-const AMI_MEDAL={1:'🥇',2:'🥈',3:'🥉',4:'4'};
+const AMI_RANK={1:{bg:'#ffd23f',bd:'#e0a800',tx:'#5c3d00',ic:'👑'},2:{bg:'#e4ebf1',bd:'#9fb0be',tx:'#34444f',ic:''},3:{bg:'#f2b27a',bd:'#c97a3c',tx:'#5a2a08',ic:''},4:{bg:'#f1e6d2',bd:'#c9b48e',tx:'#7a6446',ic:''}};
+const amiRankChip=r=>`<span class="amiRk r${r}">${r}位</span>`;
 function amidaBattle(giver,leader){
   return new Promise(res=>{
     let A=NET.on?{K:4,LV:9,rungs:[],prize:[1,2,3,4]}:makeAmida(4);const W=300,xs=i=>W*(i+.5)/A.K,yl=l=>62+l*17;
     const lines=[...Array(A.K)].map((_,i)=>`<line x1="${xs(i)}" y1="34" x2="${xs(i)}" y2="232" stroke="#5b4a3a" stroke-width="4" stroke-linecap="round"/>`).join('');
     const rungs=A.rungs.map(r=>`<line x1="${xs(r.i)}" y1="${yl(r.l)}" x2="${xs(r.i+1)}" y2="${yl(r.l)}" stroke="#5b4a3a" stroke-width="4" stroke-linecap="round"/>`).join('');
-    const bottoms=[...Array(A.K)].map((_,i)=>`<g id="amiB${i}" class="amiB"><rect x="${xs(i)-22}" y="238" width="44" height="34" rx="9" fill="#5b4a3a"/><text x="${xs(i)}" y="261" font-size="18" font-weight="900" text-anchor="middle" fill="#fff">？</text></g>`).join('');
+    const bottoms=[...Array(A.K)].map((_,i)=>`<g id="amiB${i}" class="amiB"><rect x="${xs(i)-29}" y="238" width="58" height="36" rx="10" fill="#5b4a3a"/><text x="${xs(i)}" y="262" font-size="18" font-weight="900" text-anchor="middle" fill="#fff">？</text></g>`).join('');
     showModalHtml(`<div class="ev ev-neutral amiWrap"><div class="kicker">🍡 ちゅ〜る・あみだくじ勝負</div>
       <h3 style="margin:4px 0 2px">あみだくじで勝負バウ！</h3>
-      <p style="margin:0 0 6px;font-size:13px">${esc(giver.name)}が勝ったら1位と入れかわり！ たどり着いたメダルが良い方（🥇→🥈→🥉→4）の勝ち。下の「？」は選び終わるまでヒミツ。</p>
+      <p style="margin:0 0 6px;font-size:13px">${esc(giver.name)}が勝ったら1位と入れかわり！ たどり着いた順位が上の方の勝ち（<b>1位</b>がいちばん上）。下の「？」は選び終わるまでヒミツ。</p>
       <div class="amiVs"><span style="--pc:${giver.color}">${pugP(giver,'proud',30)}${esc(giver.name)}</span><b>VS</b><span style="--pc:${leader.color}">${pugP(leader,'smile',30)}${esc(leader.name)}（1位）</span></div>
       <div class="amiTop">${[...Array(A.K)].map((_,i)=>`<button class="amiPick" data-ami="${i}" type="button">${i+1}</button>`).join('')}</div>
-      <svg class="amiSvg" viewBox="0 0 300 276" role="img" aria-label="あみだくじ">${lines}<g id="amiRungs">${rungs}</g>
+      <svg class="amiSvg" viewBox="0 0 300 280" role="img" aria-label="あみだくじ">${lines}<g id="amiRungs">${rungs}</g>
         <g id="amiPaths"></g>
         <g id="amiCover"><rect x="6" y="44" width="288" height="182" rx="14" fill="#f6e3b0" stroke="#d9b56a" stroke-width="2"/><text x="150" y="128" font-size="15" font-weight="900" text-anchor="middle" fill="#8a5a2b">？ かくし紙 ？</text><text x="150" y="150" font-size="11" font-weight="800" text-anchor="middle" fill="#8a5a2b">ふたりが選び終わったらオープン！</text></g>
         ${bottoms}</svg>
-      <p class="amiMsg" id="amiMsg"></p><div id="amiEnd"></div></div>`);
+      <div class="amiMsg" id="amiMsg"></div><div id="amiEnd"></div></div>`);
     const msg=t=>{const m=$('#amiMsg');if(m)m.innerHTML=t};
     const picks={};
     const mark=(i,p)=>{const b=document.querySelector(`[data-ami="${i}"]`);if(!b)return;b.disabled=true;b.classList.add('taken');b.style.setProperty('--pc',p.color);b.innerHTML=pugP(p,'proud',28)};
@@ -2108,13 +2123,19 @@ function amidaBattle(giver,leader){
       for(const id of ['amiPg','amiPl']){const el=document.getElementById(id);if(!el)continue;const L=el.getTotalLength?el.getTotalLength():600;el.style.strokeDasharray=L;el.style.strokeDashoffset=L;void el.getBoundingClientRect();el.style.transition=`stroke-dashoffset ${D(1500)}ms linear`;el.style.strokeDashoffset='0'}
       for(let k=0;k<6;k++){tone(600+k*80,.05,'square',.03);await wait(D(250))}
       for(let i=0;i<A.K;i++){const g=document.getElementById('amiB'+i);if(!g)continue;const pr=A.prize[i],who=i===tg.end?giver:i===tl.end?leader:null;
-        g.innerHTML=`<rect x="${xs(i)-22}" y="238" width="44" height="34" rx="9" fill="${who?who.color:'#fff'}" stroke="${who?'#fff':'#d9b56a'}" stroke-width="2"/><text x="${xs(i)}" y="262" font-size="${pr===4?16:20}" font-weight="900" text-anchor="middle" fill="${who?'#fff':'#8a5a2b'}">${AMI_MEDAL[pr]}</text>`}
+        const c=AMI_RANK[pr];
+        g.innerHTML=`<rect x="${xs(i)-29}" y="238" width="58" height="36" rx="10" fill="${c.bg}" stroke="${who?who.color:c.bd}" stroke-width="${who?5:2}"/>${pr===1?`<text x="${xs(i)}" y="236" font-size="13" text-anchor="middle">👑</text>`:''}<text x="${xs(i)}" y="263" font-size="20" font-weight="900" text-anchor="middle" fill="${c.tx}">${pr}位</text>`;
+        if(!who)g.setAttribute('opacity','.55')}
       const gw=A.prize[tg.end]<A.prize[tl.end];
       if(gw)SFX.jackpot();else if(SFX.bad)SFX.bad();else SFX.click();
-      msg(gw?`<b style="color:${giver.color}">${esc(giver.name)}</b>は${AMI_MEDAL[A.prize[tg.end]]}、${esc(leader.name)}は${AMI_MEDAL[A.prize[tl.end]]}… <b>${esc(giver.name)}の勝ち！</b>`:`<b style="color:${giver.color}">${esc(giver.name)}</b>は${AMI_MEDAL[A.prize[tg.end]]}、${esc(leader.name)}は${AMI_MEDAL[A.prize[tl.end]]}… <b>1位の${esc(leader.name)}の勝ち！</b>`);
+      {const W=gw?giver:leader,rg=A.prize[tg.end],rl=A.prize[tl.end];
+       msg(`<div class="amiWin" style="--pc:${W.color}"><div class="amiWinT">${pugP(W,'joy',46)}<b>${esc(W.name)}の勝ち！</b></div>
+        <div class="amiWinS">${gw?'1位と入れかわるバウ！':'1位をキープ！ 入れかわりはなしバウ'}</div>
+        <div class="amiRes"><span style="--pc:${giver.color}" class="${gw?'w':''}">${pugP(giver,gw?'joy':'trouble',24)}${esc(giver.name)}${amiRankChip(rg)}</span><span style="--pc:${leader.color}" class="${gw?'':'w'}">${pugP(leader,gw?'trouble':'joy',24)}${esc(leader.name)}${amiRankChip(rl)}</span></div></div>`)}
       const done=()=>{closeModal();res(gw)};
       const auto=NET.catchup||(NET.on?(!netMineP(giver)&&!netMineP(leader)):(giver.isCPU&&leader.isCPU))&&S.msgMode!=='tap';
       const box=$('#amiEnd');if(box){box.innerHTML='<button class="btn primary wide" id="amiOk" type="button">つづく</button>';$('#amiOk').onclick=()=>{SFX.click();done()}}
+      {const mc=$('#modalCard');if(mc&&mc.scrollHeight>mc.clientHeight)mc.scrollTo({top:mc.scrollHeight,behavior:'smooth'})}
       if(auto)setTimeout(()=>{if($('#amiOk'))done()},D(2200));
     })();
   });
@@ -2986,7 +3007,7 @@ function renderTitle(){
   {const b=$('#tIsle');if(b){b.classList.toggle('on',!!S.isle);b.setAttribute('aria-pressed',S.isle?'true':'false');b.querySelector('b').textContent=S.isle?'ON':'OFF'}}
   {const b=$('#tSpace'),on=!!(S.isle&&S.space);if(b){b.classList.toggle('on',on);b.setAttribute('aria-pressed',on?'true':'false');b.querySelector('b').textContent=on?'ON':'OFF'}}
   {const sv=store.get(KEY_SAVE),has=!!(sv&&sv.v===3);$('#tContinue').disabled=!has;$('#tContinue').hidden=!has;}
-  {const t=$('#tOnline');if(t)t.hidden=!netAvail();}
+  {const t=$('#tOnline');if(t){const ok=netAvail();t.hidden=!netExpected();t.classList.toggle('netNg',!ok);const sm=t.querySelector('small');if(sm)sm.textContent=ok?'それぞれのスマホで2〜4匹':'⚠️ 準備ができていません（タップで原因を確認）'}}
   $('#titlePug').innerHTML=pugSVG('fawn','joy',150);
 }
 function renderTitleArt(){
@@ -3227,6 +3248,14 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#manualOv').hid
 const GAMEVER='v15';
 const KEY_NET='pugtabi-net-room';
 function netAvail(){try{return !!(window.PugNet&&window.PugNet.available())}catch(e){return false}}
+/* オンライン用のファイルを読み込む版（GitHub版）かどうか。ファイル1つだけの版はオフライン専用 */
+function netExpected(){return !!document.querySelector('script[src$="online.js"]')}
+function netWhyNot(){
+  if(!window.PUG_ONLINE)return '「firebase-config.js」が読み込めていません。GitHubの index.html と同じ場所に firebase-config.js があるか確認してね。';
+  if(!window.PUG_ONLINE.enabled)return '「firebase-config.js」の中身が空か、まちがっています。Firebaseの設定（apiKey など）が入った firebase-config.js を置きなおしてね。';
+  if(!window.PugNet)return '「online.js」が読み込めていません。GitHubの index.html と同じ場所に online.js があるか確認してね。';
+  return 'オンラインの準備ができていません。';
+}
 function netOwnerSeat(owner){return owner<0?0:NET.seatOfPid[owner]}
 function netMine(owner){return !NET.on||netOwnerSeat(owner)===NET.mySeat}
 function netMineP(p){return !NET.on||(!!p&&!p.isCPU&&NET.seatOfPid[p.id]===NET.mySeat)}
@@ -3473,7 +3502,9 @@ function netWire(){
   });
   setInterval(()=>{if(NET.on)netBar()},4000);
 }
-$('#tOnline').onclick=()=>{SFX.click();netWire();renderOnline();show('scrOnline')};
+$('#tOnline').onclick=()=>{SFX.click();
+  if(!netAvail()){showModalHtml(`<div class="sheet"><h3>🌐 オンライン対戦の準備ができていません</h3><p style="line-height:1.7">${netWhyNot()}</p><p class="muted" style="font-size:12px;line-height:1.6">ファイルを置きなおしたら、ページを再読み込みしてね（ホーム画面のアプリは一度とじて開きなおす）。電波が弱いときは、つながってからもう一度ひらいてね。</p><button class="btn primary wide" id="netNgOk" type="button">OK</button></div>`);$('#netNgOk').onclick=()=>{SFX.click();closeModal()};return}
+  netWire();renderOnline();show('scrOnline')};
 $('#netBackBtn').onclick=()=>{const R=window.PugNet&&PugNet.room();if(R){if(confirm(R.host?'部屋を閉じてもどりますか？':'部屋を出てもどりますか？'))netLeave();return}show('scrTitle')};
 if(netAvail())netWire();
 
