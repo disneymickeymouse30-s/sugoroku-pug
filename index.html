@@ -828,7 +828,7 @@ ol.order li:nth-child(6) b{background:var(--pink)}
     <div class="item"><span class="ic">🧶</span><span><b>味付けのり</b><span class="t">3枚で出目+1、5枚で次のターン2回振り、10枚で「のり神パグ」！</span></span></div>
     <div class="item"><span class="ic">🍗</span><span><b>唐揚げ（宇宙追加モード）</b><span class="t">パグの滝でイリオモテパグに勝つと、10,000バウで買えるよ。ワンダー星の王子ワンダにわたすと、じゃんけんなしでゴール！</span></span></div>
     <div class="item"><span class="ic">🧑‍🚀</span><span><b>宇宙服（宇宙追加モード）</b><span class="t">唐揚げと同じお店で10,000バウ（両方なら20,000バウ）。宇宙に入ったら、ゴールまでサイコロの出目が2倍！</span></span></div>
-    <div class="item"><span class="ic">🍦</span><span><b>ロングソフトクリーム（い〜あんべコース）</b><span class="t">ワンダに勝ったあと、ワンダー星のおみやげ屋で30,000バウ。サイコロの代わりに使って1位のパグにあげると、あみだくじ勝負！ 勝てば1位のパグはスゴロク勝負を忘れて、沖縄本島のパグビレッジへ戻っちゃう</span></span></div>
+    <div class="item"><span class="ic">🍦</span><span><b>ロングソフトクリーム（い〜あんべコース）</b><span class="t">ワンダに勝ったあと、ワンダー星のおみやげ屋で23,000バウ。サイコロの代わりに使って1位のパグにあげると、あみだくじ勝負！ 勝てば1位のパグはスゴロク勝負を忘れて、沖縄本島のパグビレッジへ戻っちゃう</span></span></div>
     <div class="item"><span class="ic">👵</span><span><b>おばあのカツラ（い〜あんべコース）</b><span class="t">イリオモテパグのお店で5,000バウ。関門の「せんぱい」にあげると、あみだくじなしで通してくれるよ</span></span></div>
     <div class="item"><span class="ic">🛝</span><span><b>滑り台（い〜あんべコース）</b><span class="t">お店で5,000バウ。関門の「🌰酢」にあげると、あみだくじなしで通してくれるよ</span></span></div>
     <div class="item"><span class="ic">🥤</span><span><b>ミルクティー（ロング缶）（い〜あんべコース）</b><span class="t">お店で5,000バウ。関門の「お髭マン」にあげると、あみだくじなしで通してくれるよ</span></span></div>
@@ -891,7 +891,7 @@ ol.order li:nth-child(6) b{background:var(--pink)}
     <li><b>4</b>関門と関門のあいだには、青マスや緑マス、温泉マスなど、ふつうのマスもあるよ</li>
     <li><b>5</b>地球に帰ったら、国際通りで「プロアルバイターかずお」とじゃんけん3本勝負。先に3回勝ったらゴール！</li>
   </ol>
-  <p class="tip" style="margin-top:14px">🛒 ワンダに勝つと「ワンダー星のおみやげ屋」で買い物ができるよ。<br>・🍡 ちゅ〜る：味付けのり30枚と交換<br>・🍦 ロングソフトクリーム：30,000バウ</p>
+  <p class="tip" style="margin-top:14px">🛒 ワンダに勝つと「ワンダー星のおみやげ屋」で買い物ができるよ。<br>・🍡 ちゅ〜る：味付けのり23枚と交換<br>・🍦 ロングソフトクリーム：23,000バウ</p>
   <p class="tip" style="margin-top:12px">🍦 ロングソフトクリームを1位のパグにあげると、おいしそうに食べたあと、あみだくじで勝負！ 1位のパグが負けると、スゴロク勝負のことをすっかり忘れて、沖縄本島のパグビレッジのお店へ。店長さんに「ロングソフトクリームおいしかったよ！」とお礼を言いに行っちゃうよ。そこから離島・宇宙・関門をもう一度やり直し！</p>
   <div class="grid2" style="margin-top:14px">
     <div class="item"><span class="ic">👵</span><span><b>せんぱい</b><span class="t">男の人だけど、沖縄のおばあのモノマネをやらせたら右に出る者はいない。好きな物は「おばあのカツラ」</span></span></div>
@@ -1279,7 +1279,7 @@ const ITEMS={
  rail:{name:'パグレール',icon:'🚝',desc:'パグ専用のモノレール。次の観光スポットまで乗りかえなしで直行（サイコロの代わり）',use:true},
  chu:{name:'ちゅ〜る',icon:CHURU,desc:'大逆転のレアアイテム！1位のパグに食べさせて、あみだくじで勝負。勝ったら1位と場所を入れかわれる（サイコロの代わり）',use:true,rare:true},
  suit:{name:'宇宙服',icon:'🧑‍🚀',desc:'イリオモテパグの宇宙服。ロケットで宇宙コースに入ったあとは、ゴールするまでサイコロの出目が2倍になる（宇宙追加モード）',use:false,rare:true},
- cream:{name:'ロングソフトクリーム',icon:'🍦',desc:'ワンダ王子に勝ったあと、ワンダー星のおみやげ屋で30,000バウ。1位のパグにあげて、あみだくじで勝つと、1位のパグは沖縄本島のパグビレッジへ戻っちゃう（サイコロの代わりに使う）',use:true,rare:true},
+ cream:{name:'ロングソフトクリーム',icon:'🍦',desc:'ワンダ王子に勝ったあと、ワンダー星のおみやげ屋で23,000バウ。1位のパグにあげて、あみだくじで勝つと、1位のパグは沖縄本島のパグビレッジへ戻っちゃう（サイコロの代わりに使う）',use:true,rare:true},
  pizza:{name:'LLL寸のピザ',icon:'🍕',desc:'イリオモテパグのお店で5,000バウ（い〜あんべコース）。国際通りの「プロアルバイターかずお」にあげると、じゃんけんなしでゴールさせてくれる',use:false,rare:true},
  milktea:{name:'ミルクティー（ロング缶）',icon:'🥤',desc:'イリオモテパグのお店で5,000バウ（い〜あんべコース）。「お髭マン」にあげると、あみだくじなしで関門を通してくれる',use:false,rare:true},
  slide:{name:'滑り台',icon:'🛝',desc:'イリオモテパグのお店で5,000バウ（い〜あんべコース）。「🌰酢」にあげると、あみだくじなしで関門を通してくれる',use:false,rare:true},
@@ -1755,15 +1755,15 @@ async function wandaShop(p){
   const K0='🛒 ワンダー星のおみやげ屋';
   let bought=0;
   for(let loop=0;loop<4;loop++){
-    const canC=(p.items.nori||0)>=30,canS=p.bau>=30000;
-    const box=`<div class="shopRow"><div class="${canC?'':'ng'}"><b>${CHURU} ちゅ〜る</b><small>味付けのり30枚と交換<br>1位のパグにあげて、あみだくじで勝てば入れかわり</small></div><div class="${canS?'':'ng'}"><b>🍦 ロングソフトクリーム</b><small>30,000バウ<br>1位のパグにあげて、あみだくじで勝てば1位はパグビレッジへ</small></div></div>`;
-    const btns=[{label:`${CHURU} ちゅ〜ると交換`,sub:`のり30枚（いま${p.items.nori||0}枚）`,value:'chu',cls:'',disabled:!canC},{label:'🍦 ロングソフトクリームを買う',sub:`30,000バウ（いま${p.bau.toLocaleString()}バウ）`,value:'cream',cls:'',disabled:!canS},{label:bought?'買い物おわり':'買わない',value:'none',cls:'ghost'}];
+    const canC=(p.items.nori||0)>=23,canS=p.bau>=23000;
+    const box=`<div class="shopRow"><div class="${canC?'':'ng'}"><b>${CHURU} ちゅ〜る</b><small>味付けのり23枚と交換<br>1位のパグにあげて、あみだくじで勝てば入れかわり</small></div><div class="${canS?'':'ng'}"><b>🍦 ロングソフトクリーム</b><small>23,000バウ<br>1位のパグにあげて、あみだくじで勝てば1位はパグビレッジへ</small></div></div>`;
+    const btns=[{label:`${CHURU} ちゅ〜ると交換`,sub:`のり23枚（いま${p.items.nori||0}枚）`,value:'chu',cls:'',disabled:!canC},{label:'🍦 ロングソフトクリームを買う',sub:`23,000バウ（いま${p.bau.toLocaleString()}バウ）`,value:'cream',cls:'',disabled:!canS},{label:bought?'買い物おわり':'買わない',value:'none',cls:'ghost'}];
     let cp='none';
     if(p.isCPU){const lv=RULE('cpuLevel');if(canS&&(lv!=='easy'||rand()<.5))cp='cream';else if(canC&&(lv!=='easy'||rand()<.5))cp='chu'}
     const v=await say(p,{kicker:K0,emoji:'🛒',title:bought?'ほかにも買うバウ？':'ワンダ「おみやげを買っていくケン？」',text:`「勝ったキミにだけ、特別なおみやげを売ってあげるケン！」 いま${p.bau.toLocaleString()}バウ・のり${p.items.nori||0}枚`,html:`<div class="iriBox">${wandaSVG(64,'joy')}</div>${box}`,face:'smile',tone:'neutral',buttons:btns,cpuPick:cp,list:true});
-    if(v==='chu'&&canC){p.items.nori-=30;giveItem(p,'chu',1);bought++;SFX.jackpot();renderHud();commentate(`${p.name}がのり30枚でちゅ〜るをGET！`,4);
+    if(v==='chu'&&canC){p.items.nori-=23;giveItem(p,'chu',1);bought++;SFX.jackpot();renderHud();commentate(`${p.name}がのり23枚でちゅ〜るをGET！`,4);
       await say(p,{kicker:K0,emoji:CHURU,title:'ちゅ〜ると交換したバウ！',text:'1位のパグにあげて、あみだくじで勝てば入れかわれるバウ！',face:'joy',tone:'jackpot',delay:1100})}
-    else if(v==='cream'&&canS){p.bau-=30000;giveItem(p,'cream',1);bought++;SFX.jackpot();renderHud();commentate(`${p.name}がロングソフトクリームを買った！ 1位のパグはねらわれている…！`,5);
+    else if(v==='cream'&&canS){p.bau-=23000;giveItem(p,'cream',1);bought++;SFX.jackpot();renderHud();commentate(`${p.name}がロングソフトクリームを買った！ 1位のパグはねらわれている…！`,5);
       await say(p,{kicker:K0,emoji:'🍦',title:'ロングソフトクリームを買ったバウ！',text:'「アイテム」から使うと、1位のパグにあげられるバウ。あみだくじで勝てば、1位のパグはおいしさに夢中になって、沖縄本島のパグビレッジまで戻っちゃう！',face:'joy',tone:'jackpot',delay:1100})}
     else break;
   }
