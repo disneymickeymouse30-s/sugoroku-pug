@@ -828,6 +828,7 @@ ol.order li:nth-child(6) b{background:var(--pink)}
     <div class="item"><span class="ic">🧶</span><span><b>味付けのり</b><span class="t">3枚で出目+1、5枚で次のターン2回振り、10枚で「のり神パグ」！</span></span></div>
     <div class="item"><span class="ic">🍗</span><span><b>唐揚げ（宇宙追加モード）</b><span class="t">パグの滝でイリオモテパグに勝つと、10,000バウで買えるよ。ワンダー星の王子ワンダにわたすと、じゃんけんなしでゴール！</span></span></div>
     <div class="item"><span class="ic">🧑‍🚀</span><span><b>宇宙服（宇宙追加モード）</b><span class="t">唐揚げと同じお店で10,000バウ（両方なら20,000バウ）。宇宙に入ったら、ゴールまでサイコロの出目が2倍！</span></span></div>
+    <div class="item"><span class="ic">🍦</span><span><b>ロングソフトクリーム（い〜あんべコース）</b><span class="t">ワンダに勝ったあと、ワンダー星のおみやげ屋で30,000バウ。サイコロの代わりに使って1位のパグにあげると、あみだくじ勝負！ 勝てば1位のパグはスゴロク勝負を忘れて、沖縄本島のパグビレッジへ戻っちゃう</span></span></div>
     <div class="item"><span class="ic">👵</span><span><b>おばあのカツラ（い〜あんべコース）</b><span class="t">イリオモテパグのお店で5,000バウ。関門の「せんぱい」にあげると、あみだくじなしで通してくれるよ</span></span></div>
     <div class="item"><span class="ic">🛝</span><span><b>滑り台（い〜あんべコース）</b><span class="t">お店で5,000バウ。関門の「🌰酢」にあげると、あみだくじなしで通してくれるよ</span></span></div>
     <div class="item"><span class="ic">🥤</span><span><b>ミルクティー（ロング缶）（い〜あんべコース）</b><span class="t">お店で5,000バウ。関門の「お髭マン」にあげると、あみだくじなしで通してくれるよ</span></span></div>
@@ -890,6 +891,8 @@ ol.order li:nth-child(6) b{background:var(--pink)}
     <li><b>4</b>関門と関門のあいだには、青マスや緑マス、温泉マスなど、ふつうのマスもあるよ</li>
     <li><b>5</b>地球に帰ったら、国際通りで「プロアルバイターかずお」とじゃんけん3本勝負。先に3回勝ったらゴール！</li>
   </ol>
+  <p class="tip" style="margin-top:14px">🛒 ワンダに勝つと「ワンダー星のおみやげ屋」で買い物ができるよ。<br>・🍡 ちゅ〜る：味付けのり30枚と交換<br>・🍦 ロングソフトクリーム：30,000バウ</p>
+  <p class="tip" style="margin-top:12px">🍦 ロングソフトクリームを1位のパグにあげると、おいしそうに食べたあと、あみだくじで勝負！ 1位のパグが負けると、スゴロク勝負のことをすっかり忘れて、沖縄本島のパグビレッジのお店へ。店長さんに「ロングソフトクリームおいしかったよ！」とお礼を言いに行っちゃうよ。そこから離島・宇宙・関門をもう一度やり直し！</p>
   <div class="grid2" style="margin-top:14px">
     <div class="item"><span class="ic">👵</span><span><b>せんぱい</b><span class="t">男の人だけど、沖縄のおばあのモノマネをやらせたら右に出る者はいない。好きな物は「おばあのカツラ」</span></span></div>
     <div class="item"><span class="ic">🌰</span><span><b>🌰酢</b><span class="t">何ごとも一生けんめい。でも、なぜかいつも話がかみ合わない（本人は気づいていない）。ギャグがすべっても全く動じない</span></span></div>
@@ -1276,6 +1279,7 @@ const ITEMS={
  rail:{name:'パグレール',icon:'🚝',desc:'パグ専用のモノレール。次の観光スポットまで乗りかえなしで直行（サイコロの代わり）',use:true},
  chu:{name:'ちゅ〜る',icon:CHURU,desc:'大逆転のレアアイテム！1位のパグに食べさせて、あみだくじで勝負。勝ったら1位と場所を入れかわれる（サイコロの代わり）',use:true,rare:true},
  suit:{name:'宇宙服',icon:'🧑‍🚀',desc:'イリオモテパグの宇宙服。ロケットで宇宙コースに入ったあとは、ゴールするまでサイコロの出目が2倍になる（宇宙追加モード）',use:false,rare:true},
+ cream:{name:'ロングソフトクリーム',icon:'🍦',desc:'ワンダ王子に勝ったあと、ワンダー星のおみやげ屋で30,000バウ。1位のパグにあげて、あみだくじで勝つと、1位のパグは沖縄本島のパグビレッジへ戻っちゃう（サイコロの代わりに使う）',use:true,rare:true},
  pizza:{name:'LLL寸のピザ',icon:'🍕',desc:'イリオモテパグのお店で5,000バウ（い〜あんべコース）。国際通りの「プロアルバイターかずお」にあげると、じゃんけんなしでゴールさせてくれる',use:false,rare:true},
  milktea:{name:'ミルクティー（ロング缶）',icon:'🥤',desc:'イリオモテパグのお店で5,000バウ（い〜あんべコース）。「お髭マン」にあげると、あみだくじなしで関門を通してくれる',use:false,rare:true},
  slide:{name:'滑り台',icon:'🛝',desc:'イリオモテパグのお店で5,000バウ（い〜あんべコース）。「🌰酢」にあげると、あみだくじなしで関門を通してくれる',use:false,rare:true},
@@ -1746,10 +1750,56 @@ const ANBE_NPC={
   introX:'「よく来たな！ アルバイト歴50年、プロアルバイターのかずおだ！ アルバイト代表として、イタリアにピザの修行に行こうと考えたこともある！ ……いいか、ピザの生地はな、こねる前の気持ちが大事なんだ（熱弁）。……おっと、ゴールしたければ、じゃんけん3本勝負だ！」'}
 };
 const npcBox=(key,f,size=92)=>`<div class="iriBox">${ANBE_NPC[key].svg(size,f)}<b>${ANBE_NPC[key].name}</b></div>`;
+/* ---------- 🛒 ワンダー星のおみやげ屋（ワンダに勝ったあと） ---------- */
+async function wandaShop(p){
+  const K0='🛒 ワンダー星のおみやげ屋';
+  let bought=0;
+  for(let loop=0;loop<4;loop++){
+    const canC=(p.items.nori||0)>=30,canS=p.bau>=30000;
+    const box=`<div class="shopRow"><div class="${canC?'':'ng'}"><b>${CHURU} ちゅ〜る</b><small>味付けのり30枚と交換<br>1位のパグにあげて、あみだくじで勝てば入れかわり</small></div><div class="${canS?'':'ng'}"><b>🍦 ロングソフトクリーム</b><small>30,000バウ<br>1位のパグにあげて、あみだくじで勝てば1位はパグビレッジへ</small></div></div>`;
+    const btns=[{label:`${CHURU} ちゅ〜ると交換`,sub:`のり30枚（いま${p.items.nori||0}枚）`,value:'chu',cls:'',disabled:!canC},{label:'🍦 ロングソフトクリームを買う',sub:`30,000バウ（いま${p.bau.toLocaleString()}バウ）`,value:'cream',cls:'',disabled:!canS},{label:bought?'買い物おわり':'買わない',value:'none',cls:'ghost'}];
+    let cp='none';
+    if(p.isCPU){const lv=RULE('cpuLevel');if(canS&&(lv!=='easy'||rand()<.5))cp='cream';else if(canC&&(lv!=='easy'||rand()<.5))cp='chu'}
+    const v=await say(p,{kicker:K0,emoji:'🛒',title:bought?'ほかにも買うバウ？':'ワンダ「おみやげを買っていくケン？」',text:`「勝ったキミにだけ、特別なおみやげを売ってあげるケン！」 いま${p.bau.toLocaleString()}バウ・のり${p.items.nori||0}枚`,html:`<div class="iriBox">${wandaSVG(64,'joy')}</div>${box}`,face:'smile',tone:'neutral',buttons:btns,cpuPick:cp,list:true});
+    if(v==='chu'&&canC){p.items.nori-=30;giveItem(p,'chu',1);bought++;SFX.jackpot();renderHud();commentate(`${p.name}がのり30枚でちゅ〜るをGET！`,4);
+      await say(p,{kicker:K0,emoji:CHURU,title:'ちゅ〜ると交換したバウ！',text:'1位のパグにあげて、あみだくじで勝てば入れかわれるバウ！',face:'joy',tone:'jackpot',delay:1100})}
+    else if(v==='cream'&&canS){p.bau-=30000;giveItem(p,'cream',1);bought++;SFX.jackpot();renderHud();commentate(`${p.name}がロングソフトクリームを買った！ 1位のパグはねらわれている…！`,5);
+      await say(p,{kicker:K0,emoji:'🍦',title:'ロングソフトクリームを買ったバウ！',text:'「アイテム」から使うと、1位のパグにあげられるバウ。あみだくじで勝てば、1位のパグはおいしさに夢中になって、沖縄本島のパグビレッジまで戻っちゃう！',face:'joy',tone:'jackpot',delay:1100})}
+    else break;
+  }
+}
+/* ---------- 🍦 ロングソフトクリーム ---------- */
+const VILLAGE_POS=()=>SPOT_POS[SPOT_IDX.village];
+function creamTarget(p){const ld=churuTarget(p);if(!ld||ld.finished)return null;if(ld.br==null&&ld.pos<=VILLAGE_POS())return null;return ld}
+async function useCream(p){
+  const ld=creamTarget(p);if(!ld){p.items.cream=(p.items.cream||0)+1;return}
+  SFX.click();
+  commentate(`${p.name}が1位の${ld.name}にロングソフトクリームをプレゼント！`,5);
+  await say(p,{kicker:'🍦 ロングソフトクリーム',emoji:'🍦',title:`${esc(ld.name)}にロングソフトクリームをあげた！`,text:'とっても長〜いソフトクリーム。ペロペロ…ペロペロ…… おいしそうに夢中で食べているバウ。',face:'smile',tone:'neutral',delay:1300});
+  await say(ld,{kicker:'🍦 ロングソフトクリーム',emoji:'😋',title:'「おいしい〜！ でも…」',text:'「あみだくじで勝負バウ！ ボクが負けたら……なんだか、このソフトクリームのお店に行きたくなってきたバウ……」',face:'joy',tone:'neutral'});
+  const win=await amidaBattle(p,ld,{kicker:'🍦 ロングソフトクリーム・あみだくじ勝負',title:'あみだくじで勝負バウ！',rule:`${esc(p.name)}が勝ったら、1位の${esc(ld.name)}はパグビレッジへ！ たどり着いた順位が上の方の勝ち（<b>1位</b>がいちばん上）。下の「？」は選び終わるまでヒミツ。`,winSub:`${esc(ld.name)}はパグビレッジへ！`,loseSub:'1位をキープ！ パグビレッジには行かないバウ'});
+  if(!state||state.over)return;
+  if(!win){
+    commentate(`${ld.name}がソフトクリームを食べきって、1位をキープ！`,3);
+    await say(ld,{kicker:'🍦 あみだくじ勝負',emoji:'🛡️',title:'「ごちそうさま！ 1位は守ったバウ！」',text:`${esc(p.name)}はあみだくじで負けちゃった…。${esc(ld.name)}はそのまま旅を続けるバウ。`,face:'joy',tone:'bad'});
+    return;
+  }
+  const to=VILLAGE_POS(),el=$(`#pc${ld.id}`),c0=pieceXY(ld);
+  SFX.warp();showWalk('ぴゅ～ん！ パグビレッジへ！');
+  ld.pos=to;ld.br=null;ld.takeBranch=false;
+  ld.departed=false;ld.firstClass=false;ld.rocket=false;ld.launched=false;ld.wandaWon=false;ld.gates={};
+  const c1=pieceXY(ld);
+  if(el)await tween(el,c0,c1,D(1100),90);
+  hideWalk();renderPieces();renderHud();focusXY(c1,true);
+  commentate(`大波乱！ ${ld.name}がスゴロク勝負を忘れて、パグビレッジのソフトクリーム屋さんへ！`,9);
+  await say(ld,{kicker:'🎡 沖縄本島・PUGビレッジ',emoji:'🍦',title:'「ロングソフトクリームおいしかったよ！」',text:`${esc(ld.name)}はスゴロク勝負のことをすっかり忘れて、パグビレッジのロングソフトクリームのお店へ。店長さんに「ロングソフトクリームおいしかったよ！」とお礼を伝えに来たバウ。……ここからもう一度、旅のやり直しバウ！`,html:`<div class="iriBox" style="font-size:64px;line-height:1">🍦</div>`,face:'joy',tone:'neutral'});
+  await say(p,{kicker:'🍦 大逆転',emoji:'🏆',title:'作戦大成功バウ～！！',text:`1位の${esc(ld.name)}は沖縄本島のパグビレッジへ。いまがチャンスバウ！`,face:'joy',tone:'jackpot'});
+}
 async function wandaClear(p){
   if(!anbeOn()){await reachGoal(p);return}
   p.wandaWon=true;SFX.jackpot();
   commentate(`${p.name}がワンダ王子に勝利！ でも旅はまだ続く…次は地球の国際通りだ！`,7);
+  await wandaShop(p);if(!state||state.over)return;
   await say(p,{kicker:'👑 ワンダ王子',emoji:'🌏',title:'「国際通りでプロアルバイターかずおが待ってるケン！」',text:'「キミの強さは本物だケン！ 地球に帰って、かずおと勝負してくるケン！」 ここからは「い〜あんべ」コース。せんぱい・🌰酢・お髭マンの3つの関門をこえて、沖縄本島の国際通りをめざすバウ！（次のターンから出発）',html:`<div class="iriBox">${wandaSVG(90,'joy')}<b>ワンダー星の王子・ワンダ</b></div>`,face:'joy',tone:'jackpot'});
 }
 async function gateBattle(p,key){
@@ -3201,6 +3251,7 @@ async function cpuTurn(p){
     const use=lv==='hard'?(toGoal<=20||rand()<.3):lv==='normal'?(toGoal<=14?rand()<.7:rand()<.12):rand()<.1;
     if(use){p.items.ticket--;p.stats.freeTrips++;p.stats.turns++;await useTicket(p);await checkMilestones(p);return}
   }
+  if((p.items.cream||0)>0){const ld=creamTarget(p);if(ld&&(lv!=='easy'||rand()<.5)){p.items.cream--;p.stats.turns++;p.usedItems=(p.usedItems||0)+1;await useCream(p);await checkMilestones(p);return}}
   if((p.items.chu||0)>0){const ld=churuTarget(p);if(ld&&prog(ld)-prog(p)>=(lv==='easy'?6:10)&&(lv!=='easy'||rand()<.5)){p.items.chu--;p.stats.turns++;await useChuru(p);await checkMilestones(p);return}}
   if(p.items.pagki>0&&(lv==='hard'||rand()<(lv==='normal'?.4:.2))){p.items.pagki--;p.stats.turns++;await usePagki(p);await checkMilestones(p);return}
   if(p.items.rail>0){let i=fromPos(p)+1;const G=isFinalLap(p)?GOAL():N;while(i<G&&!majorAt(i))i++;const gap=i-p.pos;if(gap>=(lv==='hard'?7:9)&&rand()<(lv==='easy'?.3:.8)){p.items.rail--;p.stats.turns++;await useRail(p);await checkMilestones(p);return}}
@@ -3464,7 +3515,7 @@ function openItems(){
   if(!state)return;
   const p=cur(),canUse=phase==='await'&&!p.isCPU&&netMineP(p);
   const m=p.milestones;
-  const rows=ITEM_KEYS.filter(k=>!ITEMS[k].rare||(p.items[k]||0)>0).map(k=>{const it=ITEMS[k],c=p.items[k]||0;const blocked=(k==='chu'&&!churuTarget(p))||(k==='ticket'&&!ticketUsable(p))||(k==='dice'&&p.extraDie>=2)||(k==='omamori'&&p.omamoriActive);return `<div class="itRow"><span class="itIco">${it.icon}</span><div class="itTx"><b>${it.name} ×${c}</b><small>${it.desc}</small></div>${it.use&&canUse?`<button class="btn sm primary" data-use="${k}"${c>0&&!blocked?'':' disabled'}>使う</button>`:''}</div>`}).join('');
+  const rows=ITEM_KEYS.filter(k=>!ITEMS[k].rare||(p.items[k]||0)>0).map(k=>{const it=ITEMS[k],c=p.items[k]||0;const blocked=(k==='chu'&&!churuTarget(p))||(k==='cream'&&!creamTarget(p))||(k==='ticket'&&!ticketUsable(p))||(k==='dice'&&p.extraDie>=2)||(k==='omamori'&&p.omamoriActive);return `<div class="itRow"><span class="itIco">${it.icon}</span><div class="itTx"><b>${it.name} ×${c}</b><small>${it.desc}</small></div>${it.use&&canUse?`<button class="btn sm primary" data-use="${k}"${c>0&&!blocked?'':' disabled'}>使う</button>`:''}</div>`}).join('');
   showModalHtml(`<div class="sheet"><h3>🎒 ${esc(p.name)}のアイテム</h3><p class="muted" style="margin:2px 0 6px">💰 ${p.bau.toLocaleString()}バウ ・ のりボーナス ${m[3]?'✅':'⬜'}3枚 ${m[5]?'✅':'⬜'}5枚 ${m[10]?'✅':'⬜'}10枚</p>${p.mission&&!p.isCPU&&netMineP(p)?`<div class="mBox">🃏 <b>ひみつミッション</b>：${p.mission.txt}<br><small>達成で1000バウ＋アイテム＋思い出ポイント10</small></div>`:''}<div class="muted" style="font-size:12px;margin:2px 0 8px">📮 スタンプ（${Object.keys(p.stamps||{}).length}個）：${Object.keys(p.stamps||{}).map(k=>SPOTS[SPOT_IDX[k]].emoji).join('')||'まだなし'}</div>${rows}${canUse?'':'<p class="muted" style="font-size:13px">アイテムは自分のターン、サイコロを振る前に使えます。</p>'}<button class="btn wide" id="itClose" style="margin-top:12px">とじる</button></div>`);
   $('#itClose').onclick=closeModal;
   $('#modalCard').querySelectorAll('[data-use]').forEach(b=>b.addEventListener('click',()=>{closeModal();if(NET.on)netChoose('turn','use:'+b.dataset.use);else useItem(b.dataset.use)}));
@@ -3473,6 +3524,7 @@ async function useItem(k,net){
   const p=cur();if(!net&&(phase!=='await'||p.isCPU))return false;if(!(p.items[k]>0))return false;
   if(k==='ticket'&&!ticketUsable(p)){toast('🎫 この先はゴールか、止まらないといけない場所（空港・港・滝など）！ いまはタダ旅行券を使えないバウ');return}
   if(k==='chu'&&!churuTarget(p)){toast('🍡 いまは入れかわれる1位のパグがいないバウ');return}
+  if(k==='cream'&&!creamTarget(p)){toast('🍦 いまはソフトクリームをあげられる1位のパグがいないバウ');return}
   SFX.click();p.usedItems=(p.usedItems||0)+1;
   if(k==='dice'){p.items.dice--;p.extraDie=(p.extraDie||0)+1;toast('🎲 このターンはサイコロが1個増える！');renderHud();return}
   if(k==='omamori'){p.items.omamori--;p.omamoriActive=true;toast('🧿 お守りパワー！次の出目は4～6');renderHud();return}
@@ -3484,6 +3536,7 @@ async function useItem(k,net){
   else if(k==='onsenken')await useOnsenken(p);
   else if(k==='rail')await useRail(p);
   else if(k==='chu')await useChuru(p);
+  else if(k==='cream')await useCream(p);
   if(state&&!state.over){await checkMilestones(p);endTurn()}
   return true;
 }
@@ -3537,7 +3590,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#manualOv').hid
 
 
 /* ---------- 🌐 オンライン対戦（全員が同じゲームを動かし、選択だけを記録で共有） ---------- */
-const GAMEVER='v16';
+const GAMEVER='v17';
 const KEY_NET='pugtabi-net-room';
 function netAvail(){try{return !!(window.PugNet&&window.PugNet.available())}catch(e){return false}}
 /* オンライン用のファイルを読み込む版（GitHub版）かどうか。ファイル1つだけの版はオフライン専用 */
